@@ -1,0 +1,62 @@
+import { View, Text, Image, StyleSheet, SafeAreaViewBase } from "react-native";
+import React from "react";
+import { TouchableOpacity } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { FontAwesome5, FontAwesome } from "@expo/vector-icons";
+
+const Header = () => {
+  return (
+    <SafeAreaView style={styles.header}>
+      <View>
+        <TouchableOpacity>
+          <Image
+            style={styles.logo}
+            source={require("../../assets/CKDlogo.png")}
+          />
+        </TouchableOpacity>
+      </View>
+      <View style={styles.iconsContainer}>
+        <TouchableOpacity>
+          <FontAwesome5
+            name="rocketchat"
+            style={styles.icon}
+            size={24}
+            color="white"
+          />
+        </TouchableOpacity>
+
+        <TouchableOpacity>
+          <FontAwesome
+            name="heart-o"
+            style={styles.icon}
+            size={24}
+            color="white"
+          />
+        </TouchableOpacity>
+      </View>
+    </SafeAreaView>
+  );
+};
+
+const styles = StyleSheet.create({
+  header: {
+    marginTop:10,
+    justifyContent: "space-between",
+    alignItems: "center",
+    flexDirection: "row",
+    paddingHorizontal: 10,
+    elevation:1,
+  },
+  logo: {
+    width: 180,
+    height:80,
+    resizeMode: "contain",
+  },
+  iconsContainer: {
+    flexDirection: "row",
+  },
+  icon: {
+    marginHorizontal: 10,
+  },
+});
+export default Header;
