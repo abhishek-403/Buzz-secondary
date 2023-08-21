@@ -2,7 +2,7 @@ import { View, Text, Image, StyleSheet, SafeAreaViewBase } from "react-native";
 import React from "react";
 import { TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { FontAwesome5, FontAwesome } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
 
 const Header = () => {
   return (
@@ -17,21 +17,14 @@ const Header = () => {
       </View>
       <View style={styles.iconsContainer}>
         <TouchableOpacity>
-          <FontAwesome5
-            name="rocketchat"
-            style={styles.icon}
-            size={24}
-            color="white"
-          />
+        <AntDesign name="wechat" size={24} color="white" style={styles.icon} />
+          
         </TouchableOpacity>
 
         <TouchableOpacity>
-          <FontAwesome
-            name="heart-o"
-            style={styles.icon}
-            size={24}
-            color="white"
-          />
+          <AntDesign name="hearto" style={styles.icon}
+            size={24} color="white" />
+          
         </TouchableOpacity>
       </View>
     </SafeAreaView>

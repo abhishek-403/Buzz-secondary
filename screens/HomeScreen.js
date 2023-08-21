@@ -3,7 +3,7 @@ import { StyleSheet } from "react-native";
 import Header from "../components/home/Header";
 import { SafeAreaView } from "react-native";
 import SubHeader from "../components/home/SubHeader";
-import Feeds from "../subcomponents/Home/Feeds";
+import Feeds from "../components/home/Feeds";
 
 const HomeScreen = () => {
   return (
