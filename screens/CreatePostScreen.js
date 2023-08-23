@@ -2,11 +2,19 @@ import { View, Text, StyleSheet } from "react-native";
 import React from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native";
+import AddScreen from "../components/CreatePost/AddScreen";
+import { Divider } from "react-native-elements";
 
 const CreatePostScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
       <Head />
+      <Divider
+        width={0.33}
+        orientation="horizontal"
+        color="rgba(250,250,250,1)"
+      />
+      <AddScreen />
     </SafeAreaView>
   );
 };
@@ -29,7 +37,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   head: {
-    backgroundColor: "rgba(0,0,0,.9)",
+    backgroundColor: "rgba(0,0,0,1)",
     justifyContent: "space-between",
     flexDirection: "row",
     paddingHorizontal: 5,

@@ -21,9 +21,9 @@ const SubHeader = () => {
         </Pressable>
       </View>
       <Divider
-        width={.1}
-        color="rgba(255,255,255,.08)"
+        width={.33}
         orientation="horizontal"
+        color="rgba(250,250,250,1)"
       />
     </View>
   );
