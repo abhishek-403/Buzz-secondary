@@ -1,10 +1,9 @@
 import React from "react";
 import { StyleSheet } from "react-native";
 import Header from "../components/home/Header";
-import { SafeAreaView } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import SubHeader from "../components/home/SubHeader";
 import Feeds from "../components/home/Feeds";
-import { Divider } from "react-native-elements";
 
 const HomeScreen = () => {
   return (

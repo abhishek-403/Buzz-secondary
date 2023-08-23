@@ -28,7 +28,7 @@ const BottomNav = () => {
   const [activeTab, setActiveTab] = useState("Home");
 
   const Icons = ({ icons }) => (
-    <Pressable style={{padding:5}} onPress={() => setActiveTab(icons.name)}>
+    <Pressable style={{padding:10}} onPress={() => setActiveTab(icons.name)}>
       <Ionicons
         name={activeTab === icons.name ? icons.active : icons.inactive}
         size={35}
@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
         backgroundColor:"rgba(0,0,0,1)",
         flexDirection:"row",
         justifyContent:"space-around",
-        paddingVertical:8,
+        padding:2,
 
 
     }

@@ -74,9 +74,9 @@ const PostImage = ({ post }) => (
 const PostFooter = ({ post }) => {
   return (
     <View style={styles.footer}>
+      <Icons iconname="eyeo" />
       <Icons iconname="retweet" />
       <Icons iconname="hearto" />
-      <Icons iconname="eyeo" />
       <Icons iconname="sharealt" />
     </View>
   );
@@ -91,7 +91,7 @@ const Icons = ({ iconname, count }) => (
       gap: 10,
     }}
   >
-    <AntDesign name={iconname} size={26} color="white" />
+    <AntDesign name={iconname} size={24} color="white" />
     <Text style={{ color: "white", fontSize: 16 }}>12</Text>
   </View>
 );

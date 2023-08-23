@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     justifyContent: "space-around",
-    backgroundColor: "rgba(0,0,0,.9)",
+    backgroundColor: "rgba(0,0,0,.88)",
     paddingVertical: 8,
   },
   head: {
