@@ -18,7 +18,7 @@ const Posts = () => {
 
   return (
     <View>
-      <Divider width={1} orientation="vertical" />
+      <Divider width={1} orientation="horizontal" color="rgba(250,250,250,.08)" />
       <PostHeader post={post} />
       <PostMessage post={post} />
       <PostImage post={post} />
@@ -83,9 +83,16 @@ const PostFooter = ({ post }) => {
 };
 
 const Icons = ({ iconname, count }) => (
-  <View style={{ paddingHorizontal: 8,flexDirection:"row",alignItems:"center",gap:10 }}>
+  <View
+    style={{
+      paddingHorizontal: 8,
+      flexDirection: "row",
+      alignItems: "center",
+      gap: 10,
+    }}
+  >
     <AntDesign name={iconname} size={26} color="white" />
-    <Text style={{ color: "white",fontSize:16 }}>12</Text>
+    <Text style={{ color: "white", fontSize: 16 }}>12</Text>
   </View>
 );
 
@@ -122,8 +129,8 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     marginBottom: 12,
     marginTop: 15,
-    justifyContent:"space-around",
-    gap:10,
+    justifyContent: "space-around",
+    gap: 10,
   },
 });
 export default Posts;

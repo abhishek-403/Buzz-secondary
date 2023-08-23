@@ -39,10 +39,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     paddingHorizontal: 10,
     elevation:1,
+    backgroundColor:"rgba(0,0,0,1)"
   },
   logo: {
     width: 180,
-    height:80,
+    height:65,
     resizeMode: "contain",
   },
   iconsContainer: {
