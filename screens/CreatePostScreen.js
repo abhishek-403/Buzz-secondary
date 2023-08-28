@@ -2,8 +2,8 @@ import { View, Text, StyleSheet } from "react-native";
 import React from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native";
-import AddScreen from "../components/CreatePost/AddScreen";
 import { Divider } from "react-native-elements";
+import AddScreen from "../components/CreatePost/AddScreen";
 
 const CreatePostScreen = () => {
   return (

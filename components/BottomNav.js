@@ -1,4 +1,10 @@
-import { View, Text, Pressable, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  Pressable,
+  StyleSheet,
+  KeyboardAvoidingView,
+} from "react-native";
 import React, { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -28,7 +34,7 @@ const BottomNav = () => {
   const [activeTab, setActiveTab] = useState("Home");
 
   const Icons = ({ icons }) => (
-    <Pressable style={{padding:10}} onPress={() => setActiveTab(icons.name)}>
+    <Pressable style={{ padding: 10 }} onPress={() => setActiveTab(icons.name)}>
       <Ionicons
         name={activeTab === icons.name ? icons.active : icons.inactive}
         size={35}
@@ -46,16 +52,12 @@ const BottomNav = () => {
 };
 
 const styles = StyleSheet.create({
-    container:{
-        backgroundColor:"rgba(0,0,0,1)",
-        flexDirection:"row",
-        justifyContent:"space-around",
-        padding:2,
-
-
-    }
-})
-
-
+  container: {
+    backgroundColor: "rgba(0,0,0,1)",
+    flexDirection: "row",
+    justifyContent: "space-around",
+    padding: 2,
+  },
+});
 
 export default BottomNav;
