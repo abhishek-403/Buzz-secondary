@@ -4,7 +4,6 @@ import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Divider } from "react-native-elements";
 import AddScreen from "../components/CreatePost/AddScreen";
-import { headCont } from "./ProfileScreen/profilecss";
 
 const CreatePostScreen = () => {
   return (
@@ -20,7 +19,7 @@ const CreatePostScreen = () => {
   );
 };
 const Head = () => (
-  <View style={headCont}>
+  <View style={styles.head}>
     <View>
       <Ionicons name="caret-back" size={30} color="white" />
     </View>
