@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
   },
   logo: {
     width: 180,
-    height:65,
+    height:60,
     resizeMode: "contain",
   },
   iconsContainer: {

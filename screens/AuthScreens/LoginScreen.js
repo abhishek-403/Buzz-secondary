@@ -2,7 +2,7 @@ import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-const LoginScreen = () => {
+const LoginScreen = ({ navigation }) => {
   const [password, setPassword] = useState();
   const [email, setEmail] = useState();
 
@@ -42,8 +42,8 @@ const LoginScreen = () => {
         ></TextInput>
       </View>
 
-      <View style={{ padding: 20, alignItems: "flex-end" }}>
-        <Text style={{ fontSize: 15, color: "rgba(255,255,255,.9)" }}>
+      <View style={{ alignItems: "flex-end" }}>
+        <Text style={{ fontSize: 15, color: "rgba(255,255,255,.6)" }}>
           Forgot Password?
         </Text>
       </View>
@@ -57,6 +57,29 @@ const LoginScreen = () => {
           }}
         >
           Submit
+        </Text>
+      </View>
+      <View
+        style={{
+          height: 1,
+          width: "80%",
+          backgroundColor: "rgba(255,255,255,.3)",
+          marginVertical: 10,
+        }}
+      />
+      <View style={{ flexDirection: "row", gap: 3 }}>
+        <Text style={{ color: "rgba(255,255,255,.4)", fontSize: 16 }}>
+          Don't have an account?{" "}
+        </Text>
+        <Text
+          onPress={() => navigation.navigate("Signup")}
+          style={{
+            color: "white",
+            fontSize: 16,
+            textDecorationLine: "underline",
+          }}
+        >
+          Signup
         </Text>
       </View>
     </SafeAreaView>
@@ -73,6 +96,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     width: "100%",
     height: "100%",
+    gap: 20,
   },
   head: { alignItems: "center", gap: 10 },
 
@@ -88,7 +112,7 @@ const styles = StyleSheet.create({
     borderColor: "white",
     paddingVertical: 10,
     borderRadius: 15,
-    borderWidth: 1,
+    borderWidth: 1.5,
     borderColor: "white",
     width: "80%",
     alignItems: "center",

@@ -1,9 +1,10 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, SafeAreaViewBase } from "react-native";
 import React from "react";
 import { Ionicons } from "@expo/vector-icons";
-import { SafeAreaView } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { Divider } from "react-native-elements";
 import AddScreen from "../components/CreatePost/AddScreen";
+import { headCont } from "./ProfileScreen/profilecss";
 
 const CreatePostScreen = () => {
   return (
@@ -19,7 +20,7 @@ const CreatePostScreen = () => {
   );
 };
 const Head = () => (
-  <View style={styles.head}>
+  <View style={headCont}>
     <View>
       <Ionicons name="caret-back" size={30} color="white" />
     </View>
