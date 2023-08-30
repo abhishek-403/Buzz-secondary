@@ -17,11 +17,22 @@ const Posts = () => {
   };
 
   return (
-    <View>
-      <Divider width={1} orientation="horizontal" color="rgba(250,250,250,.08)" />
+    <View style={{
+      backgroundColor:'rgba(0,0,0,.95)'}}>
+      <Divider
+        width={1}
+        orientation="horizontal"
+        color="rgba(250,250,250,.08)"
+      />
       <PostHeader post={post} />
-      <PostMessage post={post} />
-      <PostImage post={post} />
+      <View
+        style={{
+          marginHorizontal: 5,
+        }}
+      >
+        <PostMessage post={post} />
+        <PostImage post={post} />
+      </View>
       <PostFooter post={post} />
     </View>
   );
@@ -103,18 +114,18 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     borderWidth: 1.6,
     marginLeft: 6,
-    borderColor: "purple",
+    borderColor: "rgba(255,255,255,.1)",
   },
   name: {
     color: "white",
     fontWeight: "700",
     marginLeft: 5,
-    fontSize: 17,
+    fontSize: 19,
     lineHeight: 20,
   },
   username: {
     color: "#a3a3a3",
-    fontSize: 15,
+    fontSize: 16,
     marginLeft: 5,
     lineHeight: 18,
   },

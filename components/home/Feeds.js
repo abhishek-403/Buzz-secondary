@@ -5,7 +5,7 @@ import Posts from "./Posts";
 const Feeds = () => {
   return (
     
-      <ScrollView style={{backgroundColor:"rgba(0,0,0,.9)"}}>
+      <ScrollView >
         <Posts />
         <Posts />
         <Posts />

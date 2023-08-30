@@ -29,7 +29,8 @@ const LoggedInNav = () => {
 
           tabBarStyle: {
             backgroundColor: "rgba(0,0,0,1)",
-            height: 80,
+            borderColor:'rgba(255,255,255,.2)',
+            height: 60,
           },
 
           tabBarItemStyle: {
@@ -57,7 +58,7 @@ const LoggedInNav = () => {
               default:
                 break;
             }
-            return <Ionicons name={iconName} color={"white"} size={40} />;
+            return <Ionicons name={iconName} color={"white"} size={34} />;
           },
         })}
       >

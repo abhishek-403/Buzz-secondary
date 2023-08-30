@@ -1,25 +1,28 @@
 module.exports = {
   container: {
     flex: 1,
-    backgroundColor: "rgba(0,0,0,1)",
-    paddingHorizontal:15,
-    gap:5
+    backgroundColor:'rgba(0,0,0,1)',
+   
+    height:"100%"
   },
   headCont: {
     alignItems: "center",
     gap: 10,
     flexDirection: "row",
-    backgroundColor: "rgba(255,255,255, 0.08)",
+    backgroundColor: "rgba(255,255,255, 0.07)",
+    borderRadius:20,
+    paddingHorizontal:5,
   },
   subHead: {
     padding: 10,
   },
   head1: {
     color: "white",
-    fontSize: 23,
+    fontSize: 20,
+    fontWeight:700
   },
   head2: {
-    fontSize: 21,
+    fontSize:18,
     color: "rgba(255,255,255,0.5)",
   },
 
@@ -27,14 +30,14 @@ module.exports = {
   // ImageCard
 
   imageCardCont: {
-    marginTop: 20,
+    marginTop: 10,
     justifyContent: "center",
   },
 
   editBtn: {
-    fontSize: 22,
-    paddingHorizontal: 30,
-    paddingVertical: 12,
+    fontSize: 20,
+    paddingHorizontal: 25,
+    paddingVertical: 10,
     backgroundColor: "black",
     borderRadius: 50,
     color:"white",
@@ -43,17 +46,17 @@ module.exports = {
 
   },
   nameCard:{
-    paddingVertical:20
+    paddingVertical:10
 
   },
   name:{
-    fontSize:28,
+    fontSize:26,
     color:"white",
     fontWeight:700
 
   },
   username:{
-    fontSize:21,
+    fontSize:19,
     color:"rgba(255,255,255,.6)"
 
   },
@@ -62,23 +65,51 @@ module.exports = {
 
   bio:{
     color:"rgba(255,255,255,1)",
-    fontSize:23
+    fontSize:21
 
   },
   links:{
+    color:"white",
+    fontSize:18
+
+  },
+  linksCont:{
+    flexDirection:"row",
+    opacity:.7,
+    justifyContent:"space-between",
+    width:"80%"
+    
 
   },
 
   // Followerscard
   followers:{
-    color:"rgba(255,255,255,.7)",
-    fontSize:20
+    color:"rgba(255,255,255,.5)",
+    fontSize:18
 
   },
-  followings:{
-    color:"rgba(255,255,255,.7)",
-    fontSize:20
+  
+
+
+  // lower profile card
+
+  lowerCard:{
+    flex:1,
+
+    
+  },
+  topHead:{
+    flexDirection:"row",
+    justifyContent:"space-around",
 
   },
+  eachHead:{
+    color:"white",
+    fontSize:20,
+    fontWeight:700,
+    paddingHorizontal:10,
+    paddingVertical:8,
+  }
+
 
 };
