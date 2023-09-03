@@ -13,6 +13,9 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 import ProfileScreen from "./screens/ProfileScreen/ProfileScreen";
 import SearchScreen from "./screens/SearchScreen/SearchScreen";
+import CreateNewPassword from "./screens/AuthScreens/ForgetPassword/CreateNewPassword";
+import EnterEmail from "./screens/AuthScreens/ForgetPassword/EnterEmail";
+import VerifyCode from "./screens/AuthScreens/ForgetPassword/VerifyCode";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -83,12 +86,15 @@ const AuthNav = () => {
       <Stack.Screen name="VerifyEmail" component={VerifyEmail} />
       <Stack.Screen name="CreatePassword" component={CreatePassword} />
       <Stack.Screen name="SetUserName" component={SetUserName} />
+      <Stack.Screen name="EnterForgetPassEmail" component={EnterEmail} />
+      <Stack.Screen name="VerifyForgetPassCode" component={VerifyCode} />
+      <Stack.Screen name="ResetPassword" component={CreateNewPassword} />
     </Stack.Navigator>
   );
 };
 
 export default function App() {
-  const isLoggedIn = true;
+  const isLoggedIn = false;
   return (
     <NavigationContainer>
       <Stack.Navigator

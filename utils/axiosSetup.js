@@ -17,5 +17,9 @@ axiosClient.interceptors.request.use(
 axiosClient.interceptors.response.use(
   async (response) => 
   {
+    if(response.data.status==='error'){
+      alert(response.data.result);
+      return Promise.reject();
+    }
     return response.data
   })

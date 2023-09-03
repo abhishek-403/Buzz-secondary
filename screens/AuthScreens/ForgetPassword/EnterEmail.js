@@ -1,35 +1,58 @@
-import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
+import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { axiosClient } from "../../utils/axiosSetup";
+import { axiosClient } from "../../../utils/axiosSetup";
+import { goback } from "./CommonCss";
+import { MaterialIcons } from '@expo/vector-icons';
 
-const LoginScreen = ({ navigation }) => {
-  const [password, setPassword] = useState();
-  const [email, setEmail] = useState();
+const EnterEmail = ({ navigation, route }) => {
+  const [email, setEmail] = useState("");
 
-  async function handleSubmit(){
+  async function handleSubmit() {
     try {
-      const res= await axiosClient.post("/auth/login",{
-        email,password
-      })
+      if (email == "") {
+        alert("Email required");
+        return;
+      }
+      const response = await axiosClient.post("/auth/forgetpassword", {
+        email,
+      });
 
+      alert("Verification code sent to email");
 
-      alert("Logged in");
-      console.log(res);
-      
+      console.log({
+        email: response.result.email,
+        veriCode: response.result.veriCode,
+      });
+
+      navigation.navigate("VerifyForgetPassCode", {
+        email: response.result.email,
+        veriCode: response.result.veriCode,
+      });
     } catch (e) {
       console.log(e);
-      
     }
   }
-
-  
   return (
     <SafeAreaView style={styles.container}>
+      <TouchableOpacity
+        onPress={() => navigation.navigate("Login")}
+        style={goback}
+      >
+        <MaterialIcons name="arrow-back-ios" size={24} color="gray" />
+        <Text
+          style={{
+            color: "gray",
+            fontSize: 18,
+          }}
+        >
+          Go Back
+        </Text>
+      </TouchableOpacity>
       <View style={styles.head}>
         <Text style={{ color: "white", fontSize: 38 }}>BuZZ</Text>
         <Text style={{ color: "white", fontSize: 34, fontWeight: 700 }}>
-          Login
+          Verify Email
         </Text>
       </View>
 
@@ -37,68 +60,55 @@ const LoginScreen = ({ navigation }) => {
         style={{ alignItems: "center", gap: 10, paddingTop: 40, width: "100%" }}
       >
         <TextInput
-          placeholder="Email"
+          placeholder="Enter Email"
           placeholderTextColor={"rgba(0,0,0,.3)"}
-          onChangeText={(t)=>setEmail(t)}
+          onChangeText={(text) => setEmail(text)}
           value={email}
+          autoFocus
           style={[styles.input, styles.email]}
         ></TextInput>
-        <TextInput
-          placeholder="Password"
-          secureTextEntry
-          placeholderTextColor={"rgba(0,0,0,.3)"}
-          onChangeText={(t)=>setPassword(t)}
-          value={password}
-          style={[styles.input, styles.password]}
-        ></TextInput>
-      </View>
-
-      <View  style={{ alignItems: "flex-end" }}>
-        <Text onPress={()=>navigation.navigate("EnterForgetPassEmail")}style={{ fontSize: 15, color: "rgba(255,255,255,.6)" }}>
-          Forgot Password?
-        </Text>
       </View>
 
       <View style={styles.btn}>
         <Text
+          onPress={handleSubmit}
           style={{
             color: "white",
             fontSize: 20,
             padding: 10,
           }}
-          onPress={handleSubmit}
         >
           Submit
         </Text>
       </View>
+
       <View
         style={{
           height: 1,
           width: "80%",
           backgroundColor: "rgba(255,255,255,.3)",
-          marginVertical: 10,
         }}
       />
       <View style={{ flexDirection: "row", gap: 3 }}>
         <Text style={{ color: "rgba(255,255,255,.4)", fontSize: 16 }}>
-          Don't have an account?{" "}
+          Already have an account?{" "}
         </Text>
         <Text
-          onPress={() => navigation.navigate("Signup")}
+          onPress={() => navigation.navigate("Login")}
           style={{
             color: "white",
             fontSize: 16,
             textDecorationLine: "underline",
           }}
         >
-          Signup
+          Login
         </Text>
       </View>
     </SafeAreaView>
   );
 };
 
-export default LoginScreen;
+export default EnterEmail;
 
 const styles = StyleSheet.create({
   container: {
@@ -108,7 +118,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     width: "100%",
     height: "100%",
-    gap: 20,
+    gap: 30,
   },
   head: { alignItems: "center", gap: 10 },
 
