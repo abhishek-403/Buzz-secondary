@@ -1,17 +1,33 @@
 import { StyleSheet, Text, TextInput, View } from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { axiosClient } from "../../../utils/axiosSetup";
 
 const SignupScreen = ({ navigation }) => {
-  const [password, setPassword] = useState();
-  const [email, setEmail] = useState();
+  const [email, setEmail] = useState("");
 
-  function handleEmailChange(email) {
-    setEmail(email);
-  }
+  async function handleSubmit() {
+    try {
+      if (email == "") {
+        alert("Email required");
+        return;
+      }
+      const response = await axiosClient.post("/auth/verifyemail",{
+        email
+      })
 
-  function handlePasswordChange(pass) {
-    setPassword(pass);
+     if(response.status!='ok'){
+     
+      alert(response.result)
+      return;
+     }
+
+     console.log({ email:response.result.email,veriCode:response.result.veriCode });
+     
+      navigation.navigate("VerifyEmail", { email:response.result.email,veriCode:response.result.veriCode });
+    } catch (e) {
+      console.log(e);
+    }
   }
   return (
     <SafeAreaView style={styles.container}>
@@ -28,15 +44,16 @@ const SignupScreen = ({ navigation }) => {
         <TextInput
           placeholder="Enter Email"
           placeholderTextColor={"rgba(0,0,0,.3)"}
-          onChangeText={handleEmailChange}
+          onChangeText={(text) => setEmail(text)}
           value={email}
+          autoFocus
           style={[styles.input, styles.email]}
         ></TextInput>
       </View>
 
       <View style={styles.btn}>
         <Text
-          onPress={() => navigation.navigate("VerifyEmail")}
+          onPress={handleSubmit}
           style={{
             color: "white",
             fontSize: 20,

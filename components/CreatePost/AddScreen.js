@@ -64,6 +64,7 @@ const AddScreen = () => {
       if (text === "" && images.length === 0) {
         return;
       }
+    
 
       setText("");
       setImages([]);
@@ -100,7 +101,7 @@ const AddScreen = () => {
         </Pressable>
 
         <ScrollView contentContainerStyle={styles.imageContainer}>
-          {images.map((image, index) => (
+          {images?.map((image, index) => (
             <Image
               source={{ uri: image.uri }}
               style={{

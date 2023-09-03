@@ -6,12 +6,46 @@ import {
   View,
 } from "react-native";
 import React from "react";
-import { containerFull, formInput, formbtn, goback,formHead2 } from "./CommonCss";
+import {
+  containerFull,
+  formInput,
+  formbtn,
+  goback,
+  formHead2,
+} from "./CommonCss";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useState } from "react";
+import { axiosClient } from "../../../utils/axiosSetup";
 
-const SetUserName = ({ navigation }) => {
+const SetUserName = ({ navigation, route }) => {
+  const { email, password } = route.params;
   const [username, setUsername] = useState("");
+  const [name, setName] = useState("");
+
+  async function handleSubmit() {
+    try {
+      const res = await axiosClient.post("/auth/changeusername", {
+        username,email
+      });
+
+      if (res.status != "ok") {
+        alert(res.result);
+        return;
+      }
+      const user = await axiosClient.post("/auth/signup", {
+        email,
+        username,
+        name,
+        password,
+      });
+      alert(res);
+      console.log(user?.result);
+      console.log(user?.result?.newUser);
+     
+    } catch (e) {
+      alert(e);
+    }
+  }
   return (
     <View style={containerFull}>
       <TouchableOpacity
@@ -30,12 +64,17 @@ const SetUserName = ({ navigation }) => {
       </TouchableOpacity>
 
       {/* <Image source={logo} style={logo1} /> */}
-      <View style={{gap:30,width:"100%",alignItems:'center'}}>
+      <View style={{ gap: 30, width: "100%", alignItems: "center" }}>
         <Text style={formHead2}>Choose a Username</Text>
         <TextInput
           placeholder="Enter a username"
           style={formInput}
           onChangeText={(text) => setUsername(text)}
+        />
+        <TextInput
+          placeholder="Enter a name"
+          style={formInput}
+          onChangeText={(text) => setName(text)}
         />
 
         {/* {loading ? (
@@ -49,7 +88,7 @@ const SetUserName = ({ navigation }) => {
               fontSize: 20,
               padding: 10,
             }}
-            onPress={()=>navigation.navigate('LoggedIn')}
+            onPress={handleSubmit}
           >
             Next
           </Text>

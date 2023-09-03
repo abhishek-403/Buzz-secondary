@@ -9,9 +9,29 @@ import React from "react";
 import { useState } from "react";
 import { MaterialIcons } from "@expo/vector-icons";
 import { containerFull, formHead2, formInput, formbtn, goback } from "./CommonCss";
+import { axiosClient } from "../../../utils/axiosSetup";
 
-const VerifyEmail = ({ navigation }) => {
-  const [verificationCode, setVerificationCode] = useState();
+const VerifyEmail = ({ navigation,route }) => {
+  const {email,veriCode}= route.params
+  const [verificationCode, setVerificationCode] = useState("");
+
+  async function handleSubmit(){
+    try {
+      if(verificationCode===""){
+        alert("Invalid code");
+        return;
+      }
+      if(verificationCode!=veriCode){
+        alert("Code is incorrect");
+        return;
+      }
+     navigation.navigate("CreatePassword",{email})
+
+    } catch (e) {
+      console.log(e);
+      
+    }
+  }
   return (
     <View style={containerFull}>
       <TouchableOpacity
@@ -36,6 +56,7 @@ const VerifyEmail = ({ navigation }) => {
         <TextInput
           placeholder="Enter 6-Digit Code here"
           style={formInput}
+          
           onChangeText={(text) => setVerificationCode(text)}
         />
 
@@ -46,7 +67,7 @@ const VerifyEmail = ({ navigation }) => {
               fontSize: 20,
               padding: 10,
             }}
-            onPress={() => navigation.navigate("CreatePassword")}
+            onPress={handleSubmit}
           >
             Next
           </Text>

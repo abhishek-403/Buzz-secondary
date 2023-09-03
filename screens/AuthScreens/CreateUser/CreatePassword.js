@@ -16,11 +16,24 @@ import {
   goback,
 } from "./CommonCss";
 
-const CreatePassword = ({navigation}) => {
-    // const { email, username } = route.params;
+const CreatePassword = ({navigation,route}) => {
+    const { email } = route.params;
     const [password, setpassword] = useState('')
     const [confirmpassword, setconfirmpassword] = useState('')
-    const [loading, setLoading] = useState(false)
+
+     function handleSubmit(){
+      if(confirmpassword=""||password==""){
+        alert("Passwords required");
+        return;
+      }
+      if(confirmpassword!=password){
+        alert("Passwords donot match");
+        return;
+      }
+      console.log({email,password});
+navigation.navigate("SetUserName",{email,password})
+
+    }
 
   return (
     <View style={containerFull}>
@@ -47,6 +60,7 @@ const CreatePassword = ({navigation}) => {
           placeholder="Enter password"
           style={formInput}
           secureTextEntry
+          autoFocus
           onChangeText={(text) => setpassword(text)}
         />
         <TextInput
@@ -67,7 +81,7 @@ const CreatePassword = ({navigation}) => {
               fontSize: 20,
               padding: 10,
             }}
-            onPress={() => navigation.navigate("SetUserName")}
+            onPress={handleSubmit}
           >
             Next
           </Text>

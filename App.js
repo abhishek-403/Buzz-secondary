@@ -29,7 +29,7 @@ const LoggedInNav = () => {
 
           tabBarStyle: {
             backgroundColor: "rgba(0,0,0,1)",
-            borderColor:'rgba(255,255,255,.2)',
+            borderColor: "rgba(255,255,255,.2)",
             height: 60,
           },
 
@@ -62,11 +62,11 @@ const LoggedInNav = () => {
           },
         })}
       >
-        <Tab.Screen name="Profile" component={ProfileScreen} />
         <Tab.Screen name="Home" component={HomeScreen} />
         <Tab.Screen name="Create" component={CreatePostScreen} />
 
         <Tab.Screen name="Search" component={SearchScreen} />
+        <Tab.Screen name="Profile" component={ProfileScreen} />
       </Tab.Navigator>
     </>
   );
