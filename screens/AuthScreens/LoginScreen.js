@@ -2,28 +2,29 @@ import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { axiosClient } from "../../utils/axiosSetup";
+import { KEY_ACCESS_TOKEN, setStorage } from "../../utils/localStorageManaager";
 
 const LoginScreen = ({ navigation }) => {
   const [password, setPassword] = useState();
   const [email, setEmail] = useState();
 
-  async function handleSubmit(){
+  async function handleSubmit() {
     try {
-      const res= await axiosClient.post("/auth/login",{
-        email,password
-      })
+      const res = await axiosClient.post("/auth/login", {
+        email,
+        password,
+      });
 
-
-      alert("Logged in");
       console.log(res);
-      
+      setStorage(KEY_ACCESS_TOKEN, res.result.accessToken).then(() => {
+        alert("Logged in");
+        navigation.navigate("LoggedIn");
+      });
     } catch (e) {
       console.log(e);
-      
     }
   }
 
-  
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.head}>
@@ -39,7 +40,7 @@ const LoginScreen = ({ navigation }) => {
         <TextInput
           placeholder="Email"
           placeholderTextColor={"rgba(0,0,0,.3)"}
-          onChangeText={(t)=>setEmail(t)}
+          onChangeText={(t) => setEmail(t)}
           value={email}
           style={[styles.input, styles.email]}
         ></TextInput>
@@ -47,30 +48,32 @@ const LoginScreen = ({ navigation }) => {
           placeholder="Password"
           secureTextEntry
           placeholderTextColor={"rgba(0,0,0,.3)"}
-          onChangeText={(t)=>setPassword(t)}
+          onChangeText={(t) => setPassword(t)}
           value={password}
           style={[styles.input, styles.password]}
         ></TextInput>
       </View>
 
-      <View  style={{ alignItems: "flex-end" }}>
-        <Text onPress={()=>navigation.navigate("EnterForgetPassEmail")}style={{ fontSize: 15, color: "rgba(255,255,255,.6)" }}>
+      <View style={{ alignItems: "flex-end" }}>
+        <Text
+          onPress={() => navigation.navigate("EnterForgetPassEmail")}
+          style={{ fontSize: 16, color: "rgba(255,255,255,.6)" }}
+        >
           Forgot Password?
         </Text>
       </View>
 
-      <View style={styles.btn}>
+      <Pressable onPress={handleSubmit} style={styles.btn}>
         <Text
           style={{
             color: "white",
             fontSize: 20,
             padding: 10,
           }}
-          onPress={handleSubmit}
         >
           Submit
         </Text>
-      </View>
+      </Pressable>
       <View
         style={{
           height: 1,

@@ -1,16 +1,24 @@
 import { View, Text, ScrollView } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Posts from "./Posts";
+import { useSelector } from "react-redux";
+;
 
 const Feeds = () => {
+  const [data, setData] = useState()
+  const reduxData = useSelector((s) => s.appConfigReducer.feedData);
+  useEffect(()=>{
+    setData(reduxData)
+
+  },[reduxData])
+ 
+
   return (
-    
-      <ScrollView >
-        <Posts />
-        <Posts />
-        <Posts />
-        <Posts />
-      </ScrollView>
+    <ScrollView>
+      {data?.map((item, i) => {
+        return <Posts key={i} post={item} />;
+      })}
+    </ScrollView>
   );
 };
 

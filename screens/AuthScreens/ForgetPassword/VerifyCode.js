@@ -9,7 +9,7 @@ import {
   formbtn,
   goback,
 } from "./CommonCss";
-const VerifyCode = ({navigation,route}) => {
+const VerifyCode = ({ navigation, route }) => {
   const { email, veriCode } = route.params;
   const [verificationCode, setVerificationCode] = useState("");
 
@@ -30,8 +30,6 @@ const VerifyCode = ({navigation,route}) => {
   }
   return (
     <View style={containerFull}>
-      
-
       {/* <Image source={logo} style={logo1} /> */}
 
       <View style={{ gap: 30, width: "100%", alignItems: "center" }}>
@@ -44,18 +42,17 @@ const VerifyCode = ({navigation,route}) => {
           onChangeText={(text) => setVerificationCode(text)}
         />
 
-        <View style={formbtn}>
+        <Pressable onPress={handleSubmit} style={formbtn}>
           <Text
             style={{
               color: "white",
               fontSize: 20,
               padding: 10,
             }}
-            onPress={handleSubmit}
           >
             Next
           </Text>
-        </View>
+        </Pressable>
       </View>
     </View>
   );

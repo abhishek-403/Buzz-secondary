@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { axiosClient } from "../../../utils/axiosSetup";
@@ -69,9 +69,9 @@ const EnterEmail = ({ navigation, route }) => {
         ></TextInput>
       </View>
 
-      <View style={styles.btn}>
+      <Pressable
+          onPress={handleSubmit} style={styles.btn}>
         <Text
-          onPress={handleSubmit}
           style={{
             color: "white",
             fontSize: 20,
@@ -80,7 +80,7 @@ const EnterEmail = ({ navigation, route }) => {
         >
           Submit
         </Text>
-      </View>
+      </Pressable>
 
       <View
         style={{

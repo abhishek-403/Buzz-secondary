@@ -11,12 +11,13 @@ import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import * as ImagePicker from "expo-image-picker";
 import { Image } from "react-native";
+import { axiosClient } from "../../utils/axiosSetup";
 
 const MAX_CHARACTER_LIMIT = 60;
 
 const AddScreen = () => {
   const [images, setImages] = useState([]);
-  const [text, setText] = useState("");
+  const [message, setMessage] = useState("");
 
   const [hasPermission, setHasPermission] = useState(null);
 
@@ -30,22 +31,35 @@ const AddScreen = () => {
 
   async function handleImageUpload() {
     try {
-      // if (!hasPermission) {
-      //   //   console.log("No access");
-      //   }
-        // async () => {
-        let result = await ImagePicker.launchImageLibraryAsync({
-          mediaTypes: ImagePicker.MediaTypeOptions.Images,
-          allowsEditing: true,
-          aspect: [4, 3],
-          quality: 1,
-          // allowsMultipleSelection: true,
-        });
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        aspect: [4, 3],
+        quality: 1,
+        allowsEditing: true,
+      });
+      console.log(result);
+      if (!result.canceled) {
         console.log(result);
+        if (result.assets.length == 0) {
+          return;
+        }
+        setImages(
+          result?.assets?.map((item) => ({
+            uri: item?.uri,
+          }))
+        );
+      }
 
-        console.log(result.assets);
-        setImages(result.assets);
-      // }
+      // result?.assets?.map((file) => {
+      //   const fileReader = new FileReader();
+      //   fileReader.readAsDataURL(file.uri);
+      //   fileReader.onload = () => {
+      //     if (fileReader.readyState === fileReader.DONE) {
+      //       // setImg(fileReader.result);
+      //       allImages.push(fileReader.result);
+      //     }
+      //   };
+      // });
     } catch (e) {
       console.log(e);
     }
@@ -53,21 +67,44 @@ const AddScreen = () => {
 
   const handleTextChange = (inputText) => {
     if (inputText.length <= MAX_CHARACTER_LIMIT) {
-      setText(inputText);
+      setMessage(inputText);
     } else {
       return;
     }
   };
 
-  async function handlePost() {
+  async function handleSubmit() {
     try {
-      if (text === "" && images.length === 0) {
+      if (images.length == 0 && message === "") {
         return;
       }
-    
+      if (images.length > 0) {
+        const formData = new FormData();
+        formData.append("images", {
+          uri: images[0].uri,
+          name: `image.jpg`,
+          type: "image/jpeg",
+        });
 
-      setText("");
-      setImages([]);
+        formData.append("message", message);
+        formData.append("upload_preset", "Buzz-preset");
+        const res = await axiosClient.post("/post/create", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+
+        alert(res.result);
+        setMessage("");
+        setImages([]);
+      } else if (message !== "") {
+        const res = await axiosClient.post("/post/createtextpost", {
+          message,
+        });
+        alert(res.result);
+        setMessage("");
+        setImages([]);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -83,13 +120,13 @@ const AddScreen = () => {
         <TextInput
           style={styles.textArea}
           multiline
-          value={text}
+          value={message}
           onChangeText={handleTextChange}
           placeholder="Enter your text here..."
           placeholderTextColor="rgba(255,255,255,.1)"
         ></TextInput>
         <Text style={styles.wordLimitText}>
-          {text.length}/{MAX_CHARACTER_LIMIT} characters
+          {message.length}/{MAX_CHARACTER_LIMIT} characters
         </Text>
       </View>
 
@@ -101,19 +138,32 @@ const AddScreen = () => {
         </Pressable>
 
         <ScrollView contentContainerStyle={styles.imageContainer}>
-          {images?.map((image, index) => (
-            <Image
-              source={{ uri: image.uri }}
+          {images?.map(
+            (image, index) =>
+              images.length > 0 && (
+                <Image
+                  source={{ uri: image?.uri }}
+                  style={{
+                    width: "100%",
+                    aspectRatio: 1,
+                  }}
+                  resizeMode="contain"
+                  key={index}
+                />
+              )
+          )}
+          <Pressable onPress={handleSubmit} style={{ width: "60%" }}>
+            <Text
               style={{
-                width: "100%",
-                aspectRatio: 1,
-
-                flex: 1 / 2,
+                color: "white",
+                backgroundColor: "grey",
+                fontSize: 24,
+                textAlign: "center",
               }}
-              resizeMode="contain"
-              key={index}
-            />
-          ))}
+            >
+              Submit
+            </Text>
+          </Pressable>
         </ScrollView>
       </View>
     </SafeAreaView>
@@ -143,6 +193,7 @@ const styles = StyleSheet.create({
   },
 
   imageIcon: {
+    flex: 1,
     margin: 20,
   },
   imageContainer: {

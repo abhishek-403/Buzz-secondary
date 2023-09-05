@@ -1,5 +1,4 @@
-import { StyleSheet } from "react-native";
-import BottomNav from "./components/BottomNav";
+import { LogBox, StyleSheet } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 import HomeScreen from "./screens/HomeScreen";
@@ -16,10 +15,14 @@ import SearchScreen from "./screens/SearchScreen/SearchScreen";
 import CreateNewPassword from "./screens/AuthScreens/ForgetPassword/CreateNewPassword";
 import EnterEmail from "./screens/AuthScreens/ForgetPassword/EnterEmail";
 import VerifyCode from "./screens/AuthScreens/ForgetPassword/VerifyCode";
-
+import { useEffect } from "react";
+import { Provider } from "react-redux";
+import store from "./redux/store";
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
+// LogBox.ignoreLogs(["Warning: ..."]);
+// console.disableYellowBox = true;
 const LoggedInNav = () => {
   const isActive = true;
   return (
@@ -32,7 +35,7 @@ const LoggedInNav = () => {
 
           tabBarStyle: {
             backgroundColor: "rgba(0,0,0,1)",
-            borderColor: "rgba(255,255,255,.2)",
+            borderColor: "rgba(0,0,0,.5)",
             height: 60,
           },
 
@@ -65,8 +68,8 @@ const LoggedInNav = () => {
           },
         })}
       >
-        <Tab.Screen name="Home" component={HomeScreen} />
         <Tab.Screen name="Create" component={CreatePostScreen} />
+        <Tab.Screen name="Home" component={HomeScreen} />
 
         <Tab.Screen name="Search" component={SearchScreen} />
         <Tab.Screen name="Profile" component={ProfileScreen} />
@@ -94,19 +97,24 @@ const AuthNav = () => {
 };
 
 export default function App() {
-  const isLoggedIn = false;
+  const user = false;
+  // useEffect(()=>{
+  //   getStorage(KEY_ACCESS_TOKEN).then((item) => {
+  //     user = item;
+  //   });
+  // },[])
   return (
-    <NavigationContainer>
-      <Stack.Navigator
-        screenOptions={{ headerShown: false, animationEnabled: true }}
-      >
-        {isLoggedIn ? (
+    <Provider store={store}>
+      <NavigationContainer>
+        <Stack.Navigator
+          screenOptions={{ headerShown: false, animationEnabled: true }}
+        >
+          {/* {user? null : <Stack.Screen name="NotLoggedIn" component={AuthNav} />} */}
+
           <Stack.Screen name="LoggedIn" component={LoggedInNav} />
-        ) : (
-          <Stack.Screen name="NotLoggedIn" component={AuthNav} />
-        )}
-      </Stack.Navigator>
-    </NavigationContainer>
+        </Stack.Navigator>
+      </NavigationContainer>
+    </Provider>
   );
 }
 

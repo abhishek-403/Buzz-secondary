@@ -1,29 +1,18 @@
-import { View, Text, StyleSheet, Image } from "react-native";
+import { View, Text, StyleSheet, ScrollView, Image } from "react-native";
 import React from "react";
 import { Divider } from "react-native-elements";
-import profileimg from "../../assets/profilepic.png";
-import postpic from "../../assets/postpic.png";
+import profileicondef from "../../assets/profileicondefault.png";
 import { Entypo, AntDesign } from "@expo/vector-icons";
 
-const Posts = () => {
-  const post = {
-    username: "abhishek404",
-    name: "Abhishek Sharma",
-    postPhoto: postpic,
-    profilePhoto: profileimg,
-    message:
-      "This is a random message. A quick brown fox jumps over a lazy little dog. This is a random message. A quick brown fox jumps over a lazy little dog.",
-    footerInfo: [],
-  };
-
+const Posts = ({ post }) => {
   return (
-    <View style={{
-      backgroundColor:'rgba(0,0,0,.95)'}}>
-      <Divider
-        width={1}
-        orientation="horizontal"
-        color="rgba(250,250,250,.08)"
-      />
+    <View
+      style={{
+        backgroundColor: "rgba(0,0,0,.95)",
+        flex: 1,
+      }}
+    >
+      <Divider width={1} color="rgba(255,255,255,.08)"/>
       <PostHeader post={post} />
       <View
         style={{
@@ -50,10 +39,10 @@ const PostHeader = ({ post }) => {
       }}
     >
       <View style={{ flexDirection: "row", alignItems: "center" }}>
-        <Image source={post.profilePhoto} style={styles.story} />
+        <Image source={profileicondef} style={styles.story} />
         <View style={{ marginHorizontal: 5 }}>
-          <Text style={styles.name}>{post.name}</Text>
-          <Text style={styles.username}>{post.username}</Text>
+          <Text style={styles.name}>{post?.owner?.name}</Text>
+          <Text style={styles.username}>{post?.owner?.username}</Text>
         </View>
       </View>
       <Entypo name="dots-three-horizontal" size={24} color="white" />
@@ -62,23 +51,39 @@ const PostHeader = ({ post }) => {
 };
 
 const PostMessage = ({ post }) => (
-  <View style={{ paddingHorizontal: 5 }}>
-    <Text style={styles.message}>{post.message}</Text>
+  <View
+    style={{
+      paddingHorizontal: 15,
+      paddingBottom: 10,
+      display: `${post?.message === "" ? "none" : "flex"}`,
+    }}
+  >
+    <Text style={styles.message}>{post?.message}</Text>
   </View>
 );
 
 const PostImage = ({ post }) => (
   <View
     style={{
-      width: "100%",
-      maxHeight: 300,
-      padding: 5,
+     
+      flex: 1,
     }}
   >
-    <Image
-      source={post.postPhoto}
-      style={{ resizeMode: "contain", height: "100%" }}
-    />
+    {post?.images?.map((item, i) => {
+      return (
+        <Image
+          source={{ uri: item.url }}
+          style={{
+            resizeMode: "contain",
+            aspectRatio: 4 / 3,
+            borderRadius: 30,
+            width: "auto",
+            height: "auto",
+          }}
+          key={i}
+        />
+      );
+    })}
   </View>
 );
 
@@ -93,7 +98,7 @@ const PostFooter = ({ post }) => {
   );
 };
 
-const Icons = ({ iconname, count }) => (
+const Icons = ({ iconname }) => (
   <View
     style={{
       paddingHorizontal: 8,
@@ -102,8 +107,8 @@ const Icons = ({ iconname, count }) => (
       gap: 10,
     }}
   >
-    <AntDesign name={iconname} size={24} color="white" />
-    <Text style={{ color: "white", fontSize: 16 }}>12</Text>
+    <AntDesign name={iconname} size={22} color="rgba(255,255,255,0.6)" />
+    <Text style={{ color: "rgba(255,255,255,0.6)", fontSize: 14 }}>12</Text>
   </View>
 );
 
@@ -131,15 +136,15 @@ const styles = StyleSheet.create({
   },
   message: {
     color: "white",
-    fontSize: 19,
-    margin: 3,
+    fontSize: 21,
   },
 
   footer: {
     flexDirection: "row",
     marginHorizontal: 10,
     marginBottom: 12,
-    marginTop: 15,
+    marginTop: 20,
+    
     justifyContent: "space-around",
     gap: 10,
   },

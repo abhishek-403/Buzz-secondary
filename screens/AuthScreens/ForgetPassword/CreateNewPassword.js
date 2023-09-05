@@ -1,4 +1,5 @@
 import {
+  Pressable,
   StyleSheet,
   Text,
   TextInput,
@@ -71,18 +72,18 @@ const CreateNewPassword = ({navigation,route}) => {
             <ActivityIndicator />
           ) : (
           )} */}
-        <View style={formbtn}>
+        <Pressable  onPress={handleSubmit} style={formbtn}>
           <Text
             style={{
               color: "white",
               fontSize: 20,
               padding: 10,
             }}
-            onPress={handleSubmit}
+            
           >
             Next
           </Text>
-        </View>
+        </Pressable>
       </View>
     </View>
   );

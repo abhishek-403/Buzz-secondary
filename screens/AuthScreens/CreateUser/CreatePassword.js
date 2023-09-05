@@ -1,4 +1,5 @@
 import {
+  Pressable,
   StyleSheet,
   Text,
   TextInput,
@@ -74,18 +75,18 @@ navigation.navigate("SetUserName",{email,password})
           <ActivityIndicator />
         ) : (
         )} */}
-        <View style={formbtn}>
+        <Pressable  onPress={handleSubmit} style={formbtn}>
           <Text
             style={{
               color: "white",
               fontSize: 20,
               padding: 10,
             }}
-            onPress={handleSubmit}
+           
           >
             Next
           </Text>
-        </View>
+        </Pressable>
       </View>
     </View>
   );

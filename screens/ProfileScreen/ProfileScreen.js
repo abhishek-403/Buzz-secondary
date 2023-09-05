@@ -11,8 +11,6 @@ import {
   head2,
   headCont,
   imageCardCont,
-  links,
-  linksCont,
   lowerCard,
   name,
   nameCard,
@@ -22,13 +20,23 @@ import {
 } from "./profilecss";
 import { Ionicons } from "@expo/vector-icons";
 import pimg from "../../assets/profilepic.png";
-import postimg from "../../assets/postpic.png";
 import { Divider } from "react-native-elements";
 import Posts from "../../components/home/Posts";
 import SubHeader from "../../components/home/SubHeader";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { getmyProfile } from "../../redux/slices/appConfigSlice";
+import { getMyposts } from "../../redux/slices/userSlice";
 
 const ProfileScreen = () => {
   const [activeTab, setActiveTab] = useState("Posts");
+  const dispatch = useDispatch();
+  const data = useSelector((s) => s.appConfigReducer.myProfile);
+
+
+  useEffect(() => {
+    dispatch(getmyProfile());
+  }, [dispatch]);
 
   function displayCard() {
     switch (activeTab) {
@@ -43,47 +51,48 @@ const ProfileScreen = () => {
 
   return (
     <SafeAreaView style={container}>
-      <Head />
+      {/* <ScrollView> */}
+      <Head data={data} />
       <View
         style={{
           paddingHorizontal: 15,
           backgroundColor: "rgba(0,0,0,1)",
         }}
       >
-        <ProfileCard />
-        <AboutCard />
-        <FollowerCard />
-        <OptionsBar setActiveTab={setActiveTab} />
+        <ProfileCard data={data} />
+        <AboutCard data={data} />
+        <FollowerCard data={data} />
+        <OptionsBar data={data} setActiveTab={setActiveTab} />
       </View>
 
-        <Divider
-          // style={{ paddingVertical: 3 }}
-          width={.01}
-          color="rgba(250,250,250,.08)"
-        />
+      <Divider
+        // style={{ paddingVertical: 3 }}
+        width={0.01}
+        color="rgba(250,250,250,.08)"
+      />
       <View style={lowerCard}>
-
         <ScrollView>{displayCard()}</ScrollView>
       </View>
+      {/* </ScrollView> */}
     </SafeAreaView>
   );
 };
 
-const Head = () => {
+const Head = ({ data }) => {
   return (
     <View style={headCont}>
       <View>
         <Ionicons name="caret-back" size={33} color="white" />
       </View>
       <View style={subHead}>
-        <Text style={head1}>Abhishek Sharma</Text>
-        <Text style={head2}>2 posts</Text>
+        <Text style={head1}>{data?.name}</Text>
+        <Text style={head2}>{data?.posts?.length} posts</Text>
       </View>
     </View>
   );
 };
 
-const ProfileCard = () => {
+const ProfileCard = ({ data }) => {
   return (
     <View style={imageCardCont}>
       <View
@@ -108,14 +117,14 @@ const ProfileCard = () => {
         <Text style={editBtn}>Edit</Text>
       </View>
       <View style={nameCard}>
-        <Text style={name}>Abhishek Sharma</Text>
-        <Text style={username}>@abhishek404</Text>
+        <Text style={name}>{data?.name}</Text>
+        <Text style={username}>{data?.username}</Text>
       </View>
     </View>
   );
 };
 
-const AboutCard = () => (
+const AboutCard = ({ data }) => (
   <View>
     <Text style={bio}>
       Curious and Mern developerCurious and Mern developerCurious and Mern
@@ -129,32 +138,42 @@ const AboutCard = () => (
     </View> */}
   </View>
 );
-const FollowerCard = () => (
+const FollowerCard = ({ data }) => (
   <View style={{ flexDirection: "row", gap: 30, paddingVertical: 5 }}>
-    <Text style={followers}>{"23"} followers</Text>
+    <Text style={followers}>{data?.followers?.length} followers</Text>
 
-    <Text style={followers}>{"24"} followings</Text>
+    <Text style={followers}>{data?.followings?.length} followings</Text>
+    <Text style={followers}>{data?.posts?.length} posts</Text>
   </View>
 );
 
-const OptionsBar = ({ setActiveTab }) => (
+const OptionsBar = ({ setActiveTab, data }) => (
   <ScrollView contentContainerStyle={topHead}>
     <Pressable onPress={() => setActiveTab("Posts")}>
       <Text style={eachHead}>Posts</Text>
     </Pressable>
-    <Divider width={.7} color="rgba(255,255,255,.2)" orientation="vertical" />
+    <Divider width={0.7} color="rgba(255,255,255,.2)" orientation="vertical" />
 
     <Pressable onPress={() => setActiveTab("People")}>
       <Text style={eachHead}>People</Text>
     </Pressable>
   </ScrollView>
 );
-const PostsCard = () => (
-  <ScrollView>
-    <Posts />
-    <Posts />
-  </ScrollView>
-);
+const PostsCard = () => {
+  const data = useSelector(s=>s.userReducer.myPosts)
+  const dispatch = useDispatch();
+  useEffect(()=>{
+    dispatch(getMyposts())
+
+  },[dispatch])
+  return (
+    <ScrollView>
+      {data?.map((item,i)=>(
+        <Posts post={item} key={i}/>
+      ))}
+    </ScrollView>
+  );
+};
 
 const PeopleCard = () => (
   <ScrollView>
