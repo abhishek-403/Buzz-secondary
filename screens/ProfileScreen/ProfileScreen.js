@@ -67,8 +67,8 @@ const ProfileScreen = () => {
 
       <Divider
         // style={{ paddingVertical: 3 }}
-        width={0.01}
-        color="rgba(250,250,250,.08)"
+        width={1}
+        color="rgba(250,250,250,.2)"
       />
       <View style={lowerCard}>
         <ScrollView>{displayCard()}</ScrollView>
@@ -82,7 +82,7 @@ const Head = ({ data }) => {
   return (
     <View style={headCont}>
       <View>
-        <Ionicons name="caret-back" size={33} color="white" />
+        <Ionicons name="caret-back" size={30} color="white" />
       </View>
       <View style={subHead}>
         <Text style={head1}>{data?.name}</Text>
@@ -117,8 +117,10 @@ const ProfileCard = ({ data }) => {
         <Text style={editBtn}>Edit</Text>
       </View>
       <View style={nameCard}>
-        <Text style={name}>{data?.name}</Text>
-        <Text style={username}>{data?.username}</Text>
+        {/* <Text style={name}>{data?.name}</Text> */}
+        <Text style={name}>Abhishek Sharma</Text>
+        <Text style={username}>@abhishek1</Text>
+        {/* <Text style={username}>{data?.username}</Text> */}
       </View>
     </View>
   );
@@ -127,7 +129,7 @@ const ProfileCard = ({ data }) => {
 const AboutCard = ({ data }) => (
   <View>
     <Text style={bio}>
-      Curious and Mern developerCurious and Mern developerCurious and Mern
+      Curious and Mern developer. Curious and Mern developer. Curious and Mern
       developer
     </Text>
 
@@ -152,7 +154,7 @@ const OptionsBar = ({ setActiveTab, data }) => (
     <Pressable onPress={() => setActiveTab("Posts")}>
       <Text style={eachHead}>Posts</Text>
     </Pressable>
-    <Divider width={0.7} color="rgba(255,255,255,.2)" orientation="vertical" />
+    <Divider width={1} color="rgba(255,255,255,.2)" orientation="vertical" />
 
     <Pressable onPress={() => setActiveTab("People")}>
       <Text style={eachHead}>People</Text>

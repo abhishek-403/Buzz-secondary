@@ -1,8 +1,17 @@
-import { View, Text, StyleSheet, ScrollView, Image } from "react-native";
-import React from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  Image,
+  Pressable,
+} from "react-native";
+import React, { useState } from "react";
 import { Divider } from "react-native-elements";
 import profileicondef from "../../assets/profileicondefault.png";
 import { Entypo, AntDesign } from "@expo/vector-icons";
+import { useDispatch } from "react-redux";
+import { likePost } from "../../redux/slices/postSlice";
 
 const Posts = ({ post }) => {
   return (
@@ -12,7 +21,7 @@ const Posts = ({ post }) => {
         flex: 1,
       }}
     >
-      <Divider width={1} color="rgba(255,255,255,.08)"/>
+      <Divider width={1} color="rgba(255,255,255,.08)" />
       <PostHeader post={post} />
       <View
         style={{
@@ -34,8 +43,8 @@ const PostHeader = ({ post }) => {
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
-        marginVertical: 10,
-        marginHorizontal: 5,
+        marginVertical: 8,
+        marginHorizontal: 8,
       }}
     >
       <View style={{ flexDirection: "row", alignItems: "center" }}>
@@ -45,7 +54,7 @@ const PostHeader = ({ post }) => {
           <Text style={styles.username}>{post?.owner?.username}</Text>
         </View>
       </View>
-      <Entypo name="dots-three-horizontal" size={24} color="white" />
+      <Entypo name="dots-three-horizontal" size={24} color="rgba(255,255,255,0.6)"  style={{paddingHorizontal:5}}/>
     </View>
   );
 };
@@ -54,7 +63,8 @@ const PostMessage = ({ post }) => (
   <View
     style={{
       paddingHorizontal: 15,
-      paddingBottom: 10,
+      paddingTop: 5,
+      paddingBottom: 15,
       display: `${post?.message === "" ? "none" : "flex"}`,
     }}
   >
@@ -65,7 +75,6 @@ const PostMessage = ({ post }) => (
 const PostImage = ({ post }) => (
   <View
     style={{
-     
       flex: 1,
     }}
   >
@@ -88,55 +97,76 @@ const PostImage = ({ post }) => (
 );
 
 const PostFooter = ({ post }) => {
+  const [liked, setLiked] = useState(post?.isLiked);
+  const dispatch = useDispatch();
+  async function handleLike() {
+    setLiked(!liked);
+    setLikeC;
+    dispatch(likePost({ postId: post._id }));
+  }
+  const [likeC, setLikeC] = useState(post.likesCount);
+
   return (
     <View style={styles.footer}>
-      <Icons iconname="eyeo" />
-      <Icons iconname="retweet" />
-      <Icons iconname="hearto" />
+      <Icons count={post.viewsCount} iconname="eyeo" />
+      <Icons count={post.retweetsCount} iconname="retweet" />
+      <Icons count={post.commentsCount} iconname="message1" />
+      <Pressable onPress={handleLike}>
+        <Icons
+          count={likeC}
+          iconname={`${liked ? "heart" : "hearto"}`}
+          isLiked={liked}
+        />
+      </Pressable>
       <Icons iconname="sharealt" />
     </View>
   );
 };
 
-const Icons = ({ iconname }) => (
-  <View
-    style={{
-      paddingHorizontal: 8,
-      flexDirection: "row",
-      alignItems: "center",
-      gap: 10,
-    }}
-  >
-    <AntDesign name={iconname} size={22} color="rgba(255,255,255,0.6)" />
-    <Text style={{ color: "rgba(255,255,255,0.6)", fontSize: 14 }}>12</Text>
-  </View>
-);
+const Icons = ({ iconname, count, isLiked }) => {
+  return (
+    <View
+      style={{
+        paddingHorizontal: 8,
+        flexDirection: "row",
+        alignItems: "center",
+        gap: 5,
+      }}
+    >
+      <AntDesign
+        name={iconname}
+        size={17}
+        color={`${!isLiked ? "rgba(255,255,255,0.6)" : "red"}`}
+      />
+      <Text style={{ color: "rgba(255,255,255,0.6)", fontSize: 12 }}>
+        {count}
+      </Text>
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   story: {
-    width: 55,
-    height: 55,
+    width: 40,
+    height: 40,
     borderRadius: 50,
     borderWidth: 1.6,
-    marginLeft: 6,
+    marginHorizontal: 3,
     borderColor: "rgba(255,255,255,.1)",
   },
   name: {
     color: "white",
     fontWeight: "700",
-    marginLeft: 5,
-    fontSize: 19,
-    lineHeight: 20,
+    fontSize: 16,
+
   },
   username: {
     color: "#a3a3a3",
-    fontSize: 16,
-    marginLeft: 5,
-    lineHeight: 18,
+    fontSize: 12,
   },
   message: {
     color: "white",
-    fontSize: 21,
+    fontSize: 16,
   },
 
   footer: {
@@ -144,7 +174,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     marginBottom: 12,
     marginTop: 20,
-    
+
     justifyContent: "space-around",
     gap: 10,
   },

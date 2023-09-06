@@ -11,18 +11,19 @@ module.exports = {
     flexDirection: "row",
     backgroundColor: "rgba(255,255,255, 0.07)",
     borderRadius:20,
-    paddingHorizontal:5,
+    paddingHorizontal:15,
+    height:65
   },
   subHead: {
     padding: 10,
   },
   head1: {
     color: "white",
-    fontSize: 20,
+    fontSize: 17,
     fontWeight:700
   },
   head2: {
-    fontSize:18,
+    fontSize:15,
     color: "rgba(255,255,255,0.5)",
   },
 
@@ -35,9 +36,9 @@ module.exports = {
   },
 
   editBtn: {
-    fontSize: 20,
-    paddingHorizontal: 25,
-    paddingVertical: 10,
+    fontSize: 16,
+    paddingHorizontal: 20,
+    paddingVertical: 8,
     backgroundColor: "black",
     borderRadius: 50,
     color:"white",
@@ -46,17 +47,17 @@ module.exports = {
 
   },
   nameCard:{
-    paddingVertical:10
+    paddingVertical:8
 
   },
   name:{
-    fontSize:26,
+    fontSize:22,
     color:"white",
     fontWeight:700
 
   },
   username:{
-    fontSize:19,
+    fontSize:13,
     color:"rgba(255,255,255,.6)"
 
   },
@@ -64,8 +65,8 @@ module.exports = {
   // AboutCard
 
   bio:{
-    color:"rgba(255,255,255,1)",
-    fontSize:21
+    color:"rgba(255,255,255,.9)",
+    fontSize:16
 
   },
   links:{
@@ -85,7 +86,7 @@ module.exports = {
   // Followerscard
   followers:{
     color:"rgba(255,255,255,.5)",
-    fontSize:18
+    fontSize:14
 
   },
   
@@ -105,7 +106,7 @@ module.exports = {
   },
   eachHead:{
     color:"white",
-    fontSize:20,
+    fontSize:17,
     fontWeight:700,
     paddingHorizontal:10,
     paddingVertical:8,

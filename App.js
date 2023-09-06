@@ -1,100 +1,16 @@
-import { LogBox, StyleSheet } from "react-native";
+import {  StyleSheet } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
-import HomeScreen from "./screens/HomeScreen";
-import CreatePostScreen from "./screens/CreatePostScreen";
-import LoginScreen from "./screens/AuthScreens/LoginScreen";
-import SignupScreen from "./screens/AuthScreens/CreateUser/SignupScreen";
-import SetUserName from "./screens/AuthScreens/CreateUser/SetUserName";
-import VerifyEmail from "./screens/AuthScreens/CreateUser/VerifyEmail";
-import CreatePassword from "./screens/AuthScreens/CreateUser/CreatePassword";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Ionicons } from "@expo/vector-icons";
-import ProfileScreen from "./screens/ProfileScreen/ProfileScreen";
-import SearchScreen from "./screens/SearchScreen/SearchScreen";
-import CreateNewPassword from "./screens/AuthScreens/ForgetPassword/CreateNewPassword";
-import EnterEmail from "./screens/AuthScreens/ForgetPassword/EnterEmail";
-import VerifyCode from "./screens/AuthScreens/ForgetPassword/VerifyCode";
-import { useEffect } from "react";
 import { Provider } from "react-redux";
 import store from "./redux/store";
+import { ThemeProvider } from "react-native-elements";
+import LoggedInNav from "./components/Navigators/LoggedInNav";
+import AuthNav from "./components/Navigators/AuthNav";
+import {loadCustomFonts} from './utils/fontConfig'
+import { useEffect, useState } from "react";
 const Stack = createStackNavigator();
-const Tab = createBottomTabNavigator();
-
 // LogBox.ignoreLogs(["Warning: ..."]);
 // console.disableYellowBox = true;
-const LoggedInNav = () => {
-  const isActive = true;
-  return (
-    <>
-      <Tab.Navigator
-        screenOptions={({ route }) => ({
-          headerShown: false,
-          tabBarShowLabel: false,
-          tabBarHideOnKeyboard: true,
-
-          tabBarStyle: {
-            backgroundColor: "rgba(0,0,0,1)",
-            borderColor: "rgba(0,0,0,.5)",
-            height: 60,
-          },
-
-          tabBarItemStyle: {
-            color: "white",
-          },
-          tabBarIcon: ({ focused, color, size }) => {
-            let iconName;
-
-            switch (route.name) {
-              case "Home":
-                iconName = `${focused ? "home" : "home-outline"}`;
-                break;
-              case "Create":
-                iconName = `${focused ? "create" : "create-outline"}`;
-                break;
-              case "Search":
-                iconName = `${focused ? "search" : "search-outline"}`;
-                break;
-              case "Profile":
-                iconName = `${
-                  focused ? "person-circle" : "person-circle-outline"
-                }`;
-                break;
-
-              default:
-                break;
-            }
-            return <Ionicons name={iconName} color={"white"} size={34} />;
-          },
-        })}
-      >
-        <Tab.Screen name="Create" component={CreatePostScreen} />
-        <Tab.Screen name="Home" component={HomeScreen} />
-
-        <Tab.Screen name="Search" component={SearchScreen} />
-        <Tab.Screen name="Profile" component={ProfileScreen} />
-      </Tab.Navigator>
-    </>
-  );
-};
-const AuthNav = () => {
-  return (
-    <Stack.Navigator
-      screenOptions={{
-        headerShown: false,
-      }}
-    >
-      <Stack.Screen name="Login" component={LoginScreen} />
-      <Stack.Screen name="Signup" component={SignupScreen} />
-      <Stack.Screen name="VerifyEmail" component={VerifyEmail} />
-      <Stack.Screen name="CreatePassword" component={CreatePassword} />
-      <Stack.Screen name="SetUserName" component={SetUserName} />
-      <Stack.Screen name="EnterForgetPassEmail" component={EnterEmail} />
-      <Stack.Screen name="VerifyForgetPassCode" component={VerifyCode} />
-      <Stack.Screen name="ResetPassword" component={CreateNewPassword} />
-    </Stack.Navigator>
-  );
-};
 
 export default function App() {
   const user = false;
@@ -103,23 +19,27 @@ export default function App() {
   //     user = item;
   //   });
   // },[])
-  return (
-    <Provider store={store}>
-      <NavigationContainer>
-        <Stack.Navigator
-          screenOptions={{ headerShown: false, animationEnabled: true }}
-        >
-          {/* {user? null : <Stack.Screen name="NotLoggedIn" component={AuthNav} />} */}
 
-          <Stack.Screen name="LoggedIn" component={LoggedInNav} />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </Provider>
+  return (
+    <ThemeProvider theme={{ dark: false }}>
+      <Provider store={store}>
+        <NavigationContainer>
+          <Stack.Navigator
+            screenOptions={{ headerShown: false, animationEnabled: true }}
+          >
+            {/* {user? null : <Stack.Screen name="NotLoggedIn" component={AuthNav} />} */}
+
+            <Stack.Screen name="LoggedIn" component={LoggedInNav} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </Provider>
+    </ThemeProvider>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    fontFamily:'primText'
   },
 });

@@ -17,13 +17,13 @@ const Header = () => {
       </View>
       <View style={styles.iconsContainer}>
         <TouchableOpacity>
-        <AntDesign name="wechat" size={24} color="white" style={styles.icon} />
+        <AntDesign name="wechat" size={22} color="white" style={styles.icon} />
           
         </TouchableOpacity>
 
         <TouchableOpacity>
           <AntDesign name="hearto" style={styles.icon}
-            size={24} color="white" />
+            size={22} color="white" />
           
         </TouchableOpacity>
       </View>
@@ -37,12 +37,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
     paddingHorizontal: 10,
-    elevation:1,
     backgroundColor:"rgba(0,0,0,1)"
   },
   logo: {
     width: 180,
-    height:60,
+    height:40,
     resizeMode: "contain",
   },
   iconsContainer: {

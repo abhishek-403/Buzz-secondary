@@ -9,11 +9,7 @@ const CreatePostScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
       <Head />
-      <Divider
-        width={0.33}
-        orientation="horizontal"
-        color="rgba(250,250,250,1)"
-      />
+     
       <AddScreen />
     </SafeAreaView>
   );
@@ -24,7 +20,7 @@ const Head = () => (
       <Ionicons name="caret-back" size={30} color="white" />
     </View>
     <View>
-      <Text style={{ color: "white", fontSize: 24, fontWeight: 700 }}>
+      <Text style={{ color: "white", fontSize: 20, fontWeight: 700 }}>
         New Post
       </Text>
     </View>
@@ -40,9 +36,9 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0,0,0,1)",
     justifyContent: "space-between",
     flexDirection: "row",
-    paddingHorizontal: 5,
+    paddingHorizontal: 15,
     alignItems: "center",
-    height: 65,
+    height: 50,
   },
 });
 

@@ -113,7 +113,7 @@ const AddScreen = () => {
   return (
     <SafeAreaView
       initialValues={{ message: "", imageUrl: "" }}
-      onSubmit={(value) => console.log(value)}
+     
       style={styles.container}
     >
       <View>
@@ -123,7 +123,7 @@ const AddScreen = () => {
           value={message}
           onChangeText={handleTextChange}
           placeholder="Enter your text here..."
-          placeholderTextColor="rgba(255,255,255,.1)"
+          placeholderTextColor="rgba(255,255,255,.5)"
         ></TextInput>
         <Text style={styles.wordLimitText}>
           {message.length}/{MAX_CHARACTER_LIMIT} characters
@@ -174,20 +174,19 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "rgba(0,0,0,.9)",
-    paddingHorizontal: 5,
+    paddingHorizontal: 15,
   },
   textArea: {
     marginVertical: 10,
-    marginHorizontal: 5,
-    borderColor: "rgba(0,0,0,.5)",
+    borderColor: "rgba(255,255,255,0.1)",
     borderWidth: 1,
-    fontSize: 16,
-    padding: 10,
+    padding: 12,
     color: "white",
-    fontSize: 23,
+    fontSize: 16,
+    borderRadius:20,
   },
   wordLimitText: {
-    marginTop: 8,
+    margin: 8,
     fontSize: 14,
     color: "gray",
   },
