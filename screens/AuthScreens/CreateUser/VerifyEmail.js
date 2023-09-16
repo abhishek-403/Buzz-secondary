@@ -26,7 +26,7 @@ const VerifyEmail = ({ navigation,route }) => {
         alert("Code is incorrect");
         return;
       }
-     navigation.navigate("CreatePassword",{email})
+     navigation.navigate("SetUserName",{email})
 
     } catch (e) {
       console.log(e);

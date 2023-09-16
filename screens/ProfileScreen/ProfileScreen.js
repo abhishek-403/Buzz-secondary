@@ -27,14 +27,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { getmyProfile } from "../../redux/slices/appConfigSlice";
 import { getMyposts } from "../../redux/slices/userSlice";
+import { useFocusEffect } from "@react-navigation/native";
+import { KEY_ACCESS_TOKEN } from "../../utils/localStorageManaager";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const ProfileScreen = () => {
+const ProfileScreen = ({navigation}) => {
   const [activeTab, setActiveTab] = useState("Posts");
   const dispatch = useDispatch();
   const data = useSelector((s) => s.appConfigReducer.myProfile);
 
 
   useEffect(() => {
+   
     dispatch(getmyProfile());
   }, [dispatch]);
 
@@ -88,6 +92,8 @@ const Head = ({ data }) => {
         <Text style={head1}>{data?.name}</Text>
         <Text style={head2}>{data?.posts?.length} posts</Text>
       </View>
+      <Pressable onPress={async ()=> await AsyncStorage.removeItem(KEY_ACCESS_TOKEN)}><Text>Logout</Text></Pressable>
+
     </View>
   );
 };
@@ -164,10 +170,14 @@ const OptionsBar = ({ setActiveTab, data }) => (
 const PostsCard = () => {
   const data = useSelector(s=>s.userReducer.myPosts)
   const dispatch = useDispatch();
-  useEffect(()=>{
-    dispatch(getMyposts())
+  
+  useFocusEffect(
+    React.useCallback(() => {
+      dispatch(getMyposts())
 
-  },[dispatch])
+    }, [])
+  );
+  
   return (
     <ScrollView>
       {data?.map((item,i)=>(

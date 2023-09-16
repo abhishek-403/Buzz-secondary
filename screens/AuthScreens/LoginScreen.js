@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { axiosClient } from "../../utils/axiosSetup";
 import { KEY_ACCESS_TOKEN, setStorage } from "../../utils/localStorageManaager";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const LoginScreen = ({ navigation }) => {
   const [password, setPassword] = useState();
@@ -10,18 +11,20 @@ const LoginScreen = ({ navigation }) => {
 
   async function handleSubmit() {
     try {
+      console.log("gfdf");
       const res = await axiosClient.post("/auth/login", {
         email,
         password,
       });
 
-      console.log(res);
-      setStorage(KEY_ACCESS_TOKEN, res.result.accessToken).then(() => {
-        alert("Logged in");
-        navigation.navigate("LoggedIn");
-      });
+      await AsyncStorage.setItem('accessToken', res.result.accessToken);
+      console.log("login",await AsyncStorage.getItem('accessToken'));
+      // await AsyncStorage.setItem(KEY_ACCESS_TOKEN,res.result.accessToken)
+   
+      alert("Logged in");
+      navigation.navigate("LoggedIn");
     } catch (e) {
-      console.log(e);
+      console.log("hi",e);
     }
   }
 

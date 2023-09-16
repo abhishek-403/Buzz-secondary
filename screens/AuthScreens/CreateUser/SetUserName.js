@@ -19,7 +19,7 @@ import { useState } from "react";
 import { axiosClient } from "../../../utils/axiosSetup";
 
 const SetUserName = ({ navigation, route }) => {
-  const { email, password } = route.params;
+  const { email } = route.params;
   const [username, setUsername] = useState("");
   const [name, setName] = useState("");
 
@@ -33,15 +33,8 @@ const SetUserName = ({ navigation, route }) => {
         alert(res.result);
         return;
       }
-      const user = await axiosClient.post("/auth/signup", {
-        email,
-        username,
-        name,
-        password,
-      });
-      alert(res);
-      console.log(user?.result);
-      console.log(user?.result?.newUser);
+     
+      navigation.navigate("SetPassword",{username,email,name})
      
     } catch (e) {
       alert(e);
@@ -66,7 +59,7 @@ const SetUserName = ({ navigation, route }) => {
 
       {/* <Image source={logo} style={logo1} /> */}
       <View style={{ gap: 30, width: "100%", alignItems: "center" }}>
-        <Text style={formHead2}>Choose a Username</Text>
+        <Text style={formHead2}>Choose a name and Username</Text>
         <TextInput
           placeholder="Enter a username"
           style={formInput}

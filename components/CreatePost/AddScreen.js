@@ -5,6 +5,7 @@ import {
   TextInput,
   ScrollView,
   Pressable,
+  ToastAndroid,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
@@ -37,9 +38,7 @@ const AddScreen = () => {
         quality: 1,
         allowsEditing: true,
       });
-      console.log(result);
       if (!result.canceled) {
-        console.log(result);
         if (result.assets.length == 0) {
           return;
         }
@@ -110,6 +109,7 @@ const AddScreen = () => {
     }
   }
 
+
   return (
     <SafeAreaView
       initialValues={{ message: "", imageUrl: "" }}
@@ -152,13 +152,17 @@ const AddScreen = () => {
                 />
               )
           )}
-          <Pressable onPress={handleSubmit} style={{ width: "60%" }}>
+          <Pressable onPress={handleSubmit} style={{ width: "60%",marginVertical:20 }}>
             <Text
               style={{
                 color: "white",
-                backgroundColor: "grey",
+                backgroundColor: "black",
+                borderWidth:1,
+                borderColor:'white',
+                borderRadius:20,
                 fontSize: 24,
                 textAlign: "center",
+                padding:10,
               }}
             >
               Submit

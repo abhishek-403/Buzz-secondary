@@ -11,7 +11,8 @@ const Feeds = () => {
 
   const item = {
     _id: "64f6bd7e921bb1b8ae6a251d",
-    message: "To set the font weight of text in your Expo app, you can use the fontWeight property in the styles of your text components. The fontWeight property allows you to specify the thickness or weight of the text characters. Here's how you can use it",
+    message:
+      "To set the font weight of text in your Expo app, you can use the fontWeight property in the styles of your text components. The fontWeight property allows you to specify the thickness or weight of the text characters. Here's how you can use it",
     images: [
       {
         url: "https://res.cloudinary.com/dyqzaxyqw/image/upload/v1693891975/Postpics/j1fg6ehovgq0fnojh11z.jpg",
@@ -34,8 +35,8 @@ const Feeds = () => {
 
   return (
     <ScrollView>
-      <Posts post ={item}/>
-      <Posts post ={item}/>
+      {/* <Posts post ={item}/>
+      <Posts post ={item}/> */}
       {data?.map((item, i) => {
         return <Posts key={i} post={item} />;
       })}

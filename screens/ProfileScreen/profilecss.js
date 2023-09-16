@@ -1,9 +1,8 @@
 module.exports = {
   container: {
     flex: 1,
-    backgroundColor:'rgba(0,0,0,1)',
+    backgroundColor: "rgba(0,0,0,.9)",
    
-    height:"100%"
   },
   headCont: {
     alignItems: "center",

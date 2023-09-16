@@ -6,7 +6,7 @@ export const getMyposts = createAsyncThunk(
   async (_) => {
     try {
       const response = await axiosClient.get("user/getmyposts");
-
+console.log("getpost");
       return response.result;
     } catch (e) {
       console.log(e);

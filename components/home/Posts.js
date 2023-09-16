@@ -64,7 +64,7 @@ const PostMessage = ({ post }) => (
     style={{
       paddingHorizontal: 15,
       paddingTop: 5,
-      paddingBottom: 15,
+      paddingBottom: 10,
       display: `${post?.message === "" ? "none" : "flex"}`,
     }}
   >
@@ -76,6 +76,7 @@ const PostImage = ({ post }) => (
   <View
     style={{
       flex: 1,
+      paddingTop:5
     }}
   >
     {post?.images?.map((item, i) => {
@@ -147,8 +148,8 @@ const Icons = ({ iconname, count, isLiked }) => {
 
 const styles = StyleSheet.create({
   story: {
-    width: 40,
-    height: 40,
+    width: 50,
+    height: 50,
     borderRadius: 50,
     borderWidth: 1.6,
     marginHorizontal: 3,

@@ -1,17 +1,21 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useLayoutEffect } from "react";
 import { StyleSheet } from "react-native";
 import Header from "../components/home/Header";
 import { SafeAreaView } from "react-native-safe-area-context";
 import SubHeader from "../components/home/SubHeader";
 import Feeds from "../components/home/Feeds";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getFeedData } from "../redux/slices/appConfigSlice";
-
-const HomeScreen = () => {
+import { useFocusEffect } from '@react-navigation/native';
+const HomeScreen = ({navigation}) => {
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getFeedData());
-  }, []);
+  useFocusEffect(
+    React.useCallback(() => {
+
+      dispatch(getFeedData());
+    }, [])
+  );
+  
   return (
     <SafeAreaView style={styles.container}>
       <Header />

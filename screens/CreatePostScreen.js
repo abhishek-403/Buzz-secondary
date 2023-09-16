@@ -9,7 +9,7 @@ const CreatePostScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
       <Head />
-     
+
       <AddScreen />
     </SafeAreaView>
   );
@@ -31,6 +31,8 @@ const Head = () => (
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+
+    backgroundColor: "rgba(0,0,0,.9)",
   },
   head: {
     backgroundColor: "rgba(0,0,0,1)",
