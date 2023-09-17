@@ -27,11 +27,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { getmyProfile } from "../../redux/slices/appConfigSlice";
 import { getMyposts } from "../../redux/slices/userSlice";
-import { useFocusEffect } from "@react-navigation/native";
-import { KEY_ACCESS_TOKEN } from "../../utils/localStorageManaager";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const ProfileScreen = ({navigation}) => {
+const ProfileScreen = () => {
   const [activeTab, setActiveTab] = useState("Posts");
   const dispatch = useDispatch();
   const data = useSelector((s) => s.appConfigReducer.myProfile);
@@ -55,7 +54,6 @@ const ProfileScreen = ({navigation}) => {
 
   return (
     <SafeAreaView style={container}>
-      {/* <ScrollView> */}
       <Head data={data} />
       <View
         style={{
@@ -70,19 +68,22 @@ const ProfileScreen = ({navigation}) => {
       </View>
 
       <Divider
-        // style={{ paddingVertical: 3 }}
         width={1}
         color="rgba(250,250,250,.2)"
       />
       <View style={lowerCard}>
         <ScrollView>{displayCard()}</ScrollView>
       </View>
-      {/* </ScrollView> */}
     </SafeAreaView>
   );
 };
 
 const Head = ({ data }) => {
+  const navigation = useNavigation()
+  async function handleLogout(){
+    await AsyncStorage.removeItem("accessstoken");
+    navigation.navigate("NotLoggedIn")
+  }
   return (
     <View style={headCont}>
       <View>
@@ -92,7 +93,7 @@ const Head = ({ data }) => {
         <Text style={head1}>{data?.name}</Text>
         <Text style={head2}>{data?.posts?.length} posts</Text>
       </View>
-      <Pressable onPress={async ()=> await AsyncStorage.removeItem(KEY_ACCESS_TOKEN)}><Text>Logout</Text></Pressable>
+      <Pressable onPress={handleLogout}><Text>Logout</Text></Pressable>
 
     </View>
   );
@@ -123,10 +124,8 @@ const ProfileCard = ({ data }) => {
         <Text style={editBtn}>Edit</Text>
       </View>
       <View style={nameCard}>
-        {/* <Text style={name}>{data?.name}</Text> */}
-        <Text style={name}>Abhishek Sharma</Text>
-        <Text style={username}>@abhishek1</Text>
-        {/* <Text style={username}>{data?.username}</Text> */}
+        <Text style={name}>{data?.name}</Text>
+        <Text style={username}>{data?.username}</Text>
       </View>
     </View>
   );

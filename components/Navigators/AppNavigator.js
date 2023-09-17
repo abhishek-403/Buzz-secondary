@@ -17,6 +17,7 @@ import { useEffect, useState } from "react";
 import { ActivityIndicator } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
+import EditProfile from "../../screens/ProfileScreen/EditProfile";
 
 const Stack = createStackNavigator();
 export default function AppNavigator() {
@@ -110,6 +111,11 @@ export const LoggedInNav = () => {
                   focused ? "person-circle" : "person-circle-outline"
                 }`;
                 break;
+              case "Edit":
+                iconName = `${
+                  focused ? "person-circle" : "person-circle-outline"
+                }`;
+                break;
 
               default:
                 break;
@@ -118,6 +124,7 @@ export const LoggedInNav = () => {
           },
         })}
       >
+        <Tab.Screen name="Edit" component={EditProfile} />
         <Tab.Screen name="Home" component={HomeScreen} />
         <Tab.Screen name="Search" component={SearchScreen} />
         <Tab.Screen name="Create" component={CreatePostScreen} />

@@ -1,14 +1,10 @@
-import { ActivityIndicator, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
-import { Provider, useSelector } from "react-redux";
+import { Provider} from "react-redux";
 import store from "./redux/store";
 import { ThemeProvider } from "react-native-elements";
-import LoggedInNav from "./components/Navigators/LoggedInNav";
-import AuthNav from "./components/Navigators/AuthNav";
-import { useEffect, useState } from "react";
-import { KEY_ACCESS_TOKEN } from "./utils/localStorageManaager";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import {  useState } from "react";
 import AppNavigator from "./components/Navigators/AppNavigator";
 // LogBox.ignoreLogs(["Warning: ..."]);
 // console.disableYellowBox = true;

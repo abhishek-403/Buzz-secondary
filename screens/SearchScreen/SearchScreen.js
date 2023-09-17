@@ -17,6 +17,7 @@ const SearchScreen = () => {
   }, [seldata]);
   async function handleTextChange(text) {
     setMessage(text);
+
     if (text === "") {
       setData([]);
       return;

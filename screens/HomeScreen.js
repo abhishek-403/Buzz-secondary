@@ -11,8 +11,8 @@ const HomeScreen = ({navigation}) => {
   const dispatch = useDispatch();
   useFocusEffect(
     React.useCallback(() => {
-
       dispatch(getFeedData());
+
     }, [])
   );
   

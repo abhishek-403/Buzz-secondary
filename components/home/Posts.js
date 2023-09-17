@@ -98,7 +98,7 @@ const PostImage = ({ post }) => (
 );
 
 const PostFooter = ({ post }) => {
-  const [liked, setLiked] = useState(post?.isLiked);
+  const [liked, setLiked] = useState(post?.isLiked===undefined?false:post?.isLiked);
   const dispatch = useDispatch();
   async function handleLike() {
     setLiked(!liked);
@@ -148,8 +148,8 @@ const Icons = ({ iconname, count, isLiked }) => {
 
 const styles = StyleSheet.create({
   story: {
-    width: 50,
-    height: 50,
+    width: 40,
+    height: 40,
     borderRadius: 50,
     borderWidth: 1.6,
     marginHorizontal: 3,
