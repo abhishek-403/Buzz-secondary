@@ -9,7 +9,7 @@ export const getmyProfile = createAsyncThunk(
 
       return response.result;
     } catch (e) {
-      console.log("profileslice",e);
+      console.log("profileslice", e);
       return Promise.reject(e);
     }
   }
@@ -17,18 +17,23 @@ export const getmyProfile = createAsyncThunk(
 
 export const getFeedData = createAsyncThunk(
   "/user/getmyfeed",
-  
-  async (_) => {
 
+  async (_, thunkAPI) => {
     try {
-      
+      const { feedData } = thunkAPI.getState();
+      if (feedData?.length == 0) {
+        thunkAPI.dispatch(setLoader(true));
+      }
+
       const response = await axiosClient.get("/user/getmyfeed");
       console.log("myfeed");
 
       return response.result.newData;
     } catch (e) {
-      console.log("feedslice",e);
+      console.log("feedslice", e);
       return Promise.reject(e);
+    } finally {
+      thunkAPI.dispatch(setLoader(false));
     }
   }
 );
@@ -36,18 +41,21 @@ export const getFeedData = createAsyncThunk(
 const appConfigSlice = createSlice({
   name: "appConfig",
   initialState: {
-    isLoading: false,
+    isLoading: true,
     myProfile: {},
     feedData: [],
-    toastData:{}
+    toastData: {},
   },
   reducers: {
     setLoader: (state, action) => {
       state.isLoading = action.payload;
     },
-    showToast:(state,action)=>{
-      state.toastData= action.payload
-  }
+    showToast: (state, action) => {
+      state.toastData = action.payload;
+    },
+    feedLength: (state, action) => {
+      state.toastData = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -61,4 +69,4 @@ const appConfigSlice = createSlice({
 });
 
 export default appConfigSlice.reducer;
-export const { setLoader,showToast } = appConfigSlice.actions;
+export const { setLoader, showToast } = appConfigSlice.actions;

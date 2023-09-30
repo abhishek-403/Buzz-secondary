@@ -5,30 +5,30 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import SubHeader from "../components/home/SubHeader";
 import Feeds from "../components/home/Feeds";
 import { useDispatch, useSelector } from "react-redux";
-import { getFeedData } from "../redux/slices/appConfigSlice";
-import { useFocusEffect } from '@react-navigation/native';
-const HomeScreen = ({navigation}) => {
+import appConfigSlice, { getFeedData } from "../redux/slices/appConfigSlice";
+import { useFocusEffect } from "@react-navigation/native";
+import HomeScreenLoading from "./LoadingScreens/HomeScreenLoading";
+const HomeScreen = () => {
   const dispatch = useDispatch();
+  const isLoading = useSelector((s) => s.appConfigReducer.isLoading);
   useFocusEffect(
     React.useCallback(() => {
       dispatch(getFeedData());
-
     }, [])
   );
-  
+
   return (
     <SafeAreaView style={styles.container}>
       <Header />
       <SubHeader />
-
-      <Feeds />
+      {isLoading ? <HomeScreenLoading /> : <Feeds />}
     </SafeAreaView>
   );
 };
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    
+
     backgroundColor: "rgba(0,0,0,.9)",
   },
 });

@@ -1,32 +1,48 @@
-import { StyleSheet, Text, TextInput, View } from "react-native";
+import {
+  ActivityIndicator,
+  Pressable,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { axiosClient } from "../../../utils/axiosSetup";
+import { useSelector } from "react-redux";
 
 const SignupScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
-
+  const [loading, setIsLoading] = useState(false);
   async function handleSubmit() {
     try {
       if (email == "") {
         alert("Email required");
         return;
       }
-      const response = await axiosClient.post("/auth/verifyemail",{
-        email
-      })
+      setIsLoading(true);
+      const response = await axiosClient.post("/auth/verifyemail", {
+        email,
+      });
 
-     if(response.status!='ok'){
-     
-      alert(response.result)
-      return;
-     }
+      if (response.status != "ok") {
+        alert(response.result);
+        return;
+      }
 
-     console.log({ email:response.result.email,veriCode:response.result.veriCode });
-     
-      navigation.navigate("VerifyEmail", { email:response.result.email,veriCode:response.result.veriCode });
+      console.log({
+        email: response.result.email,
+        veriCode: response.result.veriCode,
+      });
+
+      navigation.navigate("VerifyEmail", {
+        email: response.result.email,
+        veriCode: response.result.veriCode,
+      });
     } catch (e) {
       console.log(e);
+    } finally {
+      setIsLoading(false);
     }
   }
   return (
@@ -51,18 +67,21 @@ const SignupScreen = ({ navigation }) => {
         ></TextInput>
       </View>
 
-      <View style={styles.btn}>
-        <Text
-          onPress={handleSubmit}
-          style={{
-            color: "white",
-            fontSize: 20,
-            padding: 10,
-          }}
-        >
-          Submit
-        </Text>
-      </View>
+      <Pressable onPress={handleSubmit} style={styles.btn}>
+        {loading ? (
+          <ActivityIndicator size="large" />
+        ) : (
+          <Text
+            style={{
+              color: "white",
+              fontSize: 20,
+              padding: 10,
+            }}
+          >
+            Submit
+          </Text>
+        )}
+      </Pressable>
 
       <View
         style={{

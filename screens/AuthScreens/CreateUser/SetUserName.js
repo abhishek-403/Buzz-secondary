@@ -1,4 +1,5 @@
 import {
+  ActivityIndicator,
   Pressable,
   StyleSheet,
   Text,
@@ -17,27 +18,31 @@ import {
 import { MaterialIcons } from "@expo/vector-icons";
 import { useState } from "react";
 import { axiosClient } from "../../../utils/axiosSetup";
+import { useSelector } from "react-redux";
 
 const SetUserName = ({ navigation, route }) => {
   const { email } = route.params;
   const [username, setUsername] = useState("");
   const [name, setName] = useState("");
-
+  const [loading, setIsLoading] = useState(false);
   async function handleSubmit() {
     try {
+      setIsLoading(true);
       const res = await axiosClient.post("/auth/changeusername", {
-        username,email
+        username,
+        email,
       });
 
       if (res.status != "ok") {
         alert(res.result);
         return;
       }
-     
-      navigation.navigate("SetPassword",{username,email,name})
-     
+
+      navigation.navigate("SetPassword", { username, email, name });
     } catch (e) {
-      alert(e);
+      console.log(e);
+    } finally {
+      setIsLoading(false);
     }
   }
   return (
@@ -72,20 +77,23 @@ const SetUserName = ({ navigation, route }) => {
         />
 
         {/* {loading ? (
-        <ActivityIndicator />
+        <ActivityIndicator size="large" />
         ) : (
         )} */}
         <Pressable onPress={handleSubmit} style={formbtn}>
-          <Text
-            style={{
-              color: "white",
-              fontSize: 20,
-              padding: 10,
-            }}
-            
-          >
-            Next
-          </Text>
+          {loading ? (
+            <ActivityIndicator size="large" />
+          ) : (
+            <Text
+              style={{
+                color: "white",
+                fontSize: 20,
+                padding: 10,
+              }}
+            >
+              Next
+            </Text>
+          )}
         </Pressable>
       </View>
     </View>

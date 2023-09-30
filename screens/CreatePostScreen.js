@@ -16,12 +16,10 @@ const CreatePostScreen = () => {
 };
 const Head = () => (
   <View style={styles.head}>
-    <View>
-      <Ionicons name="caret-back" size={30} color="white" />
-    </View>
+    <View></View>
     <View>
       <Text style={{ color: "white", fontSize: 20, fontWeight: 700 }}>
-        New Post
+        Create Post
       </Text>
     </View>
     <View></View>
@@ -38,9 +36,8 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0,0,0,1)",
     justifyContent: "space-between",
     flexDirection: "row",
-    paddingHorizontal: 15,
     alignItems: "center",
-    height: 50,
+    height: 70,
   },
 });
 

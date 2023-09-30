@@ -1,4 +1,5 @@
 import {
+  ActivityIndicator,
   Pressable,
   StyleSheet,
   Text,
@@ -9,28 +10,32 @@ import {
 import React from "react";
 import { useState } from "react";
 import { MaterialIcons } from "@expo/vector-icons";
-import { containerFull, formHead2, formInput, formbtn, goback } from "./CommonCss";
-import { axiosClient } from "../../../utils/axiosSetup";
+import {
+  containerFull,
+  formHead2,
+  formInput,
+  formbtn,
+  goback,
+} from "./CommonCss";
+import { useSelector } from "react-redux";
 
-const VerifyEmail = ({ navigation,route }) => {
-  const {email,veriCode}= route.params
+const VerifyEmail = ({ navigation, route }) => {
+  const { email, veriCode } = route.params;
   const [verificationCode, setVerificationCode] = useState("");
 
-  async function handleSubmit(){
+  async function handleSubmit() {
     try {
-      if(verificationCode===""){
+      if (verificationCode === "") {
         alert("Invalid code");
         return;
       }
-      if(verificationCode!=veriCode){
+      if (verificationCode != veriCode) {
         alert("Code is incorrect");
         return;
       }
-     navigation.navigate("SetUserName",{email})
-
+      navigation.navigate("SetUserName", { email });
     } catch (e) {
       console.log(e);
-      
     }
   }
   return (
@@ -53,16 +58,16 @@ const VerifyEmail = ({ navigation,route }) => {
       {/* <Image source={logo} style={logo1} /> */}
 
       <View style={{ gap: 30, width: "100%", alignItems: "center" }}>
-        <Text style={formHead2}>A verification code has been sent to your email</Text>
+        <Text style={formHead2}>
+          A verification code has been sent to your email
+        </Text>
         <TextInput
           placeholder="Enter 6-Digit Code here"
           style={formInput}
-          
           onChangeText={(text) => setVerificationCode(text)}
         />
 
-        <Pressable 
-            onPress={handleSubmit}style={formbtn}>
+        <Pressable onPress={handleSubmit} style={formbtn}>
           <Text
             style={{
               color: "white",
@@ -70,7 +75,7 @@ const VerifyEmail = ({ navigation,route }) => {
               padding: 10,
             }}
           >
-            Next
+            Submit
           </Text>
         </Pressable>
       </View>

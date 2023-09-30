@@ -1,4 +1,5 @@
 import {
+  ActivityIndicator,
   Pressable,
   StyleSheet,
   Text,
@@ -17,13 +18,15 @@ import {
   goback,
 } from "./CommonCss";
 import { axiosClient } from "../../../utils/axiosSetup";
-const CreateNewPassword = ({navigation,route}) => {
+import { useSelector } from "react-redux";
+const CreateNewPassword = ({ route }) => {
   const { email } = route.params;
   const [password, setpassword] = useState("");
   const [confirmpassword, setconfirmpassword] = useState("");
 
+  const [loading, setIsLoading] = useState(false);
   async function handleSubmit() {
-    if ((confirmpassword == "" || password == "")) {
+    if (confirmpassword == "" || password == "") {
       alert("Passwords required");
       return;
     }
@@ -33,23 +36,23 @@ const CreateNewPassword = ({navigation,route}) => {
     }
 
     try {
-      const res= await axiosClient.post("/auth/resetpassword",{
-        email,password
-      })
+      setIsLoading(true);
+      const res = await axiosClient.post("/auth/resetpassword", {
+        email,
+        password,
+      });
 
       console.log({ email, password });
-      alert('Password changed successfully!')
-      
+      alert("Password changed successfully!");
     } catch (e) {
       console.log(e);
-      
+    } finally {
+      setIsLoading(false);
     }
   }
 
   return (
     <View style={containerFull}>
-     
-
       {/* <Image source={logo} style={logo1} /> */}
 
       <View style={{ gap: 10, width: "100%", alignItems: "center" }}>
@@ -68,21 +71,20 @@ const CreateNewPassword = ({navigation,route}) => {
           onChangeText={(text) => setconfirmpassword(text)}
         />
 
-        {/* {loading ? (
-            <ActivityIndicator />
+        <Pressable onPress={handleSubmit} style={formbtn}>
+          {loading ? (
+            <ActivityIndicator size="large" />
           ) : (
-          )} */}
-        <Pressable  onPress={handleSubmit} style={formbtn}>
-          <Text
-            style={{
-              color: "white",
-              fontSize: 20,
-              padding: 10,
-            }}
-            
-          >
-            Next
-          </Text>
+            <Text
+              style={{
+                color: "white",
+                fontSize: 20,
+                padding: 10,
+              }}
+            >
+              Next
+            </Text>
+          )}
         </Pressable>
       </View>
     </View>

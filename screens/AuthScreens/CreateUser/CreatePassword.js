@@ -17,24 +17,23 @@ import {
   goback,
 } from "./CommonCss";
 
-const CreatePassword = ({navigation,route}) => {
-    const { email } = route.params;
-    const [password, setpassword] = useState('')
-    const [confirmpassword, setconfirmpassword] = useState('')
+const CreatePassword = ({ navigation, route }) => {
+  const { email } = route.params;
+  const [password, setpassword] = useState("");
+  const [confirmpassword, setconfirmpassword] = useState("");
 
-     function handleSubmit(){
-      if(confirmpassword=""||password==""){
-        alert("Passwords required");
-        return;
-      }
-      if(confirmpassword!=password){
-        alert("Passwords donot match");
-        return;
-      }
-      console.log({email,password});
-navigation.navigate("SetUserName",{email,password})
-
+  function handleSubmit() {
+    if ((confirmpassword = "" || password == "")) {
+      alert("Passwords required");
+      return;
     }
+    if (confirmpassword != password) {
+      alert("Passwords donot match");
+      return;
+    }
+    console.log({ email, password });
+    navigation.navigate("SetUserName", { email, password });
+  }
 
   return (
     <View style={containerFull}>
@@ -72,17 +71,16 @@ navigation.navigate("SetUserName",{email,password})
         />
 
         {/* {loading ? (
-          <ActivityIndicator />
+          <ActivityIndicator size="large" />
         ) : (
         )} */}
-        <Pressable  onPress={handleSubmit} style={formbtn}>
+        <Pressable onPress={handleSubmit} style={formbtn}>
           <Text
             style={{
               color: "white",
               fontSize: 20,
               padding: 10,
             }}
-           
           >
             Next
           </Text>

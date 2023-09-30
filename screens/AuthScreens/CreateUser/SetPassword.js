@@ -1,4 +1,5 @@
 import {
+  ActivityIndicator,
   Pressable,
   StyleSheet,
   Text,
@@ -17,10 +18,14 @@ import {
   goback,
 } from "./CommonCss";
 import { axiosClient } from "../../../utils/axiosSetup";
+import { useSelector } from "react-redux";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 const SetPassword = ({ navigation, route }) => {
   const { email, username, name } = route.params;
   const [password, setpassword] = useState("");
   const [confirmpassword, setconfirmpassword] = useState("");
+
+  const [loading, setIsLoading] = useState(false);
 
   async function handleSubmit() {
     if (confirmpassword == "" || password == "") {
@@ -33,6 +38,8 @@ const SetPassword = ({ navigation, route }) => {
     }
 
     try {
+      setIsLoading(true);
+
       const user = await axiosClient.post("/auth/signup", {
         email,
         username,
@@ -40,14 +47,15 @@ const SetPassword = ({ navigation, route }) => {
         password,
       });
 
-      
-    await AsyncStorage.setItem('accessToken', user.result.accessToken);
+      await AsyncStorage.setItem("accessToken", user.result.accessToken);
       // await AsyncStorage.setItem(KEY_ACCESS_TOKEN,user.result.accessToken)
-   
+
       alert("Profile created");
       navigation.navigate("LoggedIn");
     } catch (e) {
       console.log(e);
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -72,19 +80,23 @@ const SetPassword = ({ navigation, route }) => {
         />
 
         {/* {loading ? (
-            <ActivityIndicator />
+            <ActivityIndicator size="large" />
           ) : (
           )} */}
         <Pressable onPress={handleSubmit} style={formbtn}>
-          <Text
-            style={{
-              color: "white",
-              fontSize: 20,
-              padding: 10,
-            }}
-          >
-            Next
-          </Text>
+          {loading ? (
+            <ActivityIndicator size="large" />
+          ) : (
+            <Text
+              style={{
+                color: "white",
+                fontSize: 20,
+                padding: 10,
+              }}
+            >
+              Submit
+            </Text>
+          )}
         </Pressable>
       </View>
     </View>

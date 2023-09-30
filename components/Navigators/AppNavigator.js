@@ -13,23 +13,21 @@ import SearchScreen from "../../screens/SearchScreen/SearchScreen";
 import CreatePostScreen from "../../screens/CreatePostScreen";
 import ProfileScreen from "../../screens/ProfileScreen/ProfileScreen";
 import { Ionicons } from "@expo/vector-icons";
-import { useEffect, useState } from "react";
-import { ActivityIndicator } from "react-native";
+import { useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import EditProfile from "../../screens/ProfileScreen/EditProfile";
+import HomeScreenLoading from "../../screens/LoadingScreens/HomeScreenLoading";
 
+const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 export default function AppNavigator() {
-    
-    const navigation = useNavigation()
-  const [isLoading, setIsLoading] = useState(true);
+  const navigation = useNavigation();
 
   useEffect(() => {
     AsyncStorage.getItem("accessToken")
       .then((accessToken) => {
         console.log("app", accessToken);
-        setIsLoading(false);
         if (accessToken) {
           navigation.navigate("LoggedIn");
         } else {
@@ -39,17 +37,17 @@ export default function AppNavigator() {
       .catch((error) => console.error(error));
   }, []);
 
-  if (isLoading) {
-    return <ActivityIndicator />;
-  }
   return (
-    <Stack.Navigator
-      screenOptions={{ headerShown: false, animationEnabled: true }}
+    <Tab.Navigator
+      screenOptions={{
+        tabBarStyle: { display: "none" },
+        headerShown: false,
+        animationEnabled: true,
+      }}
     >
-      <Stack.Screen name="NotLoggedIn" component={AuthNav} />
-
-      <Stack.Screen name="LoggedIn" component={LoggedInNav} />
-    </Stack.Navigator>
+      <Tab.Screen name="LoggedIn" component={LoggedInNav} />
+      <Tab.Screen name="NotLoggedIn" component={AuthNav} />
+    </Tab.Navigator>
   );
 }
 
@@ -72,8 +70,6 @@ export const AuthNav = () => {
     </Stack.Navigator>
   );
 };
-
-const Tab = createBottomTabNavigator();
 
 export const LoggedInNav = () => {
   return (
@@ -111,11 +107,6 @@ export const LoggedInNav = () => {
                   focused ? "person-circle" : "person-circle-outline"
                 }`;
                 break;
-              case "Edit":
-                iconName = `${
-                  focused ? "person-circle" : "person-circle-outline"
-                }`;
-                break;
 
               default:
                 break;
@@ -124,12 +115,22 @@ export const LoggedInNav = () => {
           },
         })}
       >
-        <Tab.Screen name="Edit" component={EditProfile} />
         <Tab.Screen name="Home" component={HomeScreen} />
+        {/* <Tab.Screen name="Home" component={HomeScreenLoading} /> */}
+        {/* <Tab.Screen name="EditProfile" component={EditProfile} /> */}
         <Tab.Screen name="Search" component={SearchScreen} />
         <Tab.Screen name="Create" component={CreatePostScreen} />
-        <Tab.Screen name="Profile" component={ProfileScreen} />
+        <Tab.Screen name="Profile" component={ProfileScreenStack} />
       </Tab.Navigator>
     </>
+  );
+};
+
+const ProfileScreenStack = () => {
+  return (
+    <Stack.Navigator screenOptions={{headerShown:false}} >
+      <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
+      <Stack.Screen name="EditProfile" component={EditProfile} />
+    </Stack.Navigator>
   );
 };

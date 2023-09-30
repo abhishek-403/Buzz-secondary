@@ -1,7 +1,6 @@
-import { Text, TextInput, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, Text, TextInput,  View } from "react-native";
 import React from "react";
 import { useState } from "react";
-import { MaterialIcons } from "@expo/vector-icons";
 import {
   containerFull,
   formHead2,
@@ -43,6 +42,7 @@ const VerifyCode = ({ navigation, route }) => {
         />
 
         <Pressable onPress={handleSubmit} style={formbtn}>
+      
           <Text
             style={{
               color: "white",
@@ -50,8 +50,9 @@ const VerifyCode = ({ navigation, route }) => {
               padding: 10,
             }}
           >
-            Next
+            Submit
           </Text>
+        
         </Pressable>
       </View>
     </View>

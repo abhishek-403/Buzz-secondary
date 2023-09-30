@@ -1,19 +1,30 @@
-import { Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import {
+  ActivityIndicator,
+  Pressable,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { axiosClient } from "../../../utils/axiosSetup";
 import { goback } from "./CommonCss";
-import { MaterialIcons } from '@expo/vector-icons';
+import { MaterialIcons } from "@expo/vector-icons";
+import { useSelector } from "react-redux";
 
 const EnterEmail = ({ navigation, route }) => {
   const [email, setEmail] = useState("");
 
+  const [loading, setIsLoading] = useState(false);
   async function handleSubmit() {
     try {
       if (email == "") {
         alert("Email required");
         return;
       }
+      setIsLoading(true);
       const response = await axiosClient.post("/auth/forgetpassword", {
         email,
       });
@@ -31,6 +42,8 @@ const EnterEmail = ({ navigation, route }) => {
       });
     } catch (e) {
       console.log(e);
+    } finally {
+      setIsLoading(false);
     }
   }
   return (
@@ -69,17 +82,20 @@ const EnterEmail = ({ navigation, route }) => {
         ></TextInput>
       </View>
 
-      <Pressable
-          onPress={handleSubmit} style={styles.btn}>
-        <Text
-          style={{
-            color: "white",
-            fontSize: 20,
-            padding: 10,
-          }}
-        >
-          Submit
-        </Text>
+      <Pressable onPress={handleSubmit} style={styles.btn}>
+        {loading ? (
+          <ActivityIndicator size="large" />
+        ) : (
+          <Text
+            style={{
+              color: "white",
+              fontSize: 20,
+              padding: 10,
+            }}
+          >
+            Submit
+          </Text>
+        )}
       </Pressable>
 
       <View

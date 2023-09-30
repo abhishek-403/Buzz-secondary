@@ -6,6 +6,8 @@ import {
   ScrollView,
   Pressable,
   ToastAndroid,
+  TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
@@ -19,7 +21,7 @@ const MAX_CHARACTER_LIMIT = 60;
 const AddScreen = () => {
   const [images, setImages] = useState([]);
   const [message, setMessage] = useState("");
-
+  const [loading, setIsLoading] = useState(false);
   const [hasPermission, setHasPermission] = useState(null);
 
   useEffect(() => {
@@ -77,6 +79,7 @@ const AddScreen = () => {
       if (images.length == 0 && message === "") {
         return;
       }
+      setIsLoading(true);
       if (images.length > 0) {
         const formData = new FormData();
         formData.append("images", {
@@ -106,14 +109,14 @@ const AddScreen = () => {
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   }
 
-
   return (
     <SafeAreaView
-      initialValues={{ message: "", imageUrl: "" }}
-     
+      initialValues={{ message: "", }}
       style={styles.container}
     >
       <View>
@@ -152,22 +155,29 @@ const AddScreen = () => {
                 />
               )
           )}
-          <Pressable onPress={handleSubmit} style={{ width: "60%",marginVertical:20 }}>
-            <Text
-              style={{
-                color: "white",
-                backgroundColor: "black",
-                borderWidth:1,
-                borderColor:'white',
-                borderRadius:20,
-                fontSize: 24,
-                textAlign: "center",
-                padding:10,
-              }}
-            >
-              Submit
-            </Text>
-          </Pressable>
+          <TouchableOpacity
+            onPress={handleSubmit}
+            style={{ width: "50%", marginVertical: 20 }}
+          >
+            {loading ? (
+              <ActivityIndicator size="large" />
+            ) : (
+              <Text
+                style={{
+                  color: "white",
+                  backgroundColor: "black",
+                  borderWidth: 1,
+                  borderColor: "white",
+                  borderRadius: 20,
+                  fontSize: 20,
+                  textAlign: "center",
+                  padding: 8,
+                }}
+              >
+                Submit
+              </Text>
+            )}
+          </TouchableOpacity>
         </ScrollView>
       </View>
     </SafeAreaView>
@@ -181,13 +191,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
   },
   textArea: {
-    marginVertical: 10,
     borderColor: "rgba(255,255,255,0.1)",
     borderWidth: 1,
     padding: 12,
     color: "white",
     fontSize: 16,
-    borderRadius:20,
+    borderRadius: 20,
   },
   wordLimitText: {
     margin: 8,

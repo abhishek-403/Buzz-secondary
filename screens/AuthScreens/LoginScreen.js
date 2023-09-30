@@ -1,30 +1,39 @@
-import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
+import {
+  ActivityIndicator,
+  Pressable,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { axiosClient } from "../../utils/axiosSetup";
 import { KEY_ACCESS_TOKEN, setStorage } from "../../utils/localStorageManaager";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useDispatch, useSelector } from "react-redux";
 
 const LoginScreen = ({ navigation }) => {
   const [password, setPassword] = useState();
   const [email, setEmail] = useState();
+  const [isLoading, setIsLoading] = useState(false);
 
   async function handleSubmit() {
     try {
-      console.log("gfdf");
+      setIsLoading(true);
       const res = await axiosClient.post("/auth/login", {
         email,
         password,
       });
 
-      await AsyncStorage.setItem('accessToken', res.result.accessToken);
-      console.log("login",await AsyncStorage.getItem('accessToken'));
-      // await AsyncStorage.setItem(KEY_ACCESS_TOKEN,res.result.accessToken)
-   
+      await AsyncStorage.setItem("accessToken", res.result.accessToken);
+
       alert("Logged in");
       navigation.navigate("LoggedIn");
     } catch (e) {
-      console.log("hi",e);
+      console.log("hi", e);
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -67,15 +76,19 @@ const LoginScreen = ({ navigation }) => {
       </View>
 
       <Pressable onPress={handleSubmit} style={styles.btn}>
-        <Text
-          style={{
-            color: "white",
-            fontSize: 20,
-            padding: 10,
-          }}
-        >
-          Submit
-        </Text>
+        {isLoading ? (
+          <ActivityIndicator size="large" />
+        ) : (
+          <Text
+            style={{
+              color: "white",
+              fontSize: 20,
+              padding: 10,
+            }}
+          >
+            Submit
+          </Text>
+        )}
       </Pressable>
       <View
         style={{
@@ -89,6 +102,7 @@ const LoginScreen = ({ navigation }) => {
         <Text style={{ color: "rgba(255,255,255,.4)", fontSize: 16 }}>
           Don't have an account?{" "}
         </Text>
+
         <Text
           onPress={() => navigation.navigate("Signup")}
           style={{

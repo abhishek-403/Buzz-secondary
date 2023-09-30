@@ -46,12 +46,12 @@ module.exports = {
     paddingVertical: 8,
   },
   name: {
-    fontSize: 22,
+    fontSize: 20,
     color: "white",
     fontWeight: 700,
   },
   username: {
-    fontSize: 13,
+    fontSize: 12,
     color: "rgba(255,255,255,.6)",
   },
 
@@ -59,7 +59,7 @@ module.exports = {
 
   bio: {
     color: "rgba(255,255,255,.9)",
-    fontSize: 16,
+    fontSize: 15,
   },
   links: {
     color: "white",

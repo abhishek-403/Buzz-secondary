@@ -1,4 +1,11 @@
-import { Image, Pressable, ScrollView, Text, View } from "react-native";
+import {
+  Image,
+  Pressable,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {
@@ -19,7 +26,7 @@ import {
   username,
 } from "./profilecss";
 import { Ionicons } from "@expo/vector-icons";
-import pimg from "../../assets/profilepic.png";
+import defaultImg from "../../assets/profileicondefault.png";
 import { Divider } from "react-native-elements";
 import Posts from "../../components/home/Posts";
 import SubHeader from "../../components/home/SubHeader";
@@ -29,17 +36,22 @@ import { getmyProfile } from "../../redux/slices/appConfigSlice";
 import { getMyposts } from "../../redux/slices/userSlice";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import HomeScreenLoading from "../LoadingScreens/HomeScreenLoading";
 
 const ProfileScreen = () => {
   const [activeTab, setActiveTab] = useState("Posts");
   const dispatch = useDispatch();
   const data = useSelector((s) => s.appConfigReducer.myProfile);
 
+  // useEffect(() => {
+  //   dispatch(getmyProfile());
+  // }, [dispatch]);
 
-  useEffect(() => {
-   
-    dispatch(getmyProfile());
-  }, [dispatch]);
+  useFocusEffect(
+    React.useCallback(() => {
+      dispatch(getmyProfile());
+    }, [])
+  );
 
   function displayCard() {
     switch (activeTab) {
@@ -67,10 +79,7 @@ const ProfileScreen = () => {
         <OptionsBar data={data} setActiveTab={setActiveTab} />
       </View>
 
-      <Divider
-        width={1}
-        color="rgba(250,250,250,.2)"
-      />
+      <Divider width={1} color="rgba(250,250,250,.2)" />
       <View style={lowerCard}>
         <ScrollView>{displayCard()}</ScrollView>
       </View>
@@ -79,10 +88,10 @@ const ProfileScreen = () => {
 };
 
 const Head = ({ data }) => {
-  const navigation = useNavigation()
-  async function handleLogout(){
+  const navigation = useNavigation();
+  async function handleLogout() {
     await AsyncStorage.removeItem("accessstoken");
-    navigation.navigate("NotLoggedIn")
+    navigation.navigate("NotLoggedIn");
   }
   return (
     <View style={headCont}>
@@ -93,13 +102,16 @@ const Head = ({ data }) => {
         <Text style={head1}>{data?.name}</Text>
         <Text style={head2}>{data?.posts?.length} posts</Text>
       </View>
-      <Pressable onPress={handleLogout}><Text>Logout</Text></Pressable>
-
+      <Pressable onPress={handleLogout}>
+        <Text>Logout</Text>
+      </Pressable>
     </View>
   );
 };
 
 const ProfileCard = ({ data }) => {
+  const navigation = useNavigation();
+  // console.log(data.avatar);
   return (
     <View style={imageCardCont}>
       <View
@@ -110,7 +122,7 @@ const ProfileCard = ({ data }) => {
         }}
       >
         <Image
-          source={pimg}
+          source={data?.avatar != "" ? { uri: data?.avatar } : defaultImg}
           style={{
             width: 75,
             aspectRatio: 1,
@@ -121,7 +133,18 @@ const ProfileCard = ({ data }) => {
           }}
         />
 
-        <Text style={editBtn}>Edit</Text>
+        <TouchableOpacity
+          onPress={() =>
+            navigation.navigate("EditProfile", {
+              name: data.name,
+              username: data.username,
+              bio: data.bio,
+              avatar: data.avatar,
+            })
+          }
+        >
+          <Text style={editBtn}>Edit</Text>
+        </TouchableOpacity>
       </View>
       <View style={nameCard}>
         <Text style={name}>{data?.name}</Text>
@@ -133,10 +156,7 @@ const ProfileCard = ({ data }) => {
 
 const AboutCard = ({ data }) => (
   <View>
-    <Text style={bio}>
-      Curious and Mern developer. Curious and Mern developer. Curious and Mern
-      developer
-    </Text>
+    <Text style={bio}>{data?.bio}</Text>
 
     {/* <View style={linksCont}>
       <Text style={links}>instagram</Text>
@@ -146,7 +166,7 @@ const AboutCard = ({ data }) => (
   </View>
 );
 const FollowerCard = ({ data }) => (
-  <View style={{ flexDirection: "row", gap: 30, paddingVertical: 5 }}>
+  <View style={{ flexDirection: "row", gap: 30, paddingVertical: 10 }}>
     <Text style={followers}>{data?.followers?.length} followers</Text>
 
     <Text style={followers}>{data?.followings?.length} followings</Text>
@@ -167,20 +187,23 @@ const OptionsBar = ({ setActiveTab, data }) => (
   </ScrollView>
 );
 const PostsCard = () => {
-  const data = useSelector(s=>s.userReducer.myPosts)
+  const data = useSelector((s) => s.userReducer.myPosts);
   const dispatch = useDispatch();
-  
+  const isLoading = useSelector((s) => s.userReducer.isLoading);
+
   useFocusEffect(
     React.useCallback(() => {
-      dispatch(getMyposts())
-
+      dispatch(getMyposts());
     }, [])
   );
-  
+  if (isLoading) {
+    return <HomeScreenLoading />;
+  }
+
   return (
     <ScrollView>
-      {data?.map((item,i)=>(
-        <Posts post={item} key={i}/>
+      {data?.map((item, i) => (
+        <Posts post={item} key={i} />
       ))}
     </ScrollView>
   );
@@ -188,7 +211,7 @@ const PostsCard = () => {
 
 const PeopleCard = () => (
   <ScrollView>
-    <SubHeader />
+    <Text>Coming soon</Text>
   </ScrollView>
 );
 

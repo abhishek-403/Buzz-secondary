@@ -21,17 +21,19 @@ const Posts = ({ post }) => {
         flex: 1,
       }}
     >
-      <Divider width={1} color="rgba(255,255,255,.08)" />
-      <PostHeader post={post} />
-      <View
-        style={{
-          marginHorizontal: 5,
-        }}
-      >
-        <PostMessage post={post} />
-        <PostImage post={post} />
+      <Divider width={1} color="rgba(255,255,255,.15)" />
+      <View style={{ padding: 5 }}>
+        <PostHeader post={post} />
+        <View
+          style={{
+            marginHorizontal: 5,
+          }}
+        >
+          <PostMessage post={post} />
+          <PostImage post={post} />
+          <PostFooter post={post} />
+        </View>
       </View>
-      <PostFooter post={post} />
     </View>
   );
 };
@@ -54,7 +56,12 @@ const PostHeader = ({ post }) => {
           <Text style={styles.username}>{post?.owner?.username}</Text>
         </View>
       </View>
-      <Entypo name="dots-three-horizontal" size={24} color="rgba(255,255,255,0.6)"  style={{paddingHorizontal:5}}/>
+      <Entypo
+        name="dots-three-horizontal"
+        size={24}
+        color="rgba(255,255,255,0.6)"
+        style={{ paddingHorizontal: 5 }}
+      />
     </View>
   );
 };
@@ -76,7 +83,7 @@ const PostImage = ({ post }) => (
   <View
     style={{
       flex: 1,
-      paddingTop:5
+      paddingTop: 10,
     }}
   >
     {post?.images?.map((item, i) => {
@@ -98,14 +105,16 @@ const PostImage = ({ post }) => (
 );
 
 const PostFooter = ({ post }) => {
-  const [liked, setLiked] = useState(post?.isLiked===undefined?false:post?.isLiked);
+  const [likeCount, setLikeCount] = useState(post.likesCount);
+  const [liked, setLiked] = useState(
+    post?.isLiked === undefined ? false : post?.isLiked
+  );
   const dispatch = useDispatch();
   async function handleLike() {
     setLiked(!liked);
-    setLikeC;
+    setLikeCount(liked ? likeCount - 1 : likeCount +1);
     dispatch(likePost({ postId: post._id }));
   }
-  const [likeC, setLikeC] = useState(post.likesCount);
 
   return (
     <View style={styles.footer}>
@@ -114,7 +123,7 @@ const PostFooter = ({ post }) => {
       <Icons count={post.commentsCount} iconname="message1" />
       <Pressable onPress={handleLike}>
         <Icons
-          count={likeC}
+          count={likeCount}
           iconname={`${liked ? "heart" : "hearto"}`}
           isLiked={liked}
         />
@@ -136,10 +145,10 @@ const Icons = ({ iconname, count, isLiked }) => {
     >
       <AntDesign
         name={iconname}
-        size={17}
-        color={`${!isLiked ? "rgba(255,255,255,0.6)" : "red"}`}
+        size={16}
+        color={`${!isLiked ? "rgba(255,255,255,0.5)" : "red"}`}
       />
-      <Text style={{ color: "rgba(255,255,255,0.6)", fontSize: 12 }}>
+      <Text style={{ color: "rgba(255,255,255,0.5)", fontSize: 10 }}>
         {count}
       </Text>
     </View>
@@ -157,9 +166,8 @@ const styles = StyleSheet.create({
   },
   name: {
     color: "white",
-    fontWeight: "700",
+    fontWeight: "600",
     fontSize: 16,
-
   },
   username: {
     color: "#a3a3a3",
@@ -173,8 +181,8 @@ const styles = StyleSheet.create({
   footer: {
     flexDirection: "row",
     marginHorizontal: 10,
-    marginBottom: 12,
-    marginTop: 20,
+    marginBottom: 10,
+    marginTop: 10,
 
     justifyContent: "space-around",
     gap: 10,
