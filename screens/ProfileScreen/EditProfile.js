@@ -90,7 +90,7 @@ const EditProfile = ({ navigation, route }) => {
             style={{ position: "relative", flex: 1 }}
           >
             <Image
-              source={image != "" ? { uri: image } : defaultImg}
+              source={{ uri: image }}
               style={{
                 width: 100,
                 height: 100,

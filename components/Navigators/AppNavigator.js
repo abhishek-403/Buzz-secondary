@@ -18,6 +18,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import EditProfile from "../../screens/ProfileScreen/EditProfile";
 import HomeScreenLoading from "../../screens/LoadingScreens/HomeScreenLoading";
+import UserProfileScreen from "../../screens/UserProfileScreen/UserProfileScreen";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -82,7 +83,7 @@ export const LoggedInNav = () => {
 
           tabBarStyle: {
             backgroundColor: "rgba(0,0,0,1)",
-            borderColor: "rgba(0,0,0,.5)",
+            borderTopColor: "rgba(255,255,255,.1)",
             height: 50,
           },
 
@@ -111,14 +112,14 @@ export const LoggedInNav = () => {
               default:
                 break;
             }
-            return <Ionicons name={iconName} color={"white"} size={28} />;
+            return <Ionicons name={iconName} color={"white"} size={24} />;
           },
         })}
       >
         <Tab.Screen name="Home" component={HomeScreen} />
         {/* <Tab.Screen name="Home" component={HomeScreenLoading} /> */}
         {/* <Tab.Screen name="EditProfile" component={EditProfile} /> */}
-        <Tab.Screen name="Search" component={SearchScreen} />
+        <Tab.Screen name="Search" component={SearchScreenStack} />
         <Tab.Screen name="Create" component={CreatePostScreen} />
         <Tab.Screen name="Profile" component={ProfileScreenStack} />
       </Tab.Navigator>
@@ -131,6 +132,14 @@ const ProfileScreenStack = () => {
     <Stack.Navigator screenOptions={{headerShown:false}} >
       <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
       <Stack.Screen name="EditProfile" component={EditProfile} />
+    </Stack.Navigator>
+  );
+};
+const SearchScreenStack = () => {
+  return (
+    <Stack.Navigator screenOptions={{headerShown:false}} >
+      <Stack.Screen name="SearchScreen" component={SearchScreen} />
+      <Stack.Screen name="UserProfileScreen" component={UserProfileScreen} />
     </Stack.Navigator>
   );
 };

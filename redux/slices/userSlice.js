@@ -5,8 +5,25 @@ export const getMyposts = createAsyncThunk(
   "user/posts/",
   async (_, thunkAPI) => {
     try {
-      thunkAPI.dispatch(setLoader(true));
+      // thunkAPI.dispatch(setLoader(true));
       const response = await axiosClient.get("user/getmyposts");
+      console.log("getpost");
+      return response.result;
+    } catch (e) {
+      console.log(e);
+      return Promise.reject(e);
+    } finally {
+      // thunkAPI.dispatch(setLoader(false));
+    }
+  }
+);
+
+export const getUsersposts = createAsyncThunk(
+  "otheruser/posts/",
+  async (body, thunkAPI) => {
+    try {
+      thunkAPI.dispatch(setLoader(true));
+      const response = await axiosClient.post("user/getUsersPosts", body);
       console.log("getpost");
       return response.result;
     } catch (e) {
@@ -22,6 +39,7 @@ const userSlice = createSlice({
   name: "userSlice",
   initialState: {
     myPosts: [],
+    usersPosts: [],
     isLoading: false,
   },
   reducers: {
@@ -33,6 +51,9 @@ const userSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(getMyposts.fulfilled, (state, action) => {
       state.myPosts = action.payload.posts.reverse();
+    });
+    builder.addCase(getUsersposts.fulfilled, (state, action) => {
+      state.usersPosts = action.payload.posts.reverse();
     });
   },
 });

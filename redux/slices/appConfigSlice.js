@@ -14,18 +14,16 @@ export const getmyProfile = createAsyncThunk(
     }
   }
 );
-
 export const getFeedData = createAsyncThunk(
   "/user/getmyfeed",
 
-  async (_, thunkAPI) => {
+  async (body, thunkAPI) => {
     try {
-      const { feedData } = thunkAPI.getState();
-      if (feedData?.length == 0) {
         thunkAPI.dispatch(setLoader(true));
-      }
 
-      const response = await axiosClient.get("/user/getmyfeed");
+      const response = await axiosClient.post("/user/getmyfeed", body);
+
+
       console.log("myfeed");
 
       return response.result.newData;
@@ -63,7 +61,7 @@ const appConfigSlice = createSlice({
         state.myProfile = action.payload.user;
       })
       .addCase(getFeedData.fulfilled, (state, action) => {
-        state.feedData = action.payload.reverse();
+        state.feedData = [...state.feedData, ...action.payload];
       });
   },
 });

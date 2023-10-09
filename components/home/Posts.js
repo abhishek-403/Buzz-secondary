@@ -8,7 +8,6 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import { Divider } from "react-native-elements";
-import profileicondef from "../../assets/profileicondefault.png";
 import { Entypo, AntDesign } from "@expo/vector-icons";
 import { useDispatch } from "react-redux";
 import { likePost } from "../../redux/slices/postSlice";
@@ -50,7 +49,7 @@ const PostHeader = ({ post }) => {
       }}
     >
       <View style={{ flexDirection: "row", alignItems: "center" }}>
-        <Image source={profileicondef} style={styles.story} />
+        <Image source={{uri:post?.owner?.avatar}} style={styles.story} />
         <View style={{ marginHorizontal: 5 }}>
           <Text style={styles.name}>{post?.owner?.name}</Text>
           <Text style={styles.username}>{post?.owner?.username}</Text>
@@ -69,9 +68,7 @@ const PostHeader = ({ post }) => {
 const PostMessage = ({ post }) => (
   <View
     style={{
-      paddingHorizontal: 15,
-      paddingTop: 5,
-      paddingBottom: 10,
+      padding:10,
       display: `${post?.message === "" ? "none" : "flex"}`,
     }}
   >
@@ -145,10 +142,10 @@ const Icons = ({ iconname, count, isLiked }) => {
     >
       <AntDesign
         name={iconname}
-        size={16}
+        size={14}
         color={`${!isLiked ? "rgba(255,255,255,0.5)" : "red"}`}
       />
-      <Text style={{ color: "rgba(255,255,255,0.5)", fontSize: 10 }}>
+      <Text style={{ color: "rgba(255,255,255,0.5)", fontSize:10 }}>
         {count}
       </Text>
     </View>
@@ -167,7 +164,7 @@ const styles = StyleSheet.create({
   name: {
     color: "white",
     fontWeight: "600",
-    fontSize: 16,
+    fontSize: 15,
   },
   username: {
     color: "#a3a3a3",

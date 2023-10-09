@@ -122,7 +122,7 @@ const ProfileCard = ({ data }) => {
         }}
       >
         <Image
-          source={data?.avatar != "" ? { uri: data?.avatar } : defaultImg}
+          source={{ uri: data?.avatar }}
           style={{
             width: 75,
             aspectRatio: 1,
