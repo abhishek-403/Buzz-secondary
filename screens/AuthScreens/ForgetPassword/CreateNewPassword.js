@@ -1,24 +1,24 @@
 import {
   ActivityIndicator,
   Pressable,
-  StyleSheet,
   Text,
   TextInput,
-  TouchableOpacity,
   View,
 } from "react-native";
 import React from "react";
 import { useState } from "react";
-import { MaterialIcons } from "@expo/vector-icons";
-import {
-  containerFull,
-  formHead2,
-  formInput,
-  formbtn,
-  goback,
-} from "./CommonCss";
+
 import { axiosClient } from "../../../utils/axiosSetup";
-import { useSelector } from "react-redux";
+import {
+  container,
+  headCont,
+  inputCont,
+  inputText,
+  secHead,
+  submitBtn,
+  submitBtnCont,
+} from "../AuthCss";
+import Logo from "../../../components/Logo";
 const CreateNewPassword = ({ route }) => {
   const { email } = route.params;
   const [password, setpassword] = useState("");
@@ -44,6 +44,7 @@ const CreateNewPassword = ({ route }) => {
 
       console.log({ email, password });
       alert("Password changed successfully!");
+      navigation.navigate("AuthStack");
     } catch (e) {
       console.log(e);
     } finally {
@@ -52,45 +53,33 @@ const CreateNewPassword = ({ route }) => {
   }
 
   return (
-    <View style={containerFull}>
-      {/* <Image source={logo} style={logo1} /> */}
-
-      <View style={{ gap: 10, width: "100%", alignItems: "center" }}>
-        <Text style={formHead2}>Choose a strong password</Text>
+    <View style={container}>
+      <View style={headCont}>
+        <Logo />
+        <Text style={secHead}>Choose a strong password</Text>
+      </View>
+      <View style={inputCont}>
         <TextInput
           placeholder="Enter password"
-          style={formInput}
-          secureTextEntry
+          style={inputText}
           autoFocus
           onChangeText={(text) => setpassword(text)}
         />
         <TextInput
           placeholder="Confirm password"
-          style={formInput}
-          secureTextEntry
+          style={inputText}
           onChangeText={(text) => setconfirmpassword(text)}
         />
-
-        <Pressable onPress={handleSubmit} style={formbtn}>
-          {loading ? (
-            <ActivityIndicator size="large" />
-          ) : (
-            <Text
-              style={{
-                color: "white",
-                fontSize: 20,
-                padding: 10,
-              }}
-            >
-              Next
-            </Text>
-          )}
-        </Pressable>
       </View>
+      <Pressable onPress={handleSubmit} style={submitBtnCont}>
+        {loading ? (
+          <ActivityIndicator size="large" />
+        ) : (
+          <Text style={submitBtn}>Next</Text>
+        )}
+      </Pressable>
     </View>
   );
 };
 
 export default CreateNewPassword;
-
-const styles = StyleSheet.create({});

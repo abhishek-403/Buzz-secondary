@@ -3,7 +3,7 @@ import React from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Divider } from "react-native-elements";
-import AddScreen from "../components/CreatePost/AddScreen";
+import AddScreen from "../../components/CreatePost/AddScreen";
 
 const CreatePostScreen = () => {
   return (

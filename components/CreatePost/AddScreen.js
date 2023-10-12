@@ -191,7 +191,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
   },
   textArea: {
-    borderColor: "rgba(255,255,255,0.1)",
+    borderColor: "rgba(255,255,255,0.4)",
     borderWidth: 1,
     padding: 12,
     color: "white",

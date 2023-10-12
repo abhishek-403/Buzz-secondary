@@ -1,25 +1,25 @@
 import {
   ActivityIndicator,
   Pressable,
-  StyleSheet,
   Text,
   TextInput,
-  TouchableOpacity,
   View,
 } from "react-native";
 import React from "react";
 import { useState } from "react";
-import { MaterialIcons } from "@expo/vector-icons";
-import {
-  containerFull,
-  formHead2,
-  formInput,
-  formbtn,
-  goback,
-} from "./CommonCss";
+
 import { axiosClient } from "../../../utils/axiosSetup";
-import { useSelector } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {
+  container,
+  headCont,
+  inputCont,
+  inputText,
+  secHead,
+  submitBtn,
+  submitBtnCont,
+} from "../AuthCss";
+import Logo from "../../../components/Logo";
 const SetPassword = ({ navigation, route }) => {
   const { email, username, name } = route.params;
   const [password, setpassword] = useState("");
@@ -48,10 +48,9 @@ const SetPassword = ({ navigation, route }) => {
       });
 
       await AsyncStorage.setItem("accessToken", user.result.accessToken);
-      // await AsyncStorage.setItem(KEY_ACCESS_TOKEN,user.result.accessToken)
 
       alert("Profile created");
-      navigation.navigate("LoggedIn");
+      navigation.navigate("AppStack");
     } catch (e) {
       console.log(e);
     } finally {
@@ -60,45 +59,33 @@ const SetPassword = ({ navigation, route }) => {
   }
 
   return (
-    <View style={containerFull}>
-      {/* <Image source={logo} style={logo1} /> */}
-
-      <View style={{ gap: 10, width: "100%", alignItems: "center" }}>
-        <Text style={formHead2}>Choose a strong password</Text>
+    <View style={container}>
+      <View style={headCont}>
+        <Logo />
+        <Text style={secHead}>Choose a strong password</Text>
+      </View>
+      <View style={inputCont}>
         <TextInput
           placeholder="Enter password"
-          style={formInput}
+          style={inputText}
           secureTextEntry
           autoFocus
           onChangeText={(text) => setpassword(text)}
         />
         <TextInput
           placeholder="Confirm password"
-          style={formInput}
+          style={inputText}
           secureTextEntry
           onChangeText={(text) => setconfirmpassword(text)}
         />
-
-        {/* {loading ? (
-            <ActivityIndicator size="large" />
-          ) : (
-          )} */}
-        <Pressable onPress={handleSubmit} style={formbtn}>
-          {loading ? (
-            <ActivityIndicator size="large" />
-          ) : (
-            <Text
-              style={{
-                color: "white",
-                fontSize: 20,
-                padding: 10,
-              }}
-            >
-              Submit
-            </Text>
-          )}
-        </Pressable>
       </View>
+      <Pressable onPress={handleSubmit} style={submitBtnCont}>
+        {loading ? (
+          <ActivityIndicator size="large" />
+        ) : (
+          <Text style={submitBtn}>Submit</Text>
+        )}
+      </Pressable>
     </View>
   );
 };

@@ -1,4 +1,4 @@
-import { ActivityIndicator, Text, TextInput,  View } from "react-native";
+import { ActivityIndicator, Pressable, Text, TextInput, View } from "react-native";
 import React from "react";
 import { useState } from "react";
 import {
@@ -7,7 +7,9 @@ import {
   formInput,
   formbtn,
   goback,
-} from "./CommonCss";
+} from "./ForgetPassCss";
+import { container, headCont, inputCont, inputText, primHead, secHead, submitBtn, submitBtnCont } from "../AuthCss";
+import Logo from "../../../components/Logo";
 const VerifyCode = ({ navigation, route }) => {
   const { email, veriCode } = route.params;
   const [verificationCode, setVerificationCode] = useState("");
@@ -28,33 +30,28 @@ const VerifyCode = ({ navigation, route }) => {
     }
   }
   return (
-    <View style={containerFull}>
-      {/* <Image source={logo} style={logo1} /> */}
-
-      <View style={{ gap: 30, width: "100%", alignItems: "center" }}>
-        <Text style={formHead2}>
+    <View style={container}>
+      <View style={headCont}>
+        <Logo />
+        <Text style={secHead}>
           A verification code has been sent to your email
         </Text>
+      </View>
+      <View style={inputCont}>
         <TextInput
           placeholder="Enter 6-Digit Code here"
-          style={formInput}
+          style={inputText}
           onChangeText={(text) => setVerificationCode(text)}
         />
-
-        <Pressable onPress={handleSubmit} style={formbtn}>
-      
-          <Text
-            style={{
-              color: "white",
-              fontSize: 20,
-              padding: 10,
-            }}
-          >
-            Submit
-          </Text>
-        
-        </Pressable>
       </View>
+
+      <Pressable onPress={handleSubmit} style={submitBtnCont}>
+        <Text
+          style={submitBtn}
+        >
+          Submit
+        </Text>
+      </Pressable>
     </View>
   );
 };

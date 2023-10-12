@@ -8,17 +8,11 @@ import {
   View,
 } from "react-native";
 import React from "react";
-import {
-  containerFull,
-  formInput,
-  formbtn,
-  goback,
-  formHead2,
-} from "./CommonCss";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useState } from "react";
 import { axiosClient } from "../../../utils/axiosSetup";
-import { useSelector } from "react-redux";
+import { container, goback, gobackText, headCont, inputCont, inputText, primHead, secHead, submitBtn, submitBtnCont } from "../AuthCss";
+import Logo from "../../../components/Logo";
 
 const SetUserName = ({ navigation, route }) => {
   const { email } = route.params;
@@ -46,99 +40,47 @@ const SetUserName = ({ navigation, route }) => {
     }
   }
   return (
-    <View style={containerFull}>
+    <View style={container}>
       <TouchableOpacity
         onPress={() => navigation.navigate("Signup")}
         style={goback}
       >
-        <MaterialIcons name="arrow-back-ios" size={24} color="gray" />
-        <Text
-          style={{
-            color: "gray",
-            fontSize: 16,
-          }}
-        >
-          Go Back
-        </Text>
+        <MaterialIcons name="arrow-back-ios" size={20} color="gray" />
+        <Text style={gobackText}>Go Back</Text>
       </TouchableOpacity>
 
-      {/* <Image source={logo} style={logo1} /> */}
-      <View style={{ gap: 30, width: "100%", alignItems: "center" }}>
-        <Text style={formHead2}>Choose a name and Username</Text>
+      <View style={headCont}>
+        <Logo/>
+        
+        <Text style={secHead}>Choose a name and Username</Text>
+      </View>
+      <View style={inputCont}>
         <TextInput
           placeholder="Enter a username"
-          style={formInput}
+          style={inputText}
           onChangeText={(text) => setUsername(text)}
         />
         <TextInput
           placeholder="Enter a name"
-          style={formInput}
+          style={inputText}
           onChangeText={(text) => setName(text)}
         />
-
-        {/* {loading ? (
-        <ActivityIndicator size="large" />
-        ) : (
-        )} */}
-        <Pressable onPress={handleSubmit} style={formbtn}>
-          {loading ? (
-            <ActivityIndicator size="large" />
-          ) : (
-            <Text
-              style={{
-                color: "white",
-                fontSize: 20,
-                padding: 10,
-              }}
-            >
-              Next
-            </Text>
-          )}
-        </Pressable>
       </View>
+     
+      <Pressable onPress={handleSubmit} style={submitBtnCont}>
+        {loading ? (
+          <ActivityIndicator size="large" />
+        ) : (
+          <Text
+            style={submitBtn}
+          >
+            Next
+          </Text>
+        )}
+      </Pressable>
     </View>
   );
 };
 
 export default SetUserName;
 
-const styles = StyleSheet.create({
-  containerFull: {
-    width: "100%",
-    height: "100%",
-    backgroundColor: "black",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  goback: {
-    flexDirection: "row",
-    position: "absolute",
-    top: 50,
-    left: 20,
-    alignItems: "center",
-  },
-  formHead2: {
-    fontSize: 20,
-    color: "white",
-    textAlign: "center",
-    // fontWeight: 'bold',
-    // backgroundColor: 'white',
-  },
-  formInput: {
-    backgroundColor: "rgba(255,255,255,1)",
-    width: "80%",
-    padding: 15,
-    fontSize: 20,
-    borderRadius: 20,
-  },
-  formbtn: {
-    backgroundColor: "black",
-    borderColor: "white",
-    paddingVertical: 10,
-    borderRadius: 15,
-    borderWidth: 1.5,
-    borderColor: "white",
-    width: "80%",
-    alignItems: "center",
-  },
-});

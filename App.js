@@ -22,13 +22,7 @@ export default App = ({ navigation }) => {
       <ThemeProvider theme={{ dark: false }}>
         <Provider store={store}>
           <NavigationContainer>
-            {/* <Stack.Navigator
-              screenOptions={{ headerShown: false, animationEnabled: true }}
-            >
-              <Stack.Screen name="NotLoggedIn" component={AuthNav} />
-
-              <Stack.Screen name="LoggedIn" component={LoggedInNav} />
-            </Stack.Navigator> */}
+            
 
             <AppNavigator />
           </NavigationContainer>

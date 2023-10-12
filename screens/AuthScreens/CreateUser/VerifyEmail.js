@@ -11,13 +11,18 @@ import React from "react";
 import { useState } from "react";
 import { MaterialIcons } from "@expo/vector-icons";
 import {
-  containerFull,
-  formHead2,
-  formInput,
-  formbtn,
+  container,
   goback,
-} from "./CommonCss";
-import { useSelector } from "react-redux";
+  gobackText,
+  headCont,
+  inputCont,
+  inputText,
+  primHead,
+  secHead,
+  submitBtn,
+  submitBtnCont,
+} from "../AuthCss";
+import Logo from "../../../components/Logo";
 
 const VerifyEmail = ({ navigation, route }) => {
   const { email, veriCode } = route.params;
@@ -39,46 +44,36 @@ const VerifyEmail = ({ navigation, route }) => {
     }
   }
   return (
-    <View style={containerFull}>
+    <View style={container}>
       <TouchableOpacity
         onPress={() => navigation.navigate("Signup")}
         style={goback}
       >
-        <MaterialIcons name="arrow-back-ios" size={24} color="gray" />
-        <Text
-          style={{
-            color: "gray",
-            fontSize: 16,
-          }}
-        >
-          Go Back
-        </Text>
+        <MaterialIcons name="arrow-back-ios" size={20} color="gray" />
+        <Text style={gobackText}>Go Back</Text>
       </TouchableOpacity>
 
-      {/* <Image source={logo} style={logo1} /> */}
-
-      <View style={{ gap: 30, width: "100%", alignItems: "center" }}>
-        <Text style={formHead2}>
+      <View style={headCont}>
+        <Logo/>
+        <Text style={secHead}>
           A verification code has been sent to your email
         </Text>
+      </View>
+      <View style={inputCont}>
         <TextInput
           placeholder="Enter 6-Digit Code here"
-          style={formInput}
+          style={inputText}
           onChangeText={(text) => setVerificationCode(text)}
+          
         />
-
-        <Pressable onPress={handleSubmit} style={formbtn}>
-          <Text
-            style={{
-              color: "white",
-              fontSize: 20,
-              padding: 10,
-            }}
-          >
-            Submit
-          </Text>
-        </Pressable>
       </View>
+      <Pressable onPress={handleSubmit} style={submitBtnCont}>
+        <Text
+          style={submitBtn}
+        >
+          Submit
+        </Text>
+      </Pressable>
     </View>
   );
 };

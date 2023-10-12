@@ -1,7 +1,6 @@
 import {
   ActivityIndicator,
   Pressable,
-  StyleSheet,
   Text,
   TextInput,
   View,
@@ -9,7 +8,8 @@ import {
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { axiosClient } from "../../../utils/axiosSetup";
-import { useSelector } from "react-redux";
+import { container, headCont, inputCont, inputText,  primHead, signupLoginBtn, submitBtn, submitBtnCont } from "../AuthCss";
+import Logo from "../../../components/Logo";
 
 const SignupScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
@@ -46,16 +46,16 @@ const SignupScreen = ({ navigation }) => {
     }
   }
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.head}>
-        <Text style={{ color: "white", fontSize: 38 }}>BuZZ</Text>
-        <Text style={{ color: "white", fontSize: 34, fontWeight: 700 }}>
+    <SafeAreaView style={container}>
+      <View style={headCont}>
+      <Logo/>
+        <Text style={primHead}>
           Signup
         </Text>
       </View>
 
       <View
-        style={{ alignItems: "center", gap: 10, paddingTop: 40, width: "100%" }}
+        style={inputCont}
       >
         <TextInput
           placeholder="Enter Email"
@@ -63,20 +63,16 @@ const SignupScreen = ({ navigation }) => {
           onChangeText={(text) => setEmail(text)}
           value={email}
           autoFocus
-          style={[styles.input, styles.email]}
+          style={inputText}
         ></TextInput>
       </View>
 
-      <Pressable onPress={handleSubmit} style={styles.btn}>
+      <Pressable onPress={handleSubmit} style={submitBtnCont}>
         {loading ? (
           <ActivityIndicator size="large" />
         ) : (
           <Text
-            style={{
-              color: "white",
-              fontSize: 20,
-              padding: 10,
-            }}
+            style={submitBtn}
           >
             Submit
           </Text>
@@ -91,16 +87,12 @@ const SignupScreen = ({ navigation }) => {
         }}
       />
       <View style={{ flexDirection: "row", gap: 3 }}>
-        <Text style={{ color: "rgba(255,255,255,.4)", fontSize: 16 }}>
+        <Text style={{ color: "rgba(255,255,255,.4)", fontSize: 13 }}>
           Already have an account?{" "}
         </Text>
         <Text
           onPress={() => navigation.navigate("Login")}
-          style={{
-            color: "white",
-            fontSize: 16,
-            textDecorationLine: "underline",
-          }}
+          style={signupLoginBtn}
         >
           Login
         </Text>
@@ -111,33 +103,3 @@ const SignupScreen = ({ navigation }) => {
 
 export default SignupScreen;
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: "rgba(0,0,0,.9)",
-    paddingHorizontal: 5,
-    alignItems: "center",
-    justifyContent: "center",
-    width: "100%",
-    height: "100%",
-    gap: 30,
-  },
-  head: { alignItems: "center", gap: 10 },
-
-  input: {
-    backgroundColor: "rgba(255,255,255,1)",
-    width: "80%",
-    padding: 15,
-    fontSize: 20,
-    borderRadius: 20,
-  },
-  btn: {
-    backgroundColor: "black",
-    borderColor: "white",
-    paddingVertical: 10,
-    borderRadius: 15,
-    borderWidth: 1.5,
-    borderColor: "white",
-    width: "80%",
-    alignItems: "center",
-  },
-});

@@ -5,6 +5,7 @@ import {
   ScrollView,
   Text,
   TextInput,
+  TouchableOpacity,
   View,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
@@ -15,6 +16,7 @@ import {
   head1,
   headCont,
   inputBox,
+  inputBoxHead,
   profileImgCont,
   profileInfoCont,
   subHead,
@@ -24,6 +26,7 @@ import defaultImg from "../../assets/profileicondefault.png";
 import { Ionicons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import { axiosClient } from "../../utils/axiosSetup";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const EditProfile = ({ navigation, route }) => {
   const { name, username, bio, avatar } = route.params;
@@ -80,6 +83,13 @@ const EditProfile = ({ navigation, route }) => {
     }
   }
 
+  async function handleLogout() {
+    AsyncStorage.removeItem("accessToken").then(async () => {
+      console.log("log",await AsyncStorage.getItem("accessToken"));
+      navigation.navigate("AuthStack", { screen: "Login"});
+    });
+  }
+
   return (
     <SafeAreaView style={container}>
       <Head />
@@ -110,9 +120,7 @@ const EditProfile = ({ navigation, route }) => {
         </View>
         <View style={profileInfoCont}>
           <View>
-            <Text style={{ fontSize: 16, color: "rgba(255,255,255,.4)" }}>
-              Name
-            </Text>
+            <Text style={inputBoxHead}>Name</Text>
             <TextInput
               style={inputBox}
               onChangeText={(e) => setName(e)}
@@ -120,9 +128,7 @@ const EditProfile = ({ navigation, route }) => {
             />
           </View>
           <View>
-            <Text style={{ fontSize: 16, color: "rgba(255,255,255,.4)" }}>
-              Username
-            </Text>
+            <Text style={inputBoxHead}>Username</Text>
             <TextInput
               style={inputBox}
               onChangeText={(e) => setUsername(e)}
@@ -130,9 +136,7 @@ const EditProfile = ({ navigation, route }) => {
             />
           </View>
           <View>
-            <Text style={{ fontSize: 16, color: "rgba(255,255,255,.4)" }}>
-              Bio
-            </Text>
+            <Text style={inputBoxHead}>Bio</Text>
             <TextInput
               style={inputBox}
               onChangeText={(e) => setBio(e)}
@@ -169,6 +173,23 @@ const EditProfile = ({ navigation, route }) => {
             </Text>
           )}
         </Pressable>
+        <TouchableOpacity onPress={handleLogout}
+          style={{
+            flexDirection: "row",
+            justifyContent: "flex-end",
+            paddingHorizontal:10
+          }}>
+          <Text style={{
+                fontSize: 18,
+                color: "black",
+                paddingHorizontal: 15,
+                paddingVertical: 5,
+                backgroundColor: "red",
+                borderRadius: 20,
+
+                fontWeight: 700,
+              }}>Logout</Text>
+        </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>
   );

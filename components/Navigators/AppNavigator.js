@@ -5,34 +5,34 @@ import EnterEmail from "../../screens/AuthScreens/ForgetPassword/EnterEmail";
 import SignupScreen from "../../screens/AuthScreens/CreateUser/SignupScreen";
 import VerifyEmail from "../../screens/AuthScreens/CreateUser/VerifyEmail";
 import SetUserName from "../../screens/AuthScreens/CreateUser/SetUserName";
-import LoginScreen from "../../screens/AuthScreens/LoginScreen";
+import LoginScreen from "../../screens/AuthScreens/LoginScreen/LoginScreen";
 import SetPassword from "../../screens/AuthScreens/CreateUser/SetPassword";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import HomeScreen from "../../screens/HomeScreen";
+import HomeScreen from "../../screens/HomeScreen/HomeScreen";
 import SearchScreen from "../../screens/SearchScreen/SearchScreen";
-import CreatePostScreen from "../../screens/CreatePostScreen";
+import CreatePostScreen from "../../screens/CreatePostScreen/CreatePostScreen";
 import ProfileScreen from "../../screens/ProfileScreen/ProfileScreen";
 import { Ionicons } from "@expo/vector-icons";
-import { useEffect } from "react";
+import { useEffect, useLayoutEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import EditProfile from "../../screens/ProfileScreen/EditProfile";
-import HomeScreenLoading from "../../screens/LoadingScreens/HomeScreenLoading";
 import UserProfileScreen from "../../screens/UserProfileScreen/UserProfileScreen";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
+
 export default function AppNavigator() {
   const navigation = useNavigation();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     AsyncStorage.getItem("accessToken")
       .then((accessToken) => {
         console.log("app", accessToken);
         if (accessToken) {
-          navigation.navigate("LoggedIn");
+          navigation.navigate("AppStack");
         } else {
-          navigation.navigate("NotLoggedIn");
+          navigation.navigate("AuthStack");
         }
       })
       .catch((error) => console.error(error));
@@ -43,16 +43,16 @@ export default function AppNavigator() {
       screenOptions={{
         tabBarStyle: { display: "none" },
         headerShown: false,
-        animationEnabled: true,
+    
       }}
     >
-      <Tab.Screen name="LoggedIn" component={LoggedInNav} />
-      <Tab.Screen name="NotLoggedIn" component={AuthNav} />
+      <Tab.Screen name="AppStack" component={AppStack} />
+      <Tab.Screen name="AuthStack" component={AuthStack} />
     </Tab.Navigator>
   );
 }
 
-export const AuthNav = () => {
+export const AuthStack = () => {
   return (
     <Stack.Navigator
       screenOptions={{
@@ -72,7 +72,7 @@ export const AuthNav = () => {
   );
 };
 
-export const LoggedInNav = () => {
+export const AppStack = () => {
   return (
     <>
       <Tab.Navigator
@@ -129,7 +129,7 @@ export const LoggedInNav = () => {
 
 const ProfileScreenStack = () => {
   return (
-    <Stack.Navigator screenOptions={{headerShown:false}} >
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
       <Stack.Screen name="EditProfile" component={EditProfile} />
     </Stack.Navigator>
@@ -137,9 +137,16 @@ const ProfileScreenStack = () => {
 };
 const SearchScreenStack = () => {
   return (
-    <Stack.Navigator screenOptions={{headerShown:false}} >
-      <Stack.Screen name="SearchScreen" component={SearchScreen} />
-      <Stack.Screen name="UserProfileScreen" component={UserProfileScreen} />
-    </Stack.Navigator>
+    <Tab.Navigator
+      screenOptions={{
+        tabBarStyle: {
+          display: "none",
+        },
+        headerShown: false,
+      }}
+    >
+      <Tab.Screen name="SearchScreen" component={SearchScreen} />
+      <Tab.Screen name="UserProfileScreen" component={UserProfileScreen} />
+    </Tab.Navigator>
   );
 };

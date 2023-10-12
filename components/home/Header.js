@@ -1,17 +1,16 @@
-import { View, Text, Image, StyleSheet, SafeAreaViewBase } from "react-native";
+import { View, Image, StyleSheet} from "react-native";
 import React from "react";
 import { TouchableOpacity } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { AntDesign } from "@expo/vector-icons";
 
 const Header = () => {
   return (
-    <SafeAreaView style={styles.header}>
+    <View style={styles.header}>
       <View>
         <TouchableOpacity>
           <Image
             style={styles.logo}
-            source={require("../../assets/CKDlogo.png")}
+            source={require("../../assets/finallogo.png")}
           />
         </TouchableOpacity>
       </View>
@@ -27,7 +26,7 @@ const Header = () => {
           
         </TouchableOpacity>
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 
@@ -36,12 +35,14 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     flexDirection: "row",
-    paddingHorizontal: 10,
+    paddingHorizontal: 20,
+    paddingVertical: 10,
     backgroundColor:"rgba(0,0,0,1)"
   },
   logo: {
-    width: 180,
-    height:40,
+    width: 50,
+    height:50,
+    borderRadius:50,
     resizeMode: "contain",
   },
   iconsContainer: {

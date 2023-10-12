@@ -43,7 +43,7 @@ module.exports = {
     borderColor: "rgba(255,255,255,.3)",
   },
   nameCard: {
-    paddingVertical: 8,
+    paddingVertical: 10,
   },
   name: {
     fontSize: 20,
@@ -51,8 +51,8 @@ module.exports = {
     fontWeight: 700,
   },
   username: {
-    fontSize: 12,
-    color: "rgba(255,255,255,.6)",
+    fontSize: 13,
+    color: "rgba(255,255,255,.4)",
   },
 
   // AboutCard
@@ -60,6 +60,7 @@ module.exports = {
   bio: {
     color: "rgba(255,255,255,.9)",
     fontSize: 15,
+    
   },
   links: {
     color: "white",
@@ -74,7 +75,7 @@ module.exports = {
 
   // Followerscard
   followers: {
-    color: "rgba(255,255,255,.5)",
+    color: "rgba(255,255,255,.4)",
     fontSize: 14,
   },
 
@@ -85,14 +86,16 @@ module.exports = {
   },
   topHead: {
     flexDirection: "row",
+    marginTop:10,
+    
     justifyContent: "space-around",
   },
   eachHead: {
     color: "white",
     fontSize: 17,
     fontWeight: 700,
-    paddingHorizontal: 10,
-    paddingVertical: 8,
+    // paddingHorizontal: 10,
+    // paddingVertical: 8,
   },
 
   // Edit profile
@@ -109,11 +112,14 @@ module.exports = {
 
   },
   inputBox:{
-      fontSize: 19,
+      fontSize: 17,
       color: "rgba(255,255,255,1)",
       borderBottomColor: "rgba(255,255,255,.3)",
       borderBottomWidth: 1,
       paddingVertical:3
    
+  },
+  inputBoxHead:{
+    fontSize: 16, color: "rgba(255,255,255,.3)"
   }
 };

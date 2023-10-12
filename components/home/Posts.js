@@ -11,6 +11,7 @@ import { Divider } from "react-native-elements";
 import { Entypo, AntDesign } from "@expo/vector-icons";
 import { useDispatch } from "react-redux";
 import { likePost } from "../../redux/slices/postSlice";
+import { useNavigation } from "@react-navigation/native";
 
 const Posts = ({ post }) => {
   return (
@@ -38,8 +39,27 @@ const Posts = ({ post }) => {
 };
 
 const PostHeader = ({ post }) => {
+  const navigation = useNavigation();
+  const user = {
+    _id: post.owner._id,
+    avatar: post.owner.avatar,
+    email: post.owner.email,
+    name: post.owner.name,
+    username: post.owner.username,
+    postsCount: post.owner.postsCount,
+    followersCount: post.owner.followersCount,
+    followingsCount: post.owner.followingsCount,
+    bio:post.owner.bio
+  };
   return (
-    <View
+    <Pressable
+      onPress={() =>
+        navigation.navigate("Search", {
+          screen: "UserProfileScreen",
+          params: { user},
+          
+        })
+      }
       style={{
         flexDirection: "row",
         justifyContent: "space-between",
@@ -49,26 +69,26 @@ const PostHeader = ({ post }) => {
       }}
     >
       <View style={{ flexDirection: "row", alignItems: "center" }}>
-        <Image source={{uri:post?.owner?.avatar}} style={styles.story} />
+        <Image source={{ uri: post?.owner?.avatar }} style={styles.story} />
         <View style={{ marginHorizontal: 5 }}>
           <Text style={styles.name}>{post?.owner?.name}</Text>
           <Text style={styles.username}>{post?.owner?.username}</Text>
         </View>
       </View>
-      <Entypo
+      {/* <Entypo
         name="dots-three-horizontal"
         size={24}
         color="rgba(255,255,255,0.6)"
         style={{ paddingHorizontal: 5 }}
-      />
-    </View>
+      /> */}
+    </Pressable>
   );
 };
 
 const PostMessage = ({ post }) => (
   <View
     style={{
-      padding:10,
+      padding: 10,
       display: `${post?.message === "" ? "none" : "flex"}`,
     }}
   >
@@ -104,12 +124,12 @@ const PostImage = ({ post }) => (
 const PostFooter = ({ post }) => {
   const [likeCount, setLikeCount] = useState(post.likesCount);
   const [liked, setLiked] = useState(
-    post?.isLiked === undefined ? false : post?.isLiked
+    post?.isLiked == undefined ? false : post?.isLiked
   );
   const dispatch = useDispatch();
   async function handleLike() {
     setLiked(!liked);
-    setLikeCount(liked ? likeCount - 1 : likeCount +1);
+    setLikeCount(liked ? likeCount - 1 : likeCount + 1);
     dispatch(likePost({ postId: post._id }));
   }
 
@@ -142,10 +162,10 @@ const Icons = ({ iconname, count, isLiked }) => {
     >
       <AntDesign
         name={iconname}
-        size={14}
-        color={`${!isLiked ? "rgba(255,255,255,0.5)" : "red"}`}
+        size={15}
+        color={`${!isLiked ? "rgba(255,255,255,0.4)" : "red"}`}
       />
-      <Text style={{ color: "rgba(255,255,255,0.5)", fontSize:10 }}>
+      <Text style={{ color: "rgba(255,255,255,0.4)", fontSize: 10 }}>
         {count}
       </Text>
     </View>
@@ -167,7 +187,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
   username: {
-    color: "#a3a3a3",
+    color: "rgba(255,255,255,.4)",
     fontSize: 12,
   },
   message: {

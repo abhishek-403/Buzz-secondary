@@ -22,7 +22,6 @@ const SubHeader = () => {
         </Pressable>
         <View></View>
       </View>
-      <Divider width={0.1} color="rgba(255,255,255,.1)" />
     </View>
   );
 };
@@ -33,7 +32,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     backgroundColor: "rgba(0,0,0,.88)",
     paddingVertical: 8,
-    marginVertical: 1,
   },
   head: {
     paddingVertical: 4,

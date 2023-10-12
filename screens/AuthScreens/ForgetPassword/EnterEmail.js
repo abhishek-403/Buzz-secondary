@@ -1,7 +1,6 @@
 import {
   ActivityIndicator,
   Pressable,
-  StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
@@ -10,9 +9,20 @@ import {
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { axiosClient } from "../../../utils/axiosSetup";
-import { goback } from "./CommonCss";
 import { MaterialIcons } from "@expo/vector-icons";
-import { useSelector } from "react-redux";
+import {
+  container,
+  goback,
+  gobackText,
+  headCont,
+  inputCont,
+  inputText,
+  secHead,
+  signupLoginBtn,
+  submitBtn,
+  submitBtnCont,
+} from "../AuthCss";
+import Logo from "../../../components/Logo";
 
 const EnterEmail = ({ navigation, route }) => {
   const [email, setEmail] = useState("");
@@ -47,54 +57,35 @@ const EnterEmail = ({ navigation, route }) => {
     }
   }
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={container}>
       <TouchableOpacity
         onPress={() => navigation.navigate("Login")}
         style={goback}
       >
-        <MaterialIcons name="arrow-back-ios" size={24} color="gray" />
-        <Text
-          style={{
-            color: "gray",
-            fontSize: 18,
-          }}
-        >
-          Go Back
-        </Text>
+        <MaterialIcons name="arrow-back-ios" size={20} color="gray" />
+        <Text style={gobackText}>Go Back</Text>
       </TouchableOpacity>
-      <View style={styles.head}>
-        <Text style={{ color: "white", fontSize: 38 }}>BuZZ</Text>
-        <Text style={{ color: "white", fontSize: 34, fontWeight: 700 }}>
-          Verify Email
-        </Text>
+      <View style={headCont}>
+        <Logo />
+        <Text style={secHead}>Verify Email</Text>
       </View>
 
-      <View
-        style={{ alignItems: "center", gap: 10, paddingTop: 40, width: "100%" }}
-      >
+      <View style={inputCont}>
         <TextInput
           placeholder="Enter Email"
           placeholderTextColor={"rgba(0,0,0,.3)"}
           onChangeText={(text) => setEmail(text)}
           value={email}
           autoFocus
-          style={[styles.input, styles.email]}
+          style={inputText}
         ></TextInput>
       </View>
 
-      <Pressable onPress={handleSubmit} style={styles.btn}>
+      <Pressable onPress={handleSubmit} style={submitBtnCont}>
         {loading ? (
           <ActivityIndicator size="large" />
         ) : (
-          <Text
-            style={{
-              color: "white",
-              fontSize: 20,
-              padding: 10,
-            }}
-          >
-            Submit
-          </Text>
+          <Text style={submitBtn}>Submit</Text>
         )}
       </Pressable>
 
@@ -106,16 +97,12 @@ const EnterEmail = ({ navigation, route }) => {
         }}
       />
       <View style={{ flexDirection: "row", gap: 3 }}>
-        <Text style={{ color: "rgba(255,255,255,.4)", fontSize: 16 }}>
+        <Text style={{ color: "rgba(255,255,255,.4)", fontSize: 13 }}>
           Already have an account?{" "}
         </Text>
         <Text
           onPress={() => navigation.navigate("Login")}
-          style={{
-            color: "white",
-            fontSize: 16,
-            textDecorationLine: "underline",
-          }}
+          style={signupLoginBtn}
         >
           Login
         </Text>
@@ -125,34 +112,3 @@ const EnterEmail = ({ navigation, route }) => {
 };
 
 export default EnterEmail;
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: "rgba(0,0,0,.9)",
-    paddingHorizontal: 5,
-    alignItems: "center",
-    justifyContent: "center",
-    width: "100%",
-    height: "100%",
-    gap: 30,
-  },
-  head: { alignItems: "center", gap: 10 },
-
-  input: {
-    backgroundColor: "rgba(255,255,255,1)",
-    width: "80%",
-    padding: 15,
-    fontSize: 20,
-    borderRadius: 20,
-  },
-  btn: {
-    backgroundColor: "black",
-    borderColor: "white",
-    paddingVertical: 10,
-    borderRadius: 15,
-    borderWidth: 1.5,
-    borderColor: "white",
-    width: "80%",
-    alignItems: "center",
-  },
-});

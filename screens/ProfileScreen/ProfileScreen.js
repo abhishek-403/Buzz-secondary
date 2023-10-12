@@ -66,10 +66,13 @@ const ProfileScreen = () => {
 
   return (
     <SafeAreaView style={container}>
-      <Head data={data} />
+      {/* <Head data={data} /> */}
       <View
         style={{
           paddingHorizontal: 15,
+          paddingTop: 15,
+          paddingBottom: 5,
+
           backgroundColor: "rgba(0,0,0,1)",
         }}
       >
@@ -79,7 +82,7 @@ const ProfileScreen = () => {
         <OptionsBar data={data} setActiveTab={setActiveTab} />
       </View>
 
-      <Divider width={1} color="rgba(250,250,250,.2)" />
+      <Divider width={.5} color="rgba(250,250,250,.2)" />
       <View style={lowerCard}>
         <ScrollView>{displayCard()}</ScrollView>
       </View>
@@ -90,8 +93,10 @@ const ProfileScreen = () => {
 const Head = ({ data }) => {
   const navigation = useNavigation();
   async function handleLogout() {
-    await AsyncStorage.removeItem("accessstoken");
-    navigation.navigate("NotLoggedIn");
+    AsyncStorage.removeItem("accessstoken").then(async () => {
+      console.log("log",await AsyncStorage.getItem("accessstoken"));
+      navigation.navigate("AuthStack", { screen: "Login"});
+    });
   }
   return (
     <View style={headCont}>
@@ -175,7 +180,7 @@ const FollowerCard = ({ data }) => (
 );
 
 const OptionsBar = ({ setActiveTab, data }) => (
-  <ScrollView contentContainerStyle={topHead}>
+  <View style={topHead}>
     <Pressable onPress={() => setActiveTab("Posts")}>
       <Text style={eachHead}>Posts</Text>
     </Pressable>
@@ -184,7 +189,7 @@ const OptionsBar = ({ setActiveTab, data }) => (
     <Pressable onPress={() => setActiveTab("People")}>
       <Text style={eachHead}>People</Text>
     </Pressable>
-  </ScrollView>
+  </View>
 );
 const PostsCard = () => {
   const data = useSelector((s) => s.userReducer.myPosts);
