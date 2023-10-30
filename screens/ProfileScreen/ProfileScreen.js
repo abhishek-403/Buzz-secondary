@@ -1,4 +1,5 @@
 import {
+  FlatList,
   Image,
   Pressable,
   ScrollView,
@@ -82,9 +83,9 @@ const ProfileScreen = () => {
         <OptionsBar data={data} setActiveTab={setActiveTab} />
       </View>
 
-      <Divider width={.5} color="rgba(250,250,250,.2)" />
+      <Divider width={0.5} color="rgba(250,250,250,.2)" />
       <View style={lowerCard}>
-        <ScrollView>{displayCard()}</ScrollView>
+        <View>{displayCard()}</View>
       </View>
     </SafeAreaView>
   );
@@ -94,8 +95,8 @@ const Head = ({ data }) => {
   const navigation = useNavigation();
   async function handleLogout() {
     AsyncStorage.removeItem("accessstoken").then(async () => {
-      console.log("log",await AsyncStorage.getItem("accessstoken"));
-      navigation.navigate("AuthStack", { screen: "Login"});
+      console.log("log", await AsyncStorage.getItem("accessstoken"));
+      navigation.navigate("AuthStack", { screen: "Login" });
     });
   }
   return (
@@ -191,26 +192,46 @@ const OptionsBar = ({ setActiveTab, data }) => (
     </Pressable>
   </View>
 );
+
 const PostsCard = () => {
   const data = useSelector((s) => s.userReducer.myPosts);
   const dispatch = useDispatch();
   const isLoading = useSelector((s) => s.userReducer.isLoading);
 
-  useFocusEffect(
-    React.useCallback(() => {
-      dispatch(getMyposts());
-    }, [])
-  );
-  if (isLoading) {
-    return <HomeScreenLoading />;
-  }
+  // useFocusEffect(
+  //   React.useCallback(() => {
+  //     dispatch(getMyposts());
+  //   }, [])
+  // );
 
+  const ITEMS_PER_PAGE = 5;
+  const [page, setPage] = useState(1);
+
+  useEffect(() => {
+    dispatch(getMyposts({ page, pageSize: ITEMS_PER_PAGE }));
+  }, [page]);
+
+  const handleLoadMore = () => {
+    setPage(page + 1);
+  };
+
+  // if (isLoading) {
+  //   return <HomeScreenLoading />;
+  // }
   return (
-    <ScrollView>
-      {data?.map((item, i) => (
-        <Posts post={item} key={i} />
-      ))}
-    </ScrollView>
+    // <ScrollView>
+    //   {data?.map((item, i) => (
+    //     <Posts post={item} key={i} />
+    //   ))}
+    // </ScrollView>
+      <FlatList
+        data={data}
+        keyExtractor={(item) => item._id.toString()}
+        renderItem={({ item }) => <Posts post={item} />}
+        onEndReached={handleLoadMore}
+        onEndReachedThreshold={0.5}
+        ListFooterComponent={isLoading ? <HomeScreenLoading /> : null}
+      ></FlatList>
   );
 };
 

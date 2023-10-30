@@ -36,7 +36,7 @@ module.exports = {
       fontSize: 16,
       paddingHorizontal: 20,
       paddingVertical: 8,
-      backgroundColor: "black",
+      backgroundColor: "rgba(74, 174, 255, 0.8)",
       borderRadius: 50,
       color: "white",
       borderWidth: 1.5,

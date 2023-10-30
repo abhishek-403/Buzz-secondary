@@ -21,13 +21,11 @@ export const getFeedData = createAsyncThunk(
     try {
         thunkAPI.dispatch(setLoader(true));
 
-      const response = await axiosClient.post("/user/getmyfeed");
-      // const response = await axiosClient.post("/user/getmyfeed", body);
+      // const response = await axiosClient.post("/user/getmyfeed");
+      const response = await axiosClient.post("/user/getmyfeed", body);
 
 
       console.log("myfeed");
-      // console.log(response.result.newData);
-
       return response.result.newData;
     } catch (e) {
       console.log("feedslice", e);
@@ -63,8 +61,8 @@ const appConfigSlice = createSlice({
         state.myProfile = action.payload.user;
       })
       .addCase(getFeedData.fulfilled, (state, action) => {
-        state.feedData = action.payload;
-        // state.feedData = [...state.feedData, ...action.payload];
+        // state.feedData = action.payload;
+        state.feedData = [...state.feedData, ...action.payload];
       });
   },
 });

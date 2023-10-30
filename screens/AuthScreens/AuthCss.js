@@ -18,6 +18,7 @@ module.exports = {
     width: "100%",
     height: "100%",
     gap: 20,
+    flex:1
   },
   headCont: {
     alignItems: "center",

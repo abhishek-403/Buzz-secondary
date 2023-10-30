@@ -1,4 +1,5 @@
 import {
+  FlatList,
   Image,
   Pressable,
   ScrollView,
@@ -30,9 +31,9 @@ import { Divider } from "react-native-elements";
 import Posts from "../../components/home/Posts";
 import { useDispatch, useSelector } from "react-redux";
 import { getUsersposts } from "../../redux/slices/userSlice";
-import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useNavigation } from "@react-navigation/native";
 import HomeScreenLoading from "../LoadingScreens/HomeScreenLoading";
+import { axiosClient } from "../../utils/axiosSetup.js";
 
 const UserProfileScreen = ({ route }) => {
   const data = route.params.user;
@@ -66,7 +67,7 @@ const UserProfileScreen = ({ route }) => {
 
       <Divider width={1} color="rgba(250,250,250,.2)" />
       <View style={lowerCard}>
-        <ScrollView>{displayCard()}</ScrollView>
+        <View>{displayCard()}</View>
       </View>
     </SafeAreaView>
   );
@@ -89,6 +90,13 @@ const Head = ({ data }) => {
 };
 
 const ProfileCard = ({ data }) => {
+  async function handleFollow() {
+    const res = await axiosClient.post("/user/followUser", {
+      userIdToFollow: data._id,
+    });
+
+    alert(res.result);
+  }
   return (
     <View style={imageCardCont}>
       <View
@@ -110,7 +118,7 @@ const ProfileCard = ({ data }) => {
           }}
         />
 
-        <TouchableOpacity>
+        <TouchableOpacity onPress={handleFollow}>
           <Text style={editBtn}>Follow</Text>
         </TouchableOpacity>
       </View>
@@ -159,19 +167,38 @@ const PostsCard = ({ userId }) => {
   const dispatch = useDispatch();
   const isLoading = useSelector((s) => s.userReducer.isLoading);
 
+  // useEffect(() => {
+  //   dispatch(getUsersposts({ userId }));
+  // }, [userId]);
+  const ITEMS_PER_PAGE = 5;
+  const [page, setPage] = useState(1);
+
   useEffect(() => {
-    dispatch(getUsersposts({ userId }));
-  }, [userId]);
-  if (isLoading) {
-    return <HomeScreenLoading />;
-  }
+    dispatch(getUsersposts({ userId, page, pageSize: ITEMS_PER_PAGE }));
+  }, [page]);
+
+  const handleLoadMore = () => {
+    setPage(page + 1);
+  };
+
+  // if (isLoading) {
+  //   return <HomeScreenLoading />;
+  // }
 
   return (
-    <ScrollView>
-      {data?.map((item, i) => (
-        <Posts post={item} key={i} />
-      ))}
-    </ScrollView>
+    // <ScrollView>
+    //   {data?.map((item, i) => (
+    //     <Posts post={item} key={i} />
+    //   ))}
+    // </ScrollView>
+    <FlatList
+      data={data}
+      keyExtractor={(item) => item._id.toString()}
+      renderItem={({ item }) => <Posts post={item} />}
+      onEndReached={handleLoadMore}
+      onEndReachedThreshold={0.5}
+      ListFooterComponent={isLoading ? <HomeScreenLoading /> : null}
+    ></FlatList>
   );
 };
 

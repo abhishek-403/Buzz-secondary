@@ -1,4 +1,10 @@
-import { View, Text, StyleSheet, SafeAreaViewBase } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  SafeAreaViewBase,
+  ScrollView,
+} from "react-native";
 import React from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -9,8 +15,7 @@ const CreatePostScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
       <Head />
-
-      <AddScreen />
+        <AddScreen />
     </SafeAreaView>
   );
 };

@@ -5,13 +5,11 @@ import {
   TextInput,
   ScrollView,
   Pressable,
-  ToastAndroid,
   TouchableOpacity,
   ActivityIndicator,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
-import { SafeAreaView } from "react-native-safe-area-context";
 import * as ImagePicker from "expo-image-picker";
 import { Image } from "react-native";
 import { axiosClient } from "../../utils/axiosSetup";
@@ -115,7 +113,7 @@ const AddScreen = () => {
   }
 
   return (
-    <SafeAreaView
+    <ScrollView keyboardShouldPersistTaps='never' 
       initialValues={{ message: "", }}
       style={styles.container}
     >
@@ -135,9 +133,11 @@ const AddScreen = () => {
 
       <View style={styles.imageIcon}>
         <Pressable onPress={handleImageUpload}>
-          <Text>
+         <View>
+
             <Ionicons name="image" size={34} color="white" />
-          </Text>
+         </View>
+         
         </Pressable>
 
         <ScrollView contentContainerStyle={styles.imageContainer}>
@@ -180,7 +180,7 @@ const AddScreen = () => {
           </TouchableOpacity>
         </ScrollView>
       </View>
-    </SafeAreaView>
+    </ScrollView>
   );
 };
 
@@ -189,6 +189,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "rgba(0,0,0,.9)",
     paddingHorizontal: 15,
+    paddingTop:10,
   },
   textArea: {
     borderColor: "rgba(255,255,255,0.4)",

@@ -18,6 +18,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import EditProfile from "../../screens/ProfileScreen/EditProfile";
 import UserProfileScreen from "../../screens/UserProfileScreen/UserProfileScreen";
+import HiveScreen from "../../screens/HiveScreen/HiveScreen";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -43,7 +44,6 @@ export default function AppNavigator() {
       screenOptions={{
         tabBarStyle: { display: "none" },
         headerShown: false,
-    
       }}
     >
       <Tab.Screen name="AppStack" component={AppStack} />
@@ -97,6 +97,9 @@ export const AppStack = () => {
               case "Home":
                 iconName = `${focused ? "home" : "home-outline"}`;
                 break;
+              case "Hive":
+                iconName = `${focused ? "create" : "create-outline"}`;
+                break;
               case "Create":
                 iconName = `${focused ? "create" : "create-outline"}`;
                 break;
@@ -117,6 +120,7 @@ export const AppStack = () => {
         })}
       >
         <Tab.Screen name="Home" component={HomeScreen} />
+        <Tab.Screen name="Hive" component={HiveScreen} />
         {/* <Tab.Screen name="Home" component={HomeScreenLoading} /> */}
         {/* <Tab.Screen name="EditProfile" component={EditProfile} /> */}
         <Tab.Screen name="Search" component={SearchScreenStack} />

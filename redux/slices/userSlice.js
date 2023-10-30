@@ -3,12 +3,12 @@ import { axiosClient } from "../../utils/axiosSetup";
 
 export const getMyposts = createAsyncThunk(
   "user/posts/",
-  async (_, thunkAPI) => {
+  async (body, thunkAPI) => {
     try {
       // thunkAPI.dispatch(setLoader(true));
-      const response = await axiosClient.get("user/getmyposts");
+      const response = await axiosClient.post("user/getmyposts",body);
       console.log("getpost");
-      return response.result;
+      return response.result.posts;
     } catch (e) {
       console.log(e);
       return Promise.reject(e);
@@ -24,8 +24,8 @@ export const getUsersposts = createAsyncThunk(
     try {
       thunkAPI.dispatch(setLoader(true));
       const response = await axiosClient.post("user/getUsersPosts", body);
-      console.log("getpost");
-      return response.result;
+      console.log("getuserpost");
+      return response.result.posts;
     } catch (e) {
       console.log(e);
       return Promise.reject(e);
@@ -50,10 +50,12 @@ const userSlice = createSlice({
 
   extraReducers: (builder) => {
     builder.addCase(getMyposts.fulfilled, (state, action) => {
-      state.myPosts = action.payload.posts.reverse();
+      // state.myPosts = action.payload.posts.reverse();
+      state.myPosts = [...state.myPosts,...action.payload]
     });
     builder.addCase(getUsersposts.fulfilled, (state, action) => {
-      state.usersPosts = action.payload.posts.reverse();
+      // state.usersPosts = action.payload.posts.reverse();
+      state.usersPosts = [...state.usersPosts,...action.payload];
     });
   },
 });

@@ -2,13 +2,15 @@ import {
   ActivityIndicator,
   Alert,
   BackHandler,
+  KeyboardAvoidingView,
   Pressable,
+  SafeAreaView,
+  ScrollView,
   Text,
   TextInput,
   View,
 } from "react-native";
 import React, { useState } from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { axiosClient } from "../../../utils/axiosSetup";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";

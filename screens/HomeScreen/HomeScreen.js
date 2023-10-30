@@ -22,44 +22,44 @@ import { useFocusEffect } from "@react-navigation/native";
 import HomeScreenLoading from "../LoadingScreens/HomeScreenLoading";
 import Posts from "../../components/home/Posts";
 
-const ITEMS_PER_PAGE = 10;
+const ITEMS_PER_PAGE = 4;
 const HomeScreen = () => {
   const dispatch = useDispatch();
   const isLoading = useSelector((s) => s.appConfigReducer.isLoading);
   const reduxData = useSelector((s) => s.appConfigReducer.feedData);
 
-  useFocusEffect(
-    React.useCallback(() => {
-      dispatch(getFeedData());
-    }, [])
-  );
-  // const [page, setPage] = useState(1);
+  // useFocusEffect(
+  //   React.useCallback(() => {
+  //     dispatch(getFeedData());
+  //   }, [])
+  // );
+  const [page, setPage] = useState(1);
 
-  // useEffect(() => {
-  //   dispatch(getFeedData({page,pageSize:ITEMS_PER_PAGE}))
-  // }, [page]);
+  useEffect(() => {
+    dispatch(getFeedData({page,pageSize:ITEMS_PER_PAGE}))
+  }, [page]);
 
-  // const handleLoadMore = () => {
-  //   setPage(page + 1);
-  // };
+  const handleLoadMore = () => {
+    setPage(page + 1);
+  };
 
   return (
     <SafeAreaView style={styles.container}>
       <Header />
       <SubHeader />
-      <ScrollView style={{flex:1}}>
+      {/* <ScrollView style={{flex:1}}>
         {reduxData?.map((item, i) => {
           return <Posts key={i} post={item} />;
         })}
-      </ScrollView>
-      {/* <FlatList
+      </ScrollView> */}
+      <FlatList
         data={reduxData}
         keyExtractor={(item) => item._id.toString()}
         renderItem={({ item }) => <Posts post={item} />}
         onEndReached={handleLoadMore}
-        onEndReachedThreshold={0.1}
+        onEndReachedThreshold={0.5}
         ListFooterComponent={isLoading?<HomeScreenLoading /> :null}
-      /> */}
+      />
     </SafeAreaView>
   );
 };
