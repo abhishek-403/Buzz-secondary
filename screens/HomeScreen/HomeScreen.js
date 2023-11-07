@@ -15,14 +15,13 @@ import {
 import Header from "../../components/home/Header";
 import { SafeAreaView } from "react-native-safe-area-context";
 import SubHeader from "../../components/home/SubHeader";
-import Feeds from "../../components/home/Feeds";
 import { useDispatch, useSelector } from "react-redux";
-import appConfigSlice, { getFeedData } from "../../redux/slices/appConfigSlice";
-import { useFocusEffect } from "@react-navigation/native";
+import { getFeedData } from "../../redux/slices/appConfigSlice";
+
 import HomeScreenLoading from "../LoadingScreens/HomeScreenLoading";
 import Posts from "../../components/home/Posts";
 
-const ITEMS_PER_PAGE = 4;
+const ITEMS_PER_PAGE = 8;
 const HomeScreen = () => {
   const dispatch = useDispatch();
   const isLoading = useSelector((s) => s.appConfigReducer.isLoading);
@@ -35,14 +34,15 @@ const HomeScreen = () => {
   // );
   const [page, setPage] = useState(1);
 
-  useEffect(() => {
-    dispatch(getFeedData({page,pageSize:ITEMS_PER_PAGE}))
+  useLayoutEffect(() => {
+    dispatch(getFeedData({ page, pageSize: ITEMS_PER_PAGE }));
   }, [page]);
 
   const handleLoadMore = () => {
     setPage(page + 1);
   };
 
+  console.log("home render");
   return (
     <SafeAreaView style={styles.container}>
       <Header />
@@ -57,8 +57,8 @@ const HomeScreen = () => {
         keyExtractor={(item) => item._id.toString()}
         renderItem={({ item }) => <Posts post={item} />}
         onEndReached={handleLoadMore}
-        onEndReachedThreshold={0.5}
-        ListFooterComponent={isLoading?<HomeScreenLoading /> :null}
+        onEndReachedThreshold={0.1}
+        ListFooterComponent={isLoading ? <HomeScreenLoading /> : null}
       />
     </SafeAreaView>
   );

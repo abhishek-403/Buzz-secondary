@@ -87,15 +87,17 @@ module.exports = {
   topHead: {
     flexDirection: "row",
     marginTop:10,
-    
-    justifyContent: "space-around",
+   
   },
   eachHead: {
     color: "white",
     fontSize: 17,
     fontWeight: 700,
-    // paddingHorizontal: 10,
-    // paddingVertical: 8,
+    // width:"50%"
+  },
+  eachHeadView: {
+   marginHorizontal:50,
+    width:80
   },
 
   // Edit profile

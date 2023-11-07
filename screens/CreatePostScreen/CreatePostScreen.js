@@ -2,13 +2,9 @@ import {
   View,
   Text,
   StyleSheet,
-  SafeAreaViewBase,
-  ScrollView,
 } from "react-native";
 import React from "react";
-import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Divider } from "react-native-elements";
 import AddScreen from "../../components/CreatePost/AddScreen";
 
 const CreatePostScreen = () => {
@@ -24,7 +20,7 @@ const Head = () => (
     <View></View>
     <View>
       <Text style={{ color: "white", fontSize: 20, fontWeight: 700 }}>
-        Create Post
+       Create Post
       </Text>
     </View>
     <View></View>

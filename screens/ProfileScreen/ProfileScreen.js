@@ -13,6 +13,7 @@ import {
   bio,
   container,
   eachHead,
+  eachHeadView,
   editBtn,
   followers,
   head1,
@@ -27,10 +28,8 @@ import {
   username,
 } from "./profilecss";
 import { Ionicons } from "@expo/vector-icons";
-import defaultImg from "../../assets/profileicondefault.png";
 import { Divider } from "react-native-elements";
 import Posts from "../../components/home/Posts";
-import SubHeader from "../../components/home/SubHeader";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { getmyProfile } from "../../redux/slices/appConfigSlice";
@@ -38,6 +37,8 @@ import { getMyposts } from "../../redux/slices/userSlice";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import HomeScreenLoading from "../LoadingScreens/HomeScreenLoading";
+import { axiosClient } from "../../utils/axiosSetup";
+import HiveBox from "../../components/Hive/HiveBox";
 
 const ProfileScreen = () => {
   const [activeTab, setActiveTab] = useState("Posts");
@@ -60,6 +61,8 @@ const ProfileScreen = () => {
         return <PostsCard />;
       case "People":
         return <PeopleCard />;
+      case "Hives":
+        return <HiveCard />;
       default:
         return;
     }
@@ -117,7 +120,7 @@ const Head = ({ data }) => {
 
 const ProfileCard = ({ data }) => {
   const navigation = useNavigation();
-  // console.log(data.avatar);
+
   return (
     <View style={imageCardCont}>
       <View
@@ -181,16 +184,28 @@ const FollowerCard = ({ data }) => (
 );
 
 const OptionsBar = ({ setActiveTab, data }) => (
-  <View style={topHead}>
-    <Pressable onPress={() => setActiveTab("Posts")}>
-      <Text style={eachHead}>Posts</Text>
-    </Pressable>
+  <ScrollView horizontal={true} contentContainerStyle={topHead}>
+    <View style={eachHeadView}>
+      <Pressable onPress={() => setActiveTab("Posts")}>
+        <Text style={eachHead}>Posts</Text>
+      </Pressable>
+    </View>
+
+    <Divider width={1} color="rgba(255,255,255,.2)" orientation="vertical" />
+    <View style={eachHeadView}>
+      <Pressable onPress={() => setActiveTab("Hives")}>
+        <Text style={eachHead}>Hives</Text>
+      </Pressable>
+    </View>
+
     <Divider width={1} color="rgba(255,255,255,.2)" orientation="vertical" />
 
-    <Pressable onPress={() => setActiveTab("People")}>
-      <Text style={eachHead}>People</Text>
-    </Pressable>
-  </View>
+    <View style={eachHeadView}>
+      <Pressable onPress={() => setActiveTab("People")}>
+        <Text style={eachHead}>People</Text>
+      </Pressable>
+    </View>
+  </ScrollView>
 );
 
 const PostsCard = () => {
@@ -224,14 +239,14 @@ const PostsCard = () => {
     //     <Posts post={item} key={i} />
     //   ))}
     // </ScrollView>
-      <FlatList
-        data={data}
-        keyExtractor={(item) => item._id.toString()}
-        renderItem={({ item }) => <Posts post={item} />}
-        onEndReached={handleLoadMore}
-        onEndReachedThreshold={0.5}
-        ListFooterComponent={isLoading ? <HomeScreenLoading /> : null}
-      ></FlatList>
+    <FlatList
+      data={data}
+      keyExtractor={(item) => item._id.toString()}
+      renderItem={({ item }) => <Posts post={item} />}
+      onEndReached={handleLoadMore}
+      onEndReachedThreshold={0.5}
+      ListFooterComponent={isLoading ? <HomeScreenLoading /> : null}
+    ></FlatList>
   );
 };
 
@@ -240,5 +255,27 @@ const PeopleCard = () => (
     <Text>Coming soon</Text>
   </ScrollView>
 );
+const HiveCard = () => {
+  async function getMyHives() {
+    const res = await axiosClient.get("/hive/getmyhives");
+    setHives(res.result.hives);
+  }
+  const [hives,setHives]= useState([])
+
+  useFocusEffect(
+    React.useCallback(() => {
+      getMyHives();
+    }, [])
+  );
+  return (
+    <View>
+       <FlatList
+        data={hives}
+        keyExtractor={(item) => item._id.toString()}
+        renderItem={({ item }) => <HiveBox hive={item} />}
+            />
+    </View>
+  );
+};
 
 export default ProfileScreen;

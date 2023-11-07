@@ -19,6 +19,7 @@ import { useNavigation } from "@react-navigation/native";
 import EditProfile from "../../screens/ProfileScreen/EditProfile";
 import UserProfileScreen from "../../screens/UserProfileScreen/UserProfileScreen";
 import HiveScreen from "../../screens/HiveScreen/HiveScreen";
+import HiveInfoScreen from "../../screens/HiveScreen/HiveInfoScreen";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -110,6 +111,10 @@ export const AppStack = () => {
                 iconName = `${
                   focused ? "person-circle" : "person-circle-outline"
                 }`;
+              case "HiveInfo":
+                iconName = `${
+                  focused ? "person-circle" : "person-circle-outline"
+                }`;
                 break;
 
               default:
@@ -119,6 +124,7 @@ export const AppStack = () => {
           },
         })}
       >
+        <Tab.Screen name="HiveInfo" component={HiveInfoScreen} />
         <Tab.Screen name="Home" component={HomeScreen} />
         <Tab.Screen name="Hive" component={HiveScreen} />
         {/* <Tab.Screen name="Home" component={HomeScreenLoading} /> */}
@@ -139,6 +145,9 @@ const ProfileScreenStack = () => {
     </Stack.Navigator>
   );
 };
+
+// const Drawer = createDrawerNavigator();
+
 const SearchScreenStack = () => {
   return (
     <Tab.Navigator
@@ -148,6 +157,7 @@ const SearchScreenStack = () => {
         },
         headerShown: false,
       }}
+      initialRouteName="SearchScreen"
     >
       <Tab.Screen name="SearchScreen" component={SearchScreen} />
       <Tab.Screen name="UserProfileScreen" component={UserProfileScreen} />

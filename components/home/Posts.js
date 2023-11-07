@@ -49,17 +49,24 @@ const PostHeader = ({ post }) => {
     postsCount: post.owner.postsCount,
     followersCount: post.owner.followersCount,
     followingsCount: post.owner.followingsCount,
-    bio:post.owner.bio
+    bio: post.owner.bio,
+    isFollowingOwner: post.isFollowingOwner,
   };
+  function handlePostHeaderClick() {
+    if (!post?.isMyPost) {
+      navigation.navigate("Search", {
+        screen: "UserProfileScreen",
+        params: { user },
+      });
+    } else {
+      navigation.navigate("Profile", {
+        screen: "ProfileScreen",
+      });
+    }
+  }
   return (
     <Pressable
-      onPress={() =>
-        navigation.navigate("Search", {
-          screen: "UserProfileScreen",
-          params: { user},
-          
-        })
-      }
+      onPress={handlePostHeaderClick}
       style={{
         flexDirection: "row",
         justifyContent: "space-between",
@@ -68,11 +75,24 @@ const PostHeader = ({ post }) => {
         marginHorizontal: 8,
       }}
     >
-      <View style={{ flexDirection: "row", alignItems: "center" }}>
-        <Image source={{ uri: post?.owner?.avatar }} style={styles.story} />
-        <View style={{ marginHorizontal: 5 }}>
-          <Text style={styles.name}>{post?.owner?.name}</Text>
-          <Text style={styles.username}>{post?.owner?.username}</Text>
+      <View
+        style={{
+          flex: 1,
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
+        <View style={{ flexDirection: "row" }}>
+          <Image source={{ uri: post?.owner?.avatar }} style={styles.story} />
+          <View style={{ marginHorizontal: 5 }}>
+            <Text style={styles.name}>{post?.owner?.name}</Text>
+
+            <Text style={styles.username}>{post?.owner?.username}</Text>
+          </View>
+        </View>
+        <View>
+          <Text style={styles.timeAgo}>{post?.timeAgo}</Text>
         </View>
       </View>
       {/* <Entypo
@@ -189,6 +209,10 @@ const styles = StyleSheet.create({
   username: {
     color: "rgba(255,255,255,.4)",
     fontSize: 12,
+  },
+  timeAgo: {
+    color: "rgba(255,255,255,.4)",
+    fontSize: 13,
   },
   message: {
     color: "white",

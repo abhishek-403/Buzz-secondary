@@ -197,7 +197,7 @@ const styles = StyleSheet.create({
     padding: 12,
     color: "white",
     fontSize: 16,
-    borderRadius: 20,
+    borderRadius: 10,
   },
   wordLimitText: {
     margin: 8,

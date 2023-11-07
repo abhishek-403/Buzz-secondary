@@ -22,10 +22,10 @@ export const getFeedData = createAsyncThunk(
         thunkAPI.dispatch(setLoader(true));
 
       // const response = await axiosClient.post("/user/getmyfeed");
-      const response = await axiosClient.post("/user/getmyfeed", body);
+      const response = await axiosClient.post("/user/getmyfeed", {...body,pageSize:8});
 
 
-      console.log("myfeed");
+      console.log("myfeed",body.pageSize);
       return response.result.newData;
     } catch (e) {
       console.log("feedslice", e);

@@ -90,10 +90,12 @@ const Head = ({ data }) => {
 };
 
 const ProfileCard = ({ data }) => {
+  const [isFollowed,setIsFollowed]= useState(data?.isFollowingOwner)
   async function handleFollow() {
     const res = await axiosClient.post("/user/followUser", {
       userIdToFollow: data._id,
     });
+    setIsFollowed(!isFollowed)
 
     alert(res.result);
   }
@@ -119,7 +121,9 @@ const ProfileCard = ({ data }) => {
         />
 
         <TouchableOpacity onPress={handleFollow}>
-          <Text style={editBtn}>Follow</Text>
+          <Text style={editBtn}>{
+            isFollowed ?"Unfollow":"Follow"
+          }</Text>
         </TouchableOpacity>
       </View>
       <View style={nameCard}>
