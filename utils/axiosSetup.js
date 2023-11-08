@@ -18,7 +18,6 @@ axiosClient.interceptors.response.use(async (response) => {
     if (response.data.statusCode != 401) {
       alert(response.data.result);
     }
-    // console.log(response.data.result);
     return Promise.reject();
   }
   return response.data;

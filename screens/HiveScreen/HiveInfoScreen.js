@@ -44,7 +44,7 @@ const HiveInfoScreen = ({ route, navigation }) => {
   };
 
   useEffect(() => {
-    console.log("e");
+  
     loadHive();
   }, []);
 

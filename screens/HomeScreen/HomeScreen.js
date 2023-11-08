@@ -42,7 +42,6 @@ const HomeScreen = () => {
     setPage(page + 1);
   };
 
-  console.log("home render");
   return (
     <SafeAreaView style={styles.container}>
       <Header />

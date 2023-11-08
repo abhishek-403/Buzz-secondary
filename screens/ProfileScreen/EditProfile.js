@@ -85,7 +85,7 @@ const EditProfile = ({ navigation, route }) => {
 
   async function handleLogout() {
     AsyncStorage.removeItem("accessToken").then(async () => {
-      console.log("log",await AsyncStorage.getItem("accessToken"));
+      await AsyncStorage.getItem("accessToken");
       navigation.navigate("AuthStack", { screen: "Login"});
     });
   }

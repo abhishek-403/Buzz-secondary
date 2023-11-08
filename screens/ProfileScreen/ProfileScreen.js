@@ -98,7 +98,7 @@ const Head = ({ data }) => {
   const navigation = useNavigation();
   async function handleLogout() {
     AsyncStorage.removeItem("accessstoken").then(async () => {
-      console.log("log", await AsyncStorage.getItem("accessstoken"));
+      await AsyncStorage.getItem("accessstoken");
       navigation.navigate("AuthStack", { screen: "Login" });
     });
   }

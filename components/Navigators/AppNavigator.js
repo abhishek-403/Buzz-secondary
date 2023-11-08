@@ -84,9 +84,6 @@ export const AppStack = () => {
           tabBarShowLabel: false,
           tabBarHideOnKeyboard: true,
 
-          // const isTabVisible = route.name !== 'Settings';
-          // console.log(`Tab ${route.name} visibility: ${isTabVisible}`);
-          // return { tabBarVisible: isTabVisible },
           tabBarStyle: {
             backgroundColor: "rgba(0,0,0,1)",
             borderTopColor: "rgba(255,255,255,.1)",
