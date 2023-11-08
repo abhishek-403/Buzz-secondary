@@ -92,12 +92,11 @@ const Head = ({ data }) => {
 const ProfileCard = ({ data }) => {
   const [isFollowed,setIsFollowed]= useState(data?.isFollowingOwner)
   async function handleFollow() {
+    setIsFollowed(!isFollowed)
     const res = await axiosClient.post("/user/followUser", {
       userIdToFollow: data._id,
     });
-    setIsFollowed(!isFollowed)
 
-    alert(res.result);
   }
   return (
     <View style={imageCardCont}>

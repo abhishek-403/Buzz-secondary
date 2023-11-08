@@ -18,8 +18,10 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import EditProfile from "../../screens/ProfileScreen/EditProfile";
 import UserProfileScreen from "../../screens/UserProfileScreen/UserProfileScreen";
-import HiveScreen from "../../screens/HiveScreen/HiveScreen";
+import CreateHiveScreen from "../../screens/HiveScreen/CreateHiveScreen";
 import HiveInfoScreen from "../../screens/HiveScreen/HiveInfoScreen";
+import AddUserToHive from "../../screens/HiveScreen/AddUserToHive";
+import { Text } from "react-native";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -82,6 +84,9 @@ export const AppStack = () => {
           tabBarShowLabel: false,
           tabBarHideOnKeyboard: true,
 
+          // const isTabVisible = route.name !== 'Settings';
+          // console.log(`Tab ${route.name} visibility: ${isTabVisible}`);
+          // return { tabBarVisible: isTabVisible },
           tabBarStyle: {
             backgroundColor: "rgba(0,0,0,1)",
             borderTopColor: "rgba(255,255,255,.1)",
@@ -93,13 +98,17 @@ export const AppStack = () => {
           },
           tabBarIcon: ({ focused, color, size }) => {
             let iconName;
+            if (route.name == "Hive") {
+              return null;
+            }
 
             switch (route.name) {
               case "Home":
                 iconName = `${focused ? "home" : "home-outline"}`;
                 break;
               case "Hive":
-                iconName = `${focused ? "create" : "create-outline"}`;
+                // iconName = `${focused ? "create" : "create-outline"}`;
+
                 break;
               case "Create":
                 iconName = `${focused ? "create" : "create-outline"}`;
@@ -111,27 +120,22 @@ export const AppStack = () => {
                 iconName = `${
                   focused ? "person-circle" : "person-circle-outline"
                 }`;
-              case "HiveInfo":
-                iconName = `${
-                  focused ? "person-circle" : "person-circle-outline"
-                }`;
                 break;
-
+             
+             
               default:
                 break;
             }
+
             return <Ionicons name={iconName} color={"white"} size={24} />;
           },
         })}
       >
-        <Tab.Screen name="HiveInfo" component={HiveInfoScreen} />
         <Tab.Screen name="Home" component={HomeScreen} />
-        <Tab.Screen name="Hive" component={HiveScreen} />
-        {/* <Tab.Screen name="Home" component={HomeScreenLoading} /> */}
-        {/* <Tab.Screen name="EditProfile" component={EditProfile} /> */}
         <Tab.Screen name="Search" component={SearchScreenStack} />
         <Tab.Screen name="Create" component={CreatePostScreen} />
         <Tab.Screen name="Profile" component={ProfileScreenStack} />
+       
       </Tab.Navigator>
     </>
   );
@@ -142,11 +146,13 @@ const ProfileScreenStack = () => {
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
       <Stack.Screen name="EditProfile" component={EditProfile} />
+      <Stack.Screen name="HiveInfo" component={HiveInfoScreen} />
+      <Stack.Screen name="HiveSearch" component={AddUserToHive} />
     </Stack.Navigator>
   );
 };
 
-// const Drawer = createDrawerNavigator();
+
 
 const SearchScreenStack = () => {
   return (

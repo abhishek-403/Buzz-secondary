@@ -5,10 +5,24 @@ import { useNavigation } from "@react-navigation/native";
 
 const EachProfileCard = ({user}) => {
   const navigation = useNavigation();
+  function handleNav(){
+
+    if(!user.isMe){
+      navigation.navigate("Search", {
+        screen: "UserProfileScreen",
+        params: { user },
+      });
+      
+    }else{
+      navigation.navigate("Profile", {
+        screen: "ProfileScreen",
+      })
+    }
+  }
 
   return (
     <>
-      <Pressable onPress={()=>navigation.navigate("UserProfileScreen",{user})} style={style.container}>
+      <Pressable onPress={handleNav} style={style.container}>
         <Image
           source={{ uri: user?.avatar }}
           style={{

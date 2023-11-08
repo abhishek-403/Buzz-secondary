@@ -260,7 +260,8 @@ const HiveCard = () => {
     const res = await axiosClient.get("/hive/getmyhives");
     setHives(res.result.hives);
   }
-  const [hives,setHives]= useState([])
+  const [hives, setHives] = useState([]);
+  const navigation = useNavigation();
 
   useFocusEffect(
     React.useCallback(() => {
@@ -269,11 +270,15 @@ const HiveCard = () => {
   );
   return (
     <View>
-       <FlatList
+      <FlatList
         data={hives}
         keyExtractor={(item) => item._id.toString()}
-        renderItem={({ item }) => <HiveBox hive={item} />}
-            />
+        renderItem={({ item }) => (
+          <HiveBox         
+            hive={item}
+          />
+        )}
+      />
     </View>
   );
 };

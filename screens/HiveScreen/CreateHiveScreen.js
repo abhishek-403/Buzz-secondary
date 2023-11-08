@@ -11,7 +11,7 @@ import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { axiosClient } from "../../utils/axiosSetup";
 
-const HiveScreen = () => {
+const CreateHiveScreen = () => {
   const [name, setName] = useState();
   const [description, setDescription] = useState();
   const [loading, setIsLoading] = useState(false);
@@ -127,4 +127,4 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
 });
-export default HiveScreen;
+export default CreateHiveScreen;

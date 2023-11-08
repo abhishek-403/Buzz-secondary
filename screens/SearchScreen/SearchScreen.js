@@ -25,7 +25,7 @@ const SearchScreen = () => {
     dispatch(getSearchedUser({ name: text }));
   }
   return (
-    <SafeAreaView keyboardShouldPersistTaps ='always' style={container}>
+    <SafeAreaView keyboardShouldPersistTaps="always" style={container}>
       <View>
         <TextInput
           style={textArea}
