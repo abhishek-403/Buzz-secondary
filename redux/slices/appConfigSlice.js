@@ -22,10 +22,10 @@ export const getFeedData = createAsyncThunk(
         thunkAPI.dispatch(setLoader(true));
 
       // const response = await axiosClient.post("/user/getmyfeed");
-      const response = await axiosClient.post("/user/getmyfeed", {...body,pageSize:8});
+      const response = await axiosClient.post("/user/getmyfeed", body);
 
 
-      console.log("myfeed",body.pageSize);
+      console.log("myfeed",{body});
       return response.result.newData;
     } catch (e) {
       console.log("feedslice", e);
@@ -62,6 +62,22 @@ const appConfigSlice = createSlice({
       })
       .addCase(getFeedData.fulfilled, (state, action) => {
         // state.feedData = action.payload;
+        // const data =[];
+        // state.feedData.forEach((item)=> {
+        //   action.payload.forEach((item1)=>{
+
+        //     if(item1._id!= item._id){
+        //       data.push(item);
+        //       data.push(item1);
+        //     }
+         
+
+        //   })
+
+        //   }
+        // );
+        
+        // state.feedData = data;
         state.feedData = [...state.feedData, ...action.payload];
       });
   },

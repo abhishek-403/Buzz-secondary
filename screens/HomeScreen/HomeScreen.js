@@ -10,6 +10,7 @@ import {
   FlatList,
   ScrollView,
   StyleSheet,
+  Text,
   View,
 } from "react-native";
 import Header from "../../components/home/Header";
@@ -20,21 +21,30 @@ import { getFeedData } from "../../redux/slices/appConfigSlice";
 
 import HomeScreenLoading from "../LoadingScreens/HomeScreenLoading";
 import Posts from "../../components/home/Posts";
+import socketServcies from "../../utils/socketService";
 
 const ITEMS_PER_PAGE = 8;
+
 const HomeScreen = () => {
   const dispatch = useDispatch();
   const isLoading = useSelector((s) => s.appConfigReducer.isLoading);
   const reduxData = useSelector((s) => s.appConfigReducer.feedData);
 
+  const [tweets, setTweets] = useState([]);
+
+
+  
+  
+
   // useFocusEffect(
   //   React.useCallback(() => {
   //     dispatch(getFeedData());
+
   //   }, [])
   // );
-  const [page, setPage] = useState(1);
 
-  useLayoutEffect(() => {
+  const [page, setPage] = useState(1);
+  useEffect(() => {
     dispatch(getFeedData({ page, pageSize: ITEMS_PER_PAGE }));
   }, [page]);
 
@@ -42,13 +52,37 @@ const HomeScreen = () => {
     setPage(page + 1);
   };
 
+
+
+  // useEffect(() => {    
+  //   socketServcies.initializeSocket()
+  // }, []);
+  
+  // useEffect(() => {
+  //   socketServcies.on('newTweet',(post)=>{
+  //     console.log("hi");
+  //     setTweets((prev)=>[...prev,post])
+  //   })
+    
+  // }, []);
+
   return (
     <SafeAreaView style={styles.container}>
       <Header />
       <SubHeader />
-      {/* <ScrollView style={{flex:1}}>
-        {reduxData?.map((item, i) => {
-          return <Posts key={i} post={item} />;
+     
+
+      {/* <FlatList
+        data={tweets}
+        keyExtractor={(item) => item._id.toString()}
+        renderItem={({ item }) => <Posts post={item} />}
+       
+      /> */}
+      {/* <ScrollView>
+        {tweets.map((item, i) => {
+          return (
+            <Posts key={i} post={item} />
+          );
         })}
       </ScrollView> */}
       <FlatList
