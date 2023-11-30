@@ -46,6 +46,10 @@ const userSlice = createSlice({
     setLoader: (state, action) => {
       state.isLoading = action.payload;
     },
+    eraseuserdata: (state, action) => {
+      state.myPosts = [];
+      state.usersPosts = [];
+    },
   },
 
   extraReducers: (builder) => {
@@ -62,4 +66,4 @@ const userSlice = createSlice({
 
 export default userSlice.reducer;
 
-export const { setLoader } = userSlice.actions;
+export const { setLoader ,eraseuserdata} = userSlice.actions;

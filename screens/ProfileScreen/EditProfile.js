@@ -27,6 +27,9 @@ import { Ionicons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import { axiosClient } from "../../utils/axiosSetup";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useDispatch } from "react-redux";
+import { erasemydata, logout } from "../../redux/slices/appConfigSlice";
+import { eraseuserdata } from "../../redux/slices/userSlice";
 
 const EditProfile = ({ navigation, route }) => {
   const { name, username, bio, avatar } = route.params;
@@ -82,11 +85,14 @@ const EditProfile = ({ navigation, route }) => {
       setIsLoading(false);
     }
   }
-
+const dispatch = useDispatch()
   async function handleLogout() {
     AsyncStorage.removeItem("accessToken").then(async () => {
-      await AsyncStorage.getItem("accessToken");
+      
+      navigation.navigate("Profile", { screen: "ProfileScreen"});
       navigation.navigate("AuthStack", { screen: "Login"});
+      dispatch(erasemydata())
+      dispatch(eraseuserdata())
     });
   }
 

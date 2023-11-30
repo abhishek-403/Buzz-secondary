@@ -13,8 +13,8 @@ import { Ionicons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import { Image } from "react-native";
 import { axiosClient } from "../../utils/axiosSetup";
-
-const MAX_CHARACTER_LIMIT = 60;
+import { SafeAreaView } from "react-native-safe-area-context";
+const MAX_CHARACTER_LIMIT = 120;
 
 const AddScreen = () => {
   const [images, setImages] = useState([]);
@@ -34,7 +34,7 @@ const AddScreen = () => {
     try {
       let result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
-        aspect: [4, 3],
+        aspect: [5,4],
         quality: 1,
         allowsEditing: true,
       });
@@ -113,10 +113,7 @@ const AddScreen = () => {
   }
 
   return (
-    <ScrollView keyboardShouldPersistTaps='never' 
-      initialValues={{ message: "", }}
-      style={styles.container}
-    >
+    <View keyboardShouldPersistTaps="never" style={styles.container}>
       <View>
         <TextInput
           style={styles.textArea}
@@ -133,54 +130,68 @@ const AddScreen = () => {
 
       <View style={styles.imageIcon}>
         <Pressable onPress={handleImageUpload}>
-         <View>
-
-            <Ionicons name="image" size={34} color="white" />
-         </View>
-         
+          <Ionicons name="image" size={34} color="white" />
         </Pressable>
-
-        <ScrollView contentContainerStyle={styles.imageContainer}>
-          {images?.map(
-            (image, index) =>
-              images.length > 0 && (
-                <Image
-                  source={{ uri: image?.uri }}
-                  style={{
-                    width: "100%",
-                    aspectRatio: 1,
-                  }}
-                  resizeMode="contain"
-                  key={index}
-                />
-              )
-          )}
-          <TouchableOpacity
-            onPress={handleSubmit}
-            style={{ width: "50%", marginVertical: 20 }}
-          >
-            {loading ? (
-              <ActivityIndicator size="large" />
-            ) : (
-              <Text
-                style={{
-                  color: "white",
-                  backgroundColor: "black",
-                  borderWidth: 1,
-                  borderColor: "white",
-                  borderRadius: 20,
-                  fontSize: 20,
-                  textAlign: "center",
-                  padding: 8,
-                }}
-              >
-                Submit
-              </Text>
-            )}
-          </TouchableOpacity>
-        </ScrollView>
       </View>
-    </ScrollView>
+      <View
+        style={{
+          alignItems: "center",
+        }}
+      >
+        <TouchableOpacity onPress={handleSubmit}>
+          {loading ? (
+            <ActivityIndicator size="large" />
+          ) : (
+            <Text
+              style={{
+                color: "white",
+                backgroundColor: "rgba(127, 112, 255, 0.8)",
+                borderWidth: 1,
+                borderRadius: 50,
+                fontWeight: 700,
+                fontSize: 20,
+                textAlign: "center",
+                paddingVertical: 10,
+                paddingHorizontal: 30,
+              }}
+            >
+              Post
+            </Text>
+          )}
+        </TouchableOpacity>
+      </View>
+      {images.length > 0 && (
+        <TouchableOpacity
+          onPress={() => {
+            setImages([]);
+          }}
+          style={{ alignItems: "flex-end" }}
+        >
+          <Ionicons
+            name="trash"
+            size={25}
+            color="white"
+            style={{ height: 30 }}
+          />
+        </TouchableOpacity>
+      )}
+      <ScrollView contentContainerStyle={styles.imageContainer}>
+        {images?.map(
+          (image, index) =>
+            images.length > 0 && (
+              <Image
+                source={{ uri: image?.uri }}
+                style={{
+                  width: "100%",
+                  aspectRatio: 5/4,
+                }}
+                resizeMode="contain"
+                key={index}
+              />
+            )
+        )}
+      </ScrollView>
+    </View>
   );
 };
 
@@ -189,15 +200,13 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "rgba(0,0,0,.9)",
     paddingHorizontal: 15,
-    paddingTop:10,
   },
   textArea: {
-    borderColor: "rgba(255,255,255,0.4)",
     borderWidth: 1,
+    borderBottomColor: "rgba(255,255,255,0.4)",
     padding: 12,
     color: "white",
     fontSize: 16,
-    borderRadius: 10,
   },
   wordLimitText: {
     margin: 8,
@@ -206,8 +215,8 @@ const styles = StyleSheet.create({
   },
 
   imageIcon: {
-    flex: 1,
     margin: 20,
+    width: 40,
   },
   imageContainer: {
     alignItems: "center",

@@ -33,8 +33,8 @@ module.exports = {
     },
   
     editBtn: {
-      fontSize: 16,
-      paddingHorizontal: 20,
+      fontSize: 14,
+      paddingHorizontal: 15,
       paddingVertical: 8,
       backgroundColor: "rgba(74, 174, 255, 0.8)",
       borderRadius: 50,

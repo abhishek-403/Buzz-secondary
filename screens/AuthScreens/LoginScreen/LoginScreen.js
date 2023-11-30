@@ -38,21 +38,17 @@ const LoginScreen = ({ navigation }) => {
           {
             text: "Cancel",
             onPress: () => null,
-            style: "cancel"
+            style: "cancel",
           },
-          { text: "YES", onPress: () => BackHandler.exitApp() }
+          { text: "YES", onPress: () => BackHandler.exitApp() },
         ]);
         return true;
       };
-  
-      BackHandler.addEventListener(
-        'hardwareBackPress', onBackPress
-      );
-  
+
+      BackHandler.addEventListener("hardwareBackPress", onBackPress);
+
       return () =>
-        BackHandler.removeEventListener(
-          'hardwareBackPress', onBackPress
-        );
+        BackHandler.removeEventListener("hardwareBackPress", onBackPress);
     }, [])
   );
   async function handleSubmit() {
@@ -66,7 +62,10 @@ const LoginScreen = ({ navigation }) => {
       await AsyncStorage.setItem("accessToken", res.result.accessToken);
 
       alert("Logged in");
-      navigation.navigate("AppStack");
+      navigation.navigate("AppStack", {
+        screen: "Home",
+        param: { screen: "HomeScreen" },
+      });
     } catch (e) {
       console.log(e);
     } finally {

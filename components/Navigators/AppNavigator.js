@@ -22,6 +22,7 @@ import CreateHiveScreen from "../../screens/HiveScreen/CreateHiveScreen";
 import HiveInfoScreen from "../../screens/HiveScreen/HiveInfoScreen";
 import AddUserToHive from "../../screens/HiveScreen/AddUserToHive";
 import { Text } from "react-native";
+import CommentOnPost from "../../screens/HomeScreen/CommentOnPost";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -118,8 +119,7 @@ export const AppStack = () => {
                   focused ? "person-circle" : "person-circle-outline"
                 }`;
                 break;
-             
-             
+
               default:
                 break;
             }
@@ -128,13 +128,23 @@ export const AppStack = () => {
           },
         })}
       >
-        <Tab.Screen name="Home" component={HomeScreen} />
+        <Tab.Screen name="Home" component={HomeScreenStack} />
         <Tab.Screen name="Search" component={SearchScreenStack} />
         <Tab.Screen name="Create" component={CreatePostScreen} />
         <Tab.Screen name="Profile" component={ProfileScreenStack} />
-       
       </Tab.Navigator>
     </>
+  );
+};
+
+const HomeScreenStack = () => {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="HomeScreen" component={HomeScreen} />
+      <Stack.Screen name="CommentOnPost" component={CommentOnPost} />
+      
+      <Stack.Screen name="UserProfileScreen" component={UserProfileScreen} />
+    </Stack.Navigator>
   );
 };
 
@@ -144,16 +154,14 @@ const ProfileScreenStack = () => {
       <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
       <Stack.Screen name="EditProfile" component={EditProfile} />
       <Stack.Screen name="HiveInfo" component={HiveInfoScreen} />
-      <Stack.Screen name="HiveSearch" component={AddUserToHive} />
+      <Stack.Screen name="HiveSearch" component={AddUserToHive} />      
     </Stack.Navigator>
   );
 };
 
-
-
 const SearchScreenStack = () => {
   return (
-    <Tab.Navigator
+    <Stack.Navigator
       screenOptions={{
         tabBarStyle: {
           display: "none",
@@ -162,8 +170,8 @@ const SearchScreenStack = () => {
       }}
       initialRouteName="SearchScreen"
     >
-      <Tab.Screen name="SearchScreen" component={SearchScreen} />
-      <Tab.Screen name="UserProfileScreen" component={UserProfileScreen} />
-    </Tab.Navigator>
+      <Stack.Screen name="SearchScreen" component={SearchScreen} />
+      <Stack.Screen name="UserProfileScreen" component={UserProfileScreen} />
+    </Stack.Navigator>
   );
 };

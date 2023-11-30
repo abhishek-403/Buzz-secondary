@@ -21,8 +21,8 @@ export const getFeedData = createAsyncThunk(
     try {
         thunkAPI.dispatch(setLoader(true));
 
-      // const response = await axiosClient.post("/user/getmyfeed");
-      const response = await axiosClient.post("/user/getmyfeed", body);
+      const response = await axiosClient.post("/user/getmyallfeed");
+      // const response = await axiosClient.post("/user/getmyfeed", body);
 
 
       console.log("myfeed",{body});
@@ -40,6 +40,7 @@ const appConfigSlice = createSlice({
   name: "appConfig",
   initialState: {
     isLoading: true,
+    isCommentLoading: true,
     myProfile: {},
     feedData: [],
     toastData: {},
@@ -48,12 +49,17 @@ const appConfigSlice = createSlice({
     setLoader: (state, action) => {
       state.isLoading = action.payload;
     },
+    setCommentLoader: (state, action) => {
+      state.isCommentLoading = action.payload;
+    },
     showToast: (state, action) => {
       state.toastData = action.payload;
     },
-    feedLength: (state, action) => {
-      state.toastData = action.payload;
+    erasemydata: (state, action) => {
+      state.myProfile = [];
+      state.feedData = [];
     },
+   
   },
   extraReducers: (builder) => {
     builder
@@ -61,27 +67,15 @@ const appConfigSlice = createSlice({
         state.myProfile = action.payload.user;
       })
       .addCase(getFeedData.fulfilled, (state, action) => {
-        // state.feedData = action.payload;
-        // const data =[];
-        // state.feedData.forEach((item)=> {
-        //   action.payload.forEach((item1)=>{
+        state.feedData = action.payload;
+       
 
-        //     if(item1._id!= item._id){
-        //       data.push(item);
-        //       data.push(item1);
-        //     }
-         
 
-        //   })
 
-        //   }
-        // );
-        
-        // state.feedData = data;
-        state.feedData = [...state.feedData, ...action.payload];
+        // state.feedData = [...state.feedData, ...action.payload];
       });
   },
 });
 
 export default appConfigSlice.reducer;
-export const { setLoader, showToast } = appConfigSlice.actions;
+export const { setLoader, showToast,setCommentLoader,erasemydata } = appConfigSlice.actions;

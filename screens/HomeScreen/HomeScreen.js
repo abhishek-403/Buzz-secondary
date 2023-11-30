@@ -22,8 +22,9 @@ import { getFeedData } from "../../redux/slices/appConfigSlice";
 import HomeScreenLoading from "../LoadingScreens/HomeScreenLoading";
 import Posts from "../../components/home/Posts";
 import socketServcies from "../../utils/socketService";
+import { useFocusEffect } from "@react-navigation/native";
 
-const ITEMS_PER_PAGE = 8;
+const ITEMS_PER_PAGE = 15;
 
 const HomeScreen = () => {
   const dispatch = useDispatch();
@@ -32,25 +33,28 @@ const HomeScreen = () => {
 
   const [tweets, setTweets] = useState([]);
 
+  useFocusEffect(
+    React.useCallback(() => {
+      dispatch(getFeedData());
 
+    }, [])
+  );
   
-  
 
-  // useFocusEffect(
-  //   React.useCallback(() => {
-  //     dispatch(getFeedData());
 
-  //   }, [])
-  // );
+ 
+  // const [page, setPage] = useState(1);
+  // useEffect(() => {
+  //   console.log("firr");
+  //   dispatch(getFeedData({ page, pageSize: ITEMS_PER_PAGE }));
+  // }, [dispatch,page]);
 
-  const [page, setPage] = useState(1);
-  useEffect(() => {
-    dispatch(getFeedData({ page, pageSize: ITEMS_PER_PAGE }));
-  }, [page]);
+  // const handleLoadMore = () => {
+  //   setPage(page + 1);
+  // };
 
-  const handleLoadMore = () => {
-    setPage(page + 1);
-  };
+
+
 
 
 
@@ -89,7 +93,7 @@ const HomeScreen = () => {
         data={reduxData}
         keyExtractor={(item) => item._id.toString()}
         renderItem={({ item }) => <Posts post={item} />}
-        onEndReached={handleLoadMore}
+        // onEndReached={handleLoadMore}
         onEndReachedThreshold={0.1}
         ListFooterComponent={isLoading ? <HomeScreenLoading /> : null}
       />

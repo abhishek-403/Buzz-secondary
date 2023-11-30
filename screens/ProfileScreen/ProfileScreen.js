@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useLayoutEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {
   bio,
@@ -222,9 +222,19 @@ const PostsCard = () => {
   const ITEMS_PER_PAGE = 5;
   const [page, setPage] = useState(1);
 
+  // useFocusEffect(
+
+  //   React.useCallback(() => {
+  //     console.log("dds");
+  //     dispatch(getMyposts({ page, pageSize: ITEMS_PER_PAGE }));
+
+  //   }, [])
+  // );
   useEffect(() => {
+    
+    console.log("firree");
     dispatch(getMyposts({ page, pageSize: ITEMS_PER_PAGE }));
-  }, [page]);
+  }, [dispatch,page]);
 
   const handleLoadMore = () => {
     setPage(page + 1);

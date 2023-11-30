@@ -5,16 +5,18 @@ import {
   ScrollView,
   Image,
   Pressable,
+  TouchableOpacity,
 } from "react-native";
 import React, { useState } from "react";
 import { Divider } from "react-native-elements";
-import { Entypo, AntDesign } from "@expo/vector-icons";
-import { useDispatch } from "react-redux";
+import { Entypo, AntDesign, Ionicons } from "@expo/vector-icons";
+import { useDispatch, useSelector } from "react-redux";
 import { likePost } from "../../redux/slices/postSlice";
 import { useNavigation } from "@react-navigation/native";
+import { axiosClient } from "../../utils/axiosSetup";
+import { setCommentLoader } from "../../redux/slices/appConfigSlice";
 
-const Posts = ({ post }) => {
-  const navigation = useNavigation();
+const EachComment = ({ post,loadComments }) => {
   return (
     <View
       style={{
@@ -24,26 +26,17 @@ const Posts = ({ post }) => {
     >
       <Divider width={1} color="rgba(255,255,255,.15)" />
       <View style={{ padding: 5 }}>
-        <PostHeader post={post} />
-        <Pressable
-          onPress={() => {
-            navigation.navigate("Home", {
-              screen: "CommentOnPost",
-              params: { post },
-            });
-          }}
-        >
-          <PostMessage post={post} />
-        </Pressable>
-        <PostImage post={post} />
+        <PostHeader loadComments={loadComments} post={post} />
+        <PostMessage post={post} />
         <PostFooter post={post} />
       </View>
     </View>
   );
 };
 
-const PostHeader = ({ post }) => {
+const PostHeader = ({ post,loadComments }) => {
   const navigation = useNavigation();
+  const dispatch = useDispatch()
   const user = {
     _id: post.owner._id,
     avatar: post.owner.avatar,
@@ -57,8 +50,8 @@ const PostHeader = ({ post }) => {
     isFollowingOwner: post.isFollowingOwner,
   };
   function handlePostHeaderClick() {
-    if (!post?.isMyPost) {
-      navigation.navigate("Home", {
+    if (!post?.isMyComment) {
+      navigation.navigate("Search", {
         screen: "UserProfileScreen",
         params: { user },
       });
@@ -66,6 +59,19 @@ const PostHeader = ({ post }) => {
       navigation.navigate("Profile", {
         screen: "ProfileScreen",
       });
+    }
+  }
+  async function deleteComment() {
+    try {
+  
+      dispatch(setCommentLoader(true));
+      await axiosClient.post("/post/deletecomment",{postId:post.parentPost,commentId:post._id});
+      loadComments()
+    } catch (e) {
+      console.log(e);
+    }finally{
+      dispatch(setCommentLoader(false));
+
     }
   }
   return (
@@ -95,16 +101,22 @@ const PostHeader = ({ post }) => {
             <Text style={styles.username}>{post?.owner?.username}</Text>
           </View>
         </View>
-        <View>
+        <View style={{ flexDirection: "row", gap: 10, paddingHorizontal: 10 }}>
           <Text style={styles.timeAgo}>{post?.timeAgo}</Text>
+
+          {post?.isMyComment && (
+            <TouchableOpacity onPress={deleteComment}>
+              <Ionicons name="trash" size={20} color="white" />
+            </TouchableOpacity>
+          )}
         </View>
       </View>
       {/* <Entypo
-        name="dots-three-horizontal"
-        size={24}
-        color="rgba(255,255,255,0.6)"
-        style={{ paddingHorizontal: 5 }}
-      /> */}
+          name="dots-three-horizontal"
+          size={24}
+          color="rgba(255,255,255,0.6)"
+          style={{ paddingHorizontal: 5 }}
+        /> */}
     </Pressable>
   );
 };
@@ -125,8 +137,7 @@ const PostImage = ({ post }) => (
   <View
     style={{
       flex: 1,
-      paddingTop: 5,
-      paddingHorizontal:5
+      paddingTop: 10,
     }}
   >
     {post?.images?.map((item, i) => {
@@ -135,8 +146,8 @@ const PostImage = ({ post }) => (
           source={{ uri: item.url }}
           style={{
             resizeMode: "contain",
-            aspectRatio: 5/4,
-            borderRadius:15,
+            aspectRatio: 4 / 3,
+            borderRadius: 30,
             width: "auto",
             height: "auto",
           }}
@@ -148,26 +159,17 @@ const PostImage = ({ post }) => (
 );
 
 const PostFooter = ({ post }) => {
-  const navigator = useNavigation();
-  const [likeCount, setLikeCount] = useState(post.likesCount);
+  const [likeCount, setLikeCount] = useState(post.likesCount || 0);
   const [liked, setLiked] = useState(
     post?.isLiked == undefined ? false : post?.isLiked
   );
-  const dispatch = useDispatch();
   async function handleLike() {
     setLiked(!liked);
     setLikeCount(liked ? likeCount - 1 : likeCount + 1);
-    dispatch(likePost({ postId: post._id }));
   }
 
-  async function handleComment() {
-    navigator.navigate("Home", { screen: "CommentOnPost", params: { post } });
-  }
   return (
     <View style={styles.footer}>
-      {/* <Icons count={post.viewsCount} iconname="eyeo" />
-      <Icons count={post.retweetsCount} iconname="retweet" /> */}
-
       <Pressable onPress={handleLike}>
         <Icons
           count={likeCount}
@@ -175,10 +177,6 @@ const PostFooter = ({ post }) => {
           isLiked={liked}
         />
       </Pressable>
-      <Pressable onPress={handleComment}>
-        <Icons count={post.commentsCount} iconname="message1" />
-      </Pressable>
-      {/* <Icons iconname="sharealt" /> */}
     </View>
   );
 };
@@ -207,8 +205,8 @@ const Icons = ({ iconname, count, isLiked }) => {
 
 const styles = StyleSheet.create({
   story: {
-    width: 45,
-    height: 45,
+    width: 40,
+    height: 40,
     borderRadius: 50,
     borderWidth: 1.6,
     marginHorizontal: 3,
@@ -217,7 +215,7 @@ const styles = StyleSheet.create({
   name: {
     color: "white",
     fontWeight: "600",
-    fontSize: 15,
+    fontSize: 14,
   },
   username: {
     color: "rgba(255,255,255,.4)",
@@ -225,7 +223,7 @@ const styles = StyleSheet.create({
   },
   timeAgo: {
     color: "rgba(255,255,255,.4)",
-    fontSize: 13,
+    fontSize: 12,
   },
   message: {
     color: "white",
@@ -233,13 +231,13 @@ const styles = StyleSheet.create({
   },
 
   footer: {
-    flex: 1,
     flexDirection: "row",
-    marginHorizontal: 20,
+    marginRight: 40,
     paddingBottom: 5,
     paddingTop: 10,
+
     justifyContent: "flex-end",
-    gap: 50,
+    gap: 10,
   },
 });
-export default Posts;
+export default EachComment;
