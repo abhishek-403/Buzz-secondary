@@ -1,8 +1,15 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
+import { REACT_APP_SERVER_URL } from "@env";
+
+let serverURL =
+  process.env.NODE_ENV == "development"
+    ? REACT_APP_SERVER_URL
+    : "https://buzz-server-w634.onrender.com";
+
 export const axiosClient = axios.create({
-  baseURL: "http://192.168.1.10:4000/api",
-  // baseURL: "http://localhost:4000/api",
+  // baseURL: "http://192.168.1.19:4000/api",
+  baseURL: REACT_APP_SERVER_URL,
   withCredentials: true,
 });
 

@@ -1,14 +1,14 @@
 {
   "expo": {
-    "name": "CollegeKeDin",
-    "slug": "CollegeKeDin",
+    "name": "Buzz",
+    "slug": "Buzz",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
+      "image": "./assets/splashnew.png",
+      "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
     "assetBundlePatterns": [
@@ -28,7 +28,7 @@
       "package": "com.anonymous.CollegeKeDin"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/finallogo.png"
     },
     "plugins": [
       [

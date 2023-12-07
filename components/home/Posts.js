@@ -195,7 +195,7 @@ const Icons = ({ iconname, count, isLiked }) => {
     >
       <AntDesign
         name={iconname}
-        size={18}
+        size={22}
         color={`${!isLiked ? "rgba(255,255,255,0.4)" : "red"}`}
       />
       <Text style={{ color: "rgba(255,255,255,0.4)", fontSize: 10 }}>
