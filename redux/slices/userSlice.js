@@ -54,12 +54,13 @@ const userSlice = createSlice({
 
   extraReducers: (builder) => {
     builder.addCase(getMyposts.fulfilled, (state, action) => {
-      // state.myPosts = action.payload.posts.reverse();
-      state.myPosts = [...state.myPosts,...action.payload]
+      
+      state.myPosts = action.payload;
+      // state.myPosts = [...state.myPosts,...action.payload]
     });
     builder.addCase(getUsersposts.fulfilled, (state, action) => {
-      // state.usersPosts = action.payload.posts.reverse();
-      state.usersPosts = [...state.usersPosts,...action.payload];
+      state.usersPosts = action.payload;
+      // state.usersPosts = [...state.usersPosts,...action.payload];
     });
   },
 });

@@ -4,7 +4,7 @@
     "slug": "Buzz",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/finallogo.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splashnew.png",
@@ -22,7 +22,7 @@
         "INTERNET"
       ],
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/finallogo.png",
         "backgroundColor": "#ffffff"
       },
       "package": "com.anonymous.CollegeKeDin"
@@ -30,12 +30,11 @@
     "web": {
       "favicon": "./assets/finallogo.png"
     },
-    "plugins": [
-      [
-        "./plugin/withDisableForcedDarkModeAndroid.js",
-        {}
-      ]
-    ]
+   
+    "extra": {
+      "eas": {
+        "projectId": "6ccbf3a5-9cd1-4f48-9949-6f3f15007b78"
+      }
+    }
   }
 }
-

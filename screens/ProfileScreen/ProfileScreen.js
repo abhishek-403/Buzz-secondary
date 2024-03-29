@@ -222,23 +222,22 @@ const PostsCard = () => {
   const ITEMS_PER_PAGE = 5;
   const [page, setPage] = useState(1);
 
-  // useFocusEffect(
+  useFocusEffect(
 
-  //   React.useCallback(() => {
-  //     console.log("dds");
-  //     dispatch(getMyposts({ page, pageSize: ITEMS_PER_PAGE }));
+    React.useCallback(() => {
+      dispatch(getMyposts({ page, pageSize: ITEMS_PER_PAGE }));
 
-  //   }, [])
-  // );
-  useEffect(() => {
+    }, [])
+  );
+  // useEffect(() => {
     
-    console.log("firree");
-    dispatch(getMyposts({ page, pageSize: ITEMS_PER_PAGE }));
-  }, [dispatch,page]);
+  //   console.log("firree");
+  //   dispatch(getMyposts({ page, pageSize: ITEMS_PER_PAGE }));
+  // }, [dispatch,page]);
 
-  const handleLoadMore = () => {
-    setPage(page + 1);
-  };
+  // const handleLoadMore = () => {
+  //   setPage(page + 1);
+  // };
 
   // if (isLoading) {
   //   return <HomeScreenLoading />;
@@ -253,7 +252,7 @@ const PostsCard = () => {
       data={data}
       keyExtractor={(item) => item._id.toString()}
       renderItem={({ item }) => <Posts post={item} />}
-      onEndReached={handleLoadMore}
+      // onEndReached={handleLoadMore}
       onEndReachedThreshold={0.5}
       ListFooterComponent={isLoading ? <HomeScreenLoading /> : null}
     ></FlatList>

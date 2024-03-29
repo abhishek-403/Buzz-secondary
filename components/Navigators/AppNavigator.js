@@ -1,28 +1,26 @@
+import { Ionicons } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { useNavigation } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import CreateNewPassword from "../../screens/AuthScreens/ForgetPassword/CreateNewPassword";
-import VerifyCode from "../../screens/AuthScreens/ForgetPassword/VerifyCode";
-import EnterEmail from "../../screens/AuthScreens/ForgetPassword/EnterEmail";
+import { useLayoutEffect } from "react";
+import SetPassword from "../../screens/AuthScreens/CreateUser/SetPassword";
+import SetUserName from "../../screens/AuthScreens/CreateUser/SetUserName";
 import SignupScreen from "../../screens/AuthScreens/CreateUser/SignupScreen";
 import VerifyEmail from "../../screens/AuthScreens/CreateUser/VerifyEmail";
-import SetUserName from "../../screens/AuthScreens/CreateUser/SetUserName";
+import CreateNewPassword from "../../screens/AuthScreens/ForgetPassword/CreateNewPassword";
+import EnterEmail from "../../screens/AuthScreens/ForgetPassword/EnterEmail";
+import VerifyCode from "../../screens/AuthScreens/ForgetPassword/VerifyCode";
 import LoginScreen from "../../screens/AuthScreens/LoginScreen/LoginScreen";
-import SetPassword from "../../screens/AuthScreens/CreateUser/SetPassword";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import HomeScreen from "../../screens/HomeScreen/HomeScreen";
-import SearchScreen from "../../screens/SearchScreen/SearchScreen";
 import CreatePostScreen from "../../screens/CreatePostScreen/CreatePostScreen";
-import ProfileScreen from "../../screens/ProfileScreen/ProfileScreen";
-import { Ionicons } from "@expo/vector-icons";
-import { useEffect, useLayoutEffect } from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useNavigation } from "@react-navigation/native";
-import EditProfile from "../../screens/ProfileScreen/EditProfile";
-import UserProfileScreen from "../../screens/UserProfileScreen/UserProfileScreen";
-import CreateHiveScreen from "../../screens/HiveScreen/CreateHiveScreen";
-import HiveInfoScreen from "../../screens/HiveScreen/HiveInfoScreen";
 import AddUserToHive from "../../screens/HiveScreen/AddUserToHive";
-import { Text } from "react-native";
+import HiveInfoScreen from "../../screens/HiveScreen/HiveInfoScreen";
 import CommentOnPost from "../../screens/HomeScreen/CommentOnPost";
+import HomeScreen from "../../screens/HomeScreen/HomeScreen";
+import EditProfile from "../../screens/ProfileScreen/EditProfile";
+import ProfileScreen from "../../screens/ProfileScreen/ProfileScreen";
+import SearchScreen from "../../screens/SearchScreen/SearchScreen";
+import UserProfileScreen from "../../screens/UserProfileScreen/UserProfileScreen";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -139,10 +137,14 @@ export const AppStack = () => {
 
 const HomeScreenStack = () => {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
       <Stack.Screen name="HomeScreen" component={HomeScreen} />
       <Stack.Screen name="CommentOnPost" component={CommentOnPost} />
-      
+
       <Stack.Screen name="UserProfileScreen" component={UserProfileScreen} />
     </Stack.Navigator>
   );
@@ -154,7 +156,7 @@ const ProfileScreenStack = () => {
       <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
       <Stack.Screen name="EditProfile" component={EditProfile} />
       <Stack.Screen name="HiveInfo" component={HiveInfoScreen} />
-      <Stack.Screen name="HiveSearch" component={AddUserToHive} />      
+      <Stack.Screen name="HiveSearch" component={AddUserToHive} />
     </Stack.Navigator>
   );
 };

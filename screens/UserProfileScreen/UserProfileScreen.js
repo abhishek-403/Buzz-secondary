@@ -31,7 +31,7 @@ import { Divider } from "react-native-elements";
 import Posts from "../../components/home/Posts";
 import { useDispatch, useSelector } from "react-redux";
 import { getUsersposts } from "../../redux/slices/userSlice";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import HomeScreenLoading from "../LoadingScreens/HomeScreenLoading";
 import { axiosClient } from "../../utils/axiosSetup.js";
 
@@ -170,19 +170,29 @@ const PostsCard = ({ userId }) => {
   const dispatch = useDispatch();
   const isLoading = useSelector((s) => s.userReducer.isLoading);
 
-  // useEffect(() => {
-  //   dispatch(getUsersposts({ userId }));
-  // }, [userId]);
   const ITEMS_PER_PAGE = 5;
   const [page, setPage] = useState(1);
 
-  useEffect(() => {
-    dispatch(getUsersposts({ userId, page, pageSize: ITEMS_PER_PAGE }));
-  }, [page]);
+  // useEffect(() => {
+  //   dispatch(getUsersposts({ userId, page, pageSize: ITEMS_PER_PAGE }));
+  // }, [page]);
 
-  const handleLoadMore = () => {
-    setPage(page + 1);
-  };
+  // const handleLoadMore = () => {
+  //   setPage(page + 1);
+  // };
+
+
+  
+  useFocusEffect(
+    React.useCallback(() => {
+      dispatch(getUsersposts({ userId, page, pageSize: ITEMS_PER_PAGE }));
+
+    }, [])
+  );
+  
+
+
+
 
   // if (isLoading) {
   //   return <HomeScreenLoading />;
@@ -198,7 +208,7 @@ const PostsCard = ({ userId }) => {
       data={data}
       keyExtractor={(item) => item._id.toString()}
       renderItem={({ item }) => <Posts post={item} />}
-      onEndReached={handleLoadMore}
+      // onEndReached={handleLoadMore}
       onEndReachedThreshold={0.5}
       ListFooterComponent={isLoading ? <HomeScreenLoading /> : null}
     ></FlatList>

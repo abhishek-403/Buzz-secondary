@@ -34,9 +34,9 @@ const Posts = ({ post }) => {
           }}
         >
           <PostMessage post={post} />
-        </Pressable>
         <PostImage post={post} />
         <PostFooter post={post} />
+        </Pressable>
       </View>
     </View>
   );
@@ -195,7 +195,7 @@ const Icons = ({ iconname, count, isLiked }) => {
     >
       <AntDesign
         name={iconname}
-        size={22}
+        size={20}
         color={`${!isLiked ? "rgba(255,255,255,0.4)" : "red"}`}
       />
       <Text style={{ color: "rgba(255,255,255,0.4)", fontSize: 10 }}>
@@ -239,7 +239,7 @@ const styles = StyleSheet.create({
     paddingBottom: 5,
     paddingTop: 10,
     justifyContent: "flex-end",
-    gap: 50,
+    gap: 30,
   },
 });
 export default Posts;

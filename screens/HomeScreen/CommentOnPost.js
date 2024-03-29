@@ -9,7 +9,7 @@ import {
   ActivityIndicator,
   TouchableOpacity,
 } from "react-native";
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import Posts from "../../components/home/Posts";
 import HighlightedPost from "../../components/home/HiglightedPost";
 import Header from "../../components/home/Header";
@@ -21,15 +21,20 @@ import { axiosClient } from "../../utils/axiosSetup";
 import HomeScreenLoading from "../LoadingScreens/HomeScreenLoading";
 import { useDispatch, useSelector } from "react-redux";
 import { setCommentLoader } from "../../redux/slices/appConfigSlice";
+import { useFocusEffect } from "@react-navigation/native";
 const MAX_CHARACTER_LIMIT = 120;
 
 const CommentOnPost = ({ route }) => {
   const post = route.params.post;
+
   const [data, setData] = useState([]);
   const dispatch = useDispatch();
   const isLoading = useSelector((s) => s.appConfigReducer.isCommentLoading);
   // const [isLoading, setIsLoading] = useState(false);
+  
   async function loadComments() {
+  
+    console.log("postfnw");
     try {
       dispatch(setCommentLoader(true));
       const d = await axiosClient.post("/post/getallcomments", {
@@ -41,11 +46,15 @@ const CommentOnPost = ({ route }) => {
       dispatch(setCommentLoader(false));
     }
   }
+  
 
-  useEffect(() => {
-    loadComments();
-    return loadComments;
-  }, []);
+  useFocusEffect(
+    React.useCallback(() => {
+      loadComments();
+
+    }, [])
+  );
+  
   return (
     <SafeAreaView style={styles.container}>
       <Header />

@@ -39,8 +39,8 @@ export const getFeedData = createAsyncThunk(
 const appConfigSlice = createSlice({
   name: "appConfig",
   initialState: {
-    isLoading: true,
-    isCommentLoading: true,
+    isLoading: false,
+    isCommentLoading: false,
     myProfile: {},
     feedData: [],
     toastData: {},

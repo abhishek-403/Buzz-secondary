@@ -36,13 +36,9 @@ const HomeScreen = () => {
   useFocusEffect(
     React.useCallback(() => {
       dispatch(getFeedData());
-
     }, [])
   );
-  
 
-
- 
   // const [page, setPage] = useState(1);
   // useEffect(() => {
   //   console.log("firr");
@@ -53,28 +49,22 @@ const HomeScreen = () => {
   //   setPage(page + 1);
   // };
 
-
-
-
-
-
-  // useEffect(() => {    
+  // useEffect(() => {
   //   socketServcies.initializeSocket()
   // }, []);
-  
+
   // useEffect(() => {
   //   socketServcies.on('newTweet',(post)=>{
   //     console.log("hi");
   //     setTweets((prev)=>[...prev,post])
   //   })
-    
+
   // }, []);
 
   return (
     <SafeAreaView style={styles.container}>
       <Header />
       <SubHeader />
-     
 
       {/* <FlatList
         data={tweets}

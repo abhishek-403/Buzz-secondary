@@ -15,7 +15,7 @@ const Header = () => {
         </TouchableOpacity>
       </View>
       <View style={styles.iconsContainer}>
-        <TouchableOpacity>
+        {/* <TouchableOpacity>
         <AntDesign name="wechat" size={22} color="white" style={styles.icon} />
           
         </TouchableOpacity>
@@ -24,7 +24,7 @@ const Header = () => {
           <AntDesign name="hearto" style={styles.icon}
             size={22} color="white" />
           
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
     </View>
   );
