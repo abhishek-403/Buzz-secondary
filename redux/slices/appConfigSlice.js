@@ -22,7 +22,6 @@ export const getFeedData = createAsyncThunk(
         thunkAPI.dispatch(setLoader(true));
 
       const response = await axiosClient.post("/user/getmyallfeed");
-      // const response = await axiosClient.post("/user/getmyfeed", body);
 
 
       console.log("myfeed",{body});
@@ -41,6 +40,7 @@ const appConfigSlice = createSlice({
   initialState: {
     isLoading: false,
     isCommentLoading: false,
+    homeScreenPage:"video",
     myProfile: {},
     feedData: [],
     toastData: {},
@@ -59,6 +59,10 @@ const appConfigSlice = createSlice({
       state.myProfile = [];
       state.feedData = [];
     },
+    setHomeScreenPage: (state, action) => {
+      state.homeScreenPage = action.payload;
+    },
+
    
   },
   extraReducers: (builder) => {
@@ -78,4 +82,10 @@ const appConfigSlice = createSlice({
 });
 
 export default appConfigSlice.reducer;
-export const { setLoader, showToast,setCommentLoader,erasemydata } = appConfigSlice.actions;
+export const {
+  setLoader,
+  showToast,
+  setCommentLoader,
+  erasemydata,
+  setHomeScreenPage,
+} = appConfigSlice.actions;

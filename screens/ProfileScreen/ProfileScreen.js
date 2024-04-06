@@ -213,22 +213,22 @@ const PostsCard = () => {
   const dispatch = useDispatch();
   const isLoading = useSelector((s) => s.userReducer.isLoading);
 
-  // useFocusEffect(
-  //   React.useCallback(() => {
-  //     dispatch(getMyposts());
-  //   }, [])
-  // );
-
-  const ITEMS_PER_PAGE = 5;
-  const [page, setPage] = useState(1);
-
   useFocusEffect(
-
     React.useCallback(() => {
-      dispatch(getMyposts({ page, pageSize: ITEMS_PER_PAGE }));
-
+      dispatch(getMyposts());
     }, [])
   );
+
+  // const ITEMS_PER_PAGE = 5;
+  // const [page, setPage] = useState(1);
+
+  // useFocusEffect(
+
+  //   React.useCallback(() => {
+  //     dispatch(getMyposts({ page, pageSize: ITEMS_PER_PAGE }));
+
+  //   }, [])
+  // );
   // useEffect(() => {
     
   //   console.log("firree");

@@ -8,8 +8,8 @@ import axios from "axios";
 
     console.log("dfa :",process.env.EXPO_SERVER_URL, process.env.NODE_ENV);
 export const axiosClient = axios.create({
-  // baseURL: "http://192.168.0.114:4000/api",
-  baseURL: process.env.EXPO_SERVER_URL,
+  baseURL: "http://192.168.1.25:4000/api",
+  // baseURL: process.env.EXPO_SERVER_URL,
   withCredentials: true,
 });
 
@@ -22,6 +22,7 @@ axiosClient.interceptors.request.use(async (request) => {
 
 axiosClient.interceptors.response.use(async (response) => {
   if (response.data.status === "error") {
+    console.log("axios error",response.data);
     if (response.data.statusCode != 401) {
       alert(response.data.result);
     }

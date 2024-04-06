@@ -12,6 +12,8 @@ import { Entypo, AntDesign } from "@expo/vector-icons";
 import { useDispatch } from "react-redux";
 import { likePost } from "../../redux/slices/postSlice";
 import { useNavigation } from "@react-navigation/native";
+import store from "../../redux/store";
+import { openModal } from "../../redux/actions/modalActions";
 
 const Posts = ({ post }) => {
   const navigation = useNavigation();
@@ -34,8 +36,8 @@ const Posts = ({ post }) => {
           }}
         >
           <PostMessage post={post} />
-        <PostImage post={post} />
-        <PostFooter post={post} />
+          <PostImage post={post} />
+          <PostFooter post={post} />
         </Pressable>
       </View>
     </View>
@@ -68,9 +70,12 @@ const PostHeader = ({ post }) => {
       });
     }
   }
+  const dispatch= useDispatch()
+  const handleOpenModal = (type,id) => {
+    dispatch(openModal(type,id));
+  };
   return (
-    <Pressable
-      onPress={handlePostHeaderClick}
+    <View
       style={{
         flexDirection: "row",
         alignItems: "center",
@@ -87,25 +92,27 @@ const PostHeader = ({ post }) => {
           justifyContent: "space-between",
         }}
       >
-        <View style={{ flexDirection: "row" }}>
+        <Pressable
+          style={{ flexDirection: "row" }}
+          onPress={handlePostHeaderClick}
+        >
           <Image source={{ uri: post?.owner?.avatar }} style={styles.story} />
           <View style={{ marginHorizontal: 5, justifyContent: "center" }}>
             <Text style={styles.name}>{post?.owner?.name}</Text>
 
             <Text style={styles.username}>{post?.owner?.username}</Text>
           </View>
-        </View>
-        <View>
-          <Text style={styles.timeAgo}>{post?.timeAgo}</Text>
-        </View>
+        </Pressable>
       </View>
-      {/* <Entypo
-        name="dots-three-horizontal"
-        size={24}
-        color="rgba(255,255,255,0.6)"
-        style={{ paddingHorizontal: 5 }}
-      /> */}
-    </Pressable>
+      {post.isMyPost&&<Pressable onPress={() => handleOpenModal("editpost",post._id)}>
+        <Entypo
+          name="dots-three-vertical"
+          size={20}
+          color="rgba(255,255,255,0.6)"
+          style={{ paddingHorizontal: 5 }}
+        />
+      </Pressable>}
+    </View>
   );
 };
 
@@ -126,7 +133,7 @@ const PostImage = ({ post }) => (
     style={{
       flex: 1,
       paddingTop: 5,
-      paddingHorizontal:5
+      paddingHorizontal: 5,
     }}
   >
     {post?.images?.map((item, i) => {
@@ -135,8 +142,8 @@ const PostImage = ({ post }) => (
           source={{ uri: item.url }}
           style={{
             resizeMode: "contain",
-            aspectRatio: 5/4,
-            borderRadius:15,
+            aspectRatio: 5 / 4,
+            borderRadius: 15,
             width: "auto",
             height: "auto",
           }}
@@ -164,20 +171,24 @@ const PostFooter = ({ post }) => {
     navigator.navigate("Home", { screen: "CommentOnPost", params: { post } });
   }
   return (
-    <View style={styles.footer}>
+    <View className="flex flex-row items-center justify-center ">
       {/* <Icons count={post.viewsCount} iconname="eyeo" />
       <Icons count={post.retweetsCount} iconname="retweet" /> */}
-
-      <Pressable onPress={handleLike}>
-        <Icons
-          count={likeCount}
-          iconname={`${liked ? "heart" : "hearto"}`}
-          isLiked={liked}
-        />
-      </Pressable>
-      <Pressable onPress={handleComment}>
-        <Icons count={post.commentsCount} iconname="message1" />
-      </Pressable>
+      <View style={styles.footer}>
+        <Pressable onPress={handleLike}>
+          <Icons
+            count={likeCount}
+            iconname={`${liked ? "heart" : "hearto"}`}
+            isLiked={liked}
+          />
+        </Pressable>
+        <Pressable onPress={handleComment}>
+          <Icons count={post.commentsCount} iconname="message1" />
+        </Pressable>
+        <View>
+          <Text style={styles.timeAgo}>{post?.timeAgo}</Text>
+        </View>
+      </View>
       {/* <Icons iconname="sharealt" /> */}
     </View>
   );
